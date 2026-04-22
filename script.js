@@ -205,11 +205,7 @@ if ('IntersectionObserver' in window) {
       bar.style.top    = 'auto';
       bar.setAttribute('aria-label', `${it.kind}, ${it.year}–${it.yearEnd}: ${it.title}`);
       bar.dataset.id = it.id;
-      bar.innerHTML = `
-        <span class="tl-dot__tooltip">${it.title}</span>
-        <span class="tl-span__mobile-label">
-          <strong>${it.year}–${it.yearEnd} · ${it.kind}</strong> — ${it.title}
-        </span>`;
+      bar.innerHTML = `<span class="tl-dot__tooltip">${it.title}</span>`;
       bar.addEventListener('click', () => selectItem(it.id));
       axis.appendChild(bar);
     };
@@ -263,11 +259,7 @@ if ('IntersectionObserver' in window) {
       btn.setAttribute('aria-label', `${it.kind}, ${it.year}: ${it.title}`);
       btn.dataset.id = it.id;
 
-      btn.innerHTML = `
-        <span class="tl-dot__tooltip">${it.title}</span>
-        <span class="tl-dot__mobile-label">
-          <strong>${it.year} · ${it.kind}</strong> — ${it.title}
-        </span>`;
+      btn.innerHTML = `<span class="tl-dot__tooltip">${it.title}</span>`;
 
       btn.addEventListener('click', () => selectItem(it.id));
       axis.appendChild(btn);
@@ -276,38 +268,95 @@ if ('IntersectionObserver' in window) {
 
   host.appendChild(axis);
 
-  // ── Mobile: flat chronological list (replaces axis on small screens) ──
-  const mobileList = document.createElement('ol');
-  mobileList.className = 'tl-mobile';
-  const kindLabelsShort = {
-    paper: 'paper', talk: 'talk',
-    grant: 'grant', award: 'award',
-    education: 'education', service: 'service',
-    research: 'research', teaching: 'teaching',
-    rejection: 'rejection',
-  };
-  // Include everything (prev + axis items), sort by start year ascending, most recent at top
-  const mobileItems = [...allItems].sort((a, b) => (a.year - b.year) || ((a.yearEnd || a.year) - (b.yearEnd || b.year)));
-  mobileItems.forEach(it => {
-    const li = document.createElement('li');
-    li.className = `tl-mobile__item tl-mobile__item--${it.group}`;
-    li.dataset.id = it.id;
-    const yearLabel = it.yearEnd && it.yearEnd !== it.year ? `${it.year}–${it.yearEnd}` : `${it.year}`;
-    li.innerHTML = `
-      <span class="tl-mobile__pip" aria-hidden="true"></span>
-      <div class="tl-mobile__body">
-        <span class="tl-mobile__meta">${yearLabel} · ${kindLabelsShort[it.kind] || it.kind}</span>
-        <strong class="tl-mobile__title">${it.title}</strong>
-      </div>`;
-    li.addEventListener('click', () => selectItem(it.id));
-    mobileList.appendChild(li);
-  });
-  host.appendChild(mobileList);
+  // ── Mobile: vertical axis — same semantics as desktop, rotated 90° ────
+  // Time flows top-to-bottom on the left side; detail panel sits below.
+  const axisV = document.createElement('div');
+  axisV.className = 'tl-axis-vert';
+  axisV.innerHTML = `<div class="tl-axis-vert__line"></div>`;
 
-  // Tooltip edge-detection
+  // Vertical position along the axis uses the same easing, applied to Y.
+  // The axis line is inset 1rem from top/bottom of the 44rem container.
+  const yearPosV   = (y) => `calc(1rem + (100% - 2rem) * ${yearPct(y).toFixed(5)})`;
+  const spanHeightV = (s, e) => `calc((100% - 2rem) * ${(yearPct(e) - yearPct(s)).toFixed(5)})`;
+
+  // Year labels on the left
+  sortedYears.forEach(y => {
+    const el = document.createElement('div');
+    el.className = 'tl-year tl-year--vert';
+    el.style.top = yearPosV(y);
+    el.innerHTML = `<span class="tl-year__label">${y}</span><span class="tl-year__tick"></span>`;
+    axisV.appendChild(el);
+  });
+
+  // Vertical layout constants — rightward stacking instead of upward
+  const V_AXIS_LEFT_REM = 3.25;               // matches .tl-axis-vert__line left
+  const V_SPAN_W_REM    = 0.45;               // narrow vertical bar width
+  const V_LANE_GAP      = 0.2;
+  const V_LANE_STEP     = V_SPAN_W_REM + V_LANE_GAP;
+  const V_DOT_STEP      = 1.35;               // dot diameter (1.1) + gap
+
+  // Render span bars vertically, splitting past/future at NOW (same as desktop)
+  items.filter(isSpan).forEach(it => {
+    const lane    = itemLane.get(it.id);
+    const leftRem = V_AXIS_LEFT_REM + lane * V_LANE_STEP;
+
+    const makeSegV = (startY, endY, isFuture) => {
+      const bar = document.createElement('button');
+      bar.type = 'button';
+      bar.className = `tl-span tl-span--vert tl-span--${it.group}${isFuture ? ' tl-span--future' : ''}`;
+      bar.style.top    = yearPosV(startY);
+      bar.style.height = spanHeightV(startY, endY);
+      bar.style.left   = `${leftRem.toFixed(3)}rem`;
+      bar.setAttribute('aria-label', `${it.kind}, ${it.year}–${it.yearEnd}: ${it.title}`);
+      bar.dataset.id = it.id;
+      bar.innerHTML = `<span class="tl-dot__tooltip">${it.title}</span>`;
+      bar.addEventListener('click', () => selectItem(it.id));
+      axisV.appendChild(bar);
+    };
+
+    if (it.yearEnd <= NOW)       makeSegV(it.year, it.yearEnd, false);
+    else if (it.year >= NOW)     makeSegV(it.year, it.yearEnd, true);
+    else { makeSegV(it.year, NOW, false); makeSegV(NOW, it.yearEnd, true); }
+  });
+
+  // For vertical mode, dots at a given year sit just right of any covering spans
+  function spanCeilingLeftRem(year) {
+    let maxLane = -1;
+    items.filter(isSpan).forEach(it => {
+      if (it.year <= year && year < it.yearEnd) {
+        const lane = itemLane.get(it.id);
+        if (lane > maxLane) maxLane = lane;
+      }
+    });
+    const DOT_RADIUS = 0.55;
+    const BAR_DOT_GAP = 0.25;
+    return maxLane === -1
+      ? V_AXIS_LEFT_REM
+      : V_AXIS_LEFT_REM + maxLane * V_LANE_STEP + (V_SPAN_W_REM / 2) + BAR_DOT_GAP + DOT_RADIUS;
+  }
+
+  Object.keys(dotsByYear).sort((a, b) => +a - +b).forEach(y => {
+    const baseLeft = spanCeilingLeftRem(+y);
+    dotsByYear[y].forEach((it, idx) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = `tl-dot tl-dot--vert tl-dot--${it.group}`;
+      btn.style.top  = yearPosV(+y);
+      btn.style.left = `${(baseLeft + idx * V_DOT_STEP).toFixed(3)}rem`;
+      btn.setAttribute('aria-label', `${it.kind}, ${it.year}: ${it.title}`);
+      btn.dataset.id = it.id;
+      btn.innerHTML = `<span class="tl-dot__tooltip">${it.title}</span>`;
+      btn.addEventListener('click', () => selectItem(it.id));
+      axisV.appendChild(btn);
+    });
+  });
+
+  host.appendChild(axisV);
+
+  // Tooltip edge-detection (desktop axis only — vertical axis uses its own layout)
   requestAnimationFrame(() => {
     const axisRect = axis.getBoundingClientRect();
-    host.querySelectorAll('.tl-dot').forEach(dot => {
+    axis.querySelectorAll('.tl-dot').forEach(dot => {
       const r = dot.getBoundingClientRect();
       if (r.left - axisRect.left < 120)  dot.classList.add('tl-dot--tip-left');
       if (axisRect.right - r.right < 120) dot.classList.add('tl-dot--tip-right');
@@ -334,16 +383,12 @@ if ('IntersectionObserver' in window) {
     const it = allItems.find(x => x.id === id);
     if (!it) return;
 
-    // Highlight in main axis
+    // Highlight in main + vertical axis (both use .tl-dot / .tl-span)
     host.querySelectorAll('.tl-dot, .tl-span').forEach(el => {
       el.classList.toggle('is-active', el.dataset.id === id);
     });
     // Highlight in previously panel
     host.querySelectorAll('.tl-prev__entry').forEach(el => {
-      el.classList.toggle('is-active', el.dataset.id === id);
-    });
-    // Highlight in mobile list
-    host.querySelectorAll('.tl-mobile__item').forEach(el => {
       el.classList.toggle('is-active', el.dataset.id === id);
     });
 
