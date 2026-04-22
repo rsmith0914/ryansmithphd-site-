@@ -63,6 +63,8 @@ body {
   overflow-x: hidden;
 }
 
+html { overflow-x: hidden; }
+
 ::selection { background: var(--accent); color: var(--accent-ink); }
 
 a { color: var(--link); text-decoration: none; border-bottom: 1px solid rgba(158,207,255,.25); transition: color .2s var(--ease), border-color .2s var(--ease); }
@@ -96,7 +98,8 @@ img { max-width: 100%; display: block; }
   top: 1rem;
   left: 50%;
   transform: translateX(-50%);
-  width: min(calc(100% - 2rem), var(--maxw));
+  width: min(calc(100vw - 1rem), var(--maxw));
+  max-width: calc(100vw - 1rem);
   z-index: 100;
   display: flex;
   align-items: center;
@@ -1477,7 +1480,8 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 
 /* Mobile: collapse timeline to vertical card list */
 @media (max-width: 720px) {
-  .tl-axis { height: auto; padding: 0; }
+  .tl-axis { height: auto; padding: 0; background: none; box-shadow: none; border: none; }
+  .tl-axis::before, .tl-axis::after { display: none; }
   .tl-axis__line { display: none; }
   /* Year labels are redundant in mobile — each card carries its own year */
   .tl-year { display: none; }
@@ -1485,11 +1489,12 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
   /* Shared card style for both dots and spans */
   .tl-dot,
   .tl-span {
-    position: static !important;
+    position: relative !important;   /* so the colored ::before pip lands inside the card, not the timeline */
     transform: none !important;
     display: flex;
     align-items: center;
-    width: auto;
+    width: 100%;                     /* fill the axis column edge-to-edge */
+    box-sizing: border-box;
     height: auto;
     min-width: 0;
     padding: .65rem .85rem .65rem 2rem;
@@ -1504,6 +1509,7 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
     white-space: normal;
     filter: none !important;
     box-shadow: none !important;
+    z-index: auto !important;        /* hover-lift from desktop must not carry into mobile */
   }
   /* Colour pip */
   .tl-dot::before,
