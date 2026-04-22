@@ -38,39 +38,7 @@ if ('IntersectionObserver' in window) {
   revealTargets.forEach(el => el.classList.add('is-visible'));
 }
 
-// ---------- handwritten aside animation ----------
-// triggers once per aside when it enters the viewport
-const asides = document.querySelectorAll('[data-aside]');
-if ('IntersectionObserver' in window) {
-  const asideIO = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        // add pen-nib svg to each line if not present
-        const lines = e.target.classList.contains('aside--stack')
-          ? e.target.querySelectorAll(':scope > span')
-          : [e.target];
-        lines.forEach(line => {
-          if (!line.querySelector('.nib')) {
-            const nib = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-            nib.setAttribute('class', 'nib');
-            nib.setAttribute('viewBox', '0 0 10 16');
-            nib.setAttribute('fill', 'none');
-            nib.innerHTML = `
-              <path d="M5 0 L9 12 L5 14 L1 12 Z" fill="currentColor" opacity=".9"/>
-              <path d="M5 14 L5 16" stroke="currentColor" stroke-width="1" opacity=".6"/>
-            `;
-            line.appendChild(nib);
-          }
-        });
-        e.target.classList.add('is-writing');
-        asideIO.unobserve(e.target);
-      }
-    });
-  }, { rootMargin: '0px 0px -5% 0px', threshold: 0.01 });
-  asides.forEach(a => asideIO.observe(a));
-} else {
-  asides.forEach(a => a.classList.add('is-writing'));
-}
+// (handwritten aside animation removed — captions render statically)
 
 // ---------- PUBLICATIONS LIST ----------
 (function buildPubList() {
