@@ -203,7 +203,6 @@ if ('IntersectionObserver' in window) {
       bar.style.width  = spanWidth(startY, endY);
       bar.style.bottom = `${bottomRem}rem`;
       bar.style.top    = 'auto';
-      bar.style.setProperty('--tilt', `${(Math.random() * 1.4 - 0.7).toFixed(2)}deg`);
       bar.setAttribute('aria-label', `${it.kind}, ${it.year}–${it.yearEnd}: ${it.title}`);
       bar.dataset.id = it.id;
       bar.innerHTML = `
@@ -261,7 +260,6 @@ if ('IntersectionObserver' in window) {
       btn.style.left   = yearPos(+y);
       btn.style.bottom = `${(baseBottom + idx * DOT_STEP).toFixed(3)}rem`;
       btn.style.top    = 'auto';
-      btn.style.setProperty('--tilt', `${(Math.random() * 6 - 3).toFixed(2)}deg`);
       btn.setAttribute('aria-label', `${it.kind}, ${it.year}: ${it.title}`);
       btn.dataset.id = it.id;
 
