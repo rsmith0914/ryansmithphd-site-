@@ -163,7 +163,7 @@ if ('IntersectionObserver' in window) {
   // ── Greedy lane assignment — single shared pool across all groups ──
   // Everything stacks upward from the axis line
   const LINE_REM    = 2.5;   // must match .tl-axis__line bottom in CSS
-  const SPAN_H_REM  = 0.45;  // must match .tl-span height in CSS
+  const SPAN_H_REM  = 1.1;   // must match .tl-span height in CSS
   const LANE_GAP    = 0.2;
   const LANE_STEP   = SPAN_H_REM + LANE_GAP;  // 0.65rem per lane
 
@@ -295,7 +295,7 @@ if ('IntersectionObserver' in window) {
   // Vertical layout constants — rightward stacking instead of upward
   const V_AXIS_LEFT_REM  = 3.25;              // matches .tl-axis-vert__line left
   const V_MARK_START_REM = V_AXIS_LEFT_REM + 0.85;  // marks sit right of the line, not on it
-  const V_SPAN_W_REM     = 0.45;              // narrow vertical bar width
+  const V_SPAN_W_REM     = 1.1;               // vertical bar width (matches dot diameter)
   const V_LANE_GAP       = 0.2;
   const V_LANE_STEP      = V_SPAN_W_REM + V_LANE_GAP;
   const V_DOT_STEP       = 1.2;               // dot diameter (1.1) + small gap

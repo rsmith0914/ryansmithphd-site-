@@ -1242,9 +1242,9 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 /* ── Span bars (education / service / other) ───────────────────────── */
 .tl-span {
   position: absolute;
-  height: .45rem;
+  height: 1.1rem;
   min-width: .8rem;
-  border-radius: .25rem;
+  border-radius: .55rem;
   border: 1px solid rgba(0,0,0,.18);
   cursor: pointer;
   padding: 0;
@@ -1527,7 +1527,7 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 
   /* Span bars in vertical mode — narrow vertical rectangles */
   .tl-span--vert {
-    width: .45rem;
+    width: 1.1rem;
     height: auto;
     min-width: 0;
     min-height: .8rem;
