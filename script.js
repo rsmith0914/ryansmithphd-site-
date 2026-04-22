@@ -235,8 +235,8 @@ if ('IntersectionObserver' in window) {
       }
     });
     // Bar top = LINE_REM + lane * LANE_STEP + SPAN_H_REM
-    // Dot center must be above bar top + gap (0.2rem) + dot radius (0.55rem)
-    const DOT_RADIUS = 0.55;  // half of 1.1rem dot diameter
+    // Dot center must be above bar top + gap (0.2rem) + dot radius (0.6875rem)
+    const DOT_RADIUS = 0.6875;  // half of 1.375rem dot diameter
     const BAR_DOT_GAP = 0.2;
     return maxLane === -1
       ? LINE_REM
@@ -244,7 +244,7 @@ if ('IntersectionObserver' in window) {
   }
 
   // ── Render dots — stack upward from above any bars at that year ───────
-  const DOT_STEP = 1.35; // dot diameter (1.1rem) + gap (0.25rem)
+  const DOT_STEP = 1.625; // dot diameter (1.375rem) + gap (0.25rem)
 
   const dotsByYear = {};
   items.filter(it => !isSpan(it)).forEach(it => {
@@ -298,7 +298,7 @@ if ('IntersectionObserver' in window) {
   const V_SPAN_W_REM     = 1.1;               // vertical bar width (matches dot diameter)
   const V_LANE_GAP       = 0.2;
   const V_LANE_STEP      = V_SPAN_W_REM + V_LANE_GAP;
-  const V_DOT_STEP       = 1.2;               // dot diameter (1.1) + small gap
+  const V_DOT_STEP       = 1.475;             // dot diameter (1.375) + small gap
 
   // Render span bars vertically, splitting past/future at NOW (same as desktop)
   items.filter(isSpan).forEach(it => {
@@ -333,7 +333,7 @@ if ('IntersectionObserver' in window) {
         if (lane > maxLane) maxLane = lane;
       }
     });
-    const DOT_RADIUS = 0.55;
+    const DOT_RADIUS = 0.6875;
     const BAR_DOT_GAP = 0.25;
     return maxLane === -1
       ? V_MARK_START_REM
