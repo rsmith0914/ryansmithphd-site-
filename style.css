@@ -613,12 +613,30 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 .hobbies__photo-frame img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.92); }
 
 /* ---------- service & leadership ---------- */
-.service__grid {
+.service__grid,
+.awards__grid {
   display: grid;
   grid-template-columns: 1.3fr 1fr;
   gap: clamp(1.25rem, 3vw, 2.5rem);
   align-items: start;
 }
+
+/* Research interests list — short high-level bullets */
+.research__ideas {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.research__ideas li {
+  padding: .85rem 0 .9rem;
+  border-bottom: 1px solid var(--border);
+  line-height: 1.55;
+}
+.research__ideas li:last-child { border-bottom: none; }
+.research__ideas strong { color: var(--fg); }
 .service__statement p {
   margin: 0 0 .7rem;
   max-width: 60ch;
