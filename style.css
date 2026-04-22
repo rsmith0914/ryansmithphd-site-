@@ -501,7 +501,7 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 /* ---------- teaching ---------- */
 .teaching__grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1.5fr 1fr;
   gap: clamp(1.25rem, 3vw, 2.5rem);
   align-items: start;
 }
