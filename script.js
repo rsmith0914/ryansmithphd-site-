@@ -308,6 +308,34 @@ if ('IntersectionObserver' in window) {
 
   host.appendChild(axis);
 
+  // ── Mobile: flat chronological list (replaces axis on small screens) ──
+  const mobileList = document.createElement('ol');
+  mobileList.className = 'tl-mobile';
+  const kindLabelsShort = {
+    paper: 'paper', talk: 'talk',
+    grant: 'grant', award: 'award',
+    education: 'education', service: 'service',
+    research: 'research', teaching: 'teaching',
+    rejection: 'rejection',
+  };
+  // Include everything (prev + axis items), sort by start year ascending, most recent at top
+  const mobileItems = [...allItems].sort((a, b) => (b.year - a.year) || ((b.yearEnd || b.year) - (a.yearEnd || a.year)));
+  mobileItems.forEach(it => {
+    const li = document.createElement('li');
+    li.className = `tl-mobile__item tl-mobile__item--${it.group}`;
+    li.dataset.id = it.id;
+    const yearLabel = it.yearEnd && it.yearEnd !== it.year ? `${it.year}–${it.yearEnd}` : `${it.year}`;
+    li.innerHTML = `
+      <span class="tl-mobile__pip" aria-hidden="true"></span>
+      <div class="tl-mobile__body">
+        <span class="tl-mobile__meta">${yearLabel} · ${kindLabelsShort[it.kind] || it.kind}</span>
+        <strong class="tl-mobile__title">${it.title}</strong>
+      </div>`;
+    li.addEventListener('click', () => selectItem(it.id));
+    mobileList.appendChild(li);
+  });
+  host.appendChild(mobileList);
+
   // Tooltip edge-detection
   requestAnimationFrame(() => {
     const axisRect = axis.getBoundingClientRect();
@@ -344,6 +372,10 @@ if ('IntersectionObserver' in window) {
     });
     // Highlight in previously panel
     host.querySelectorAll('.tl-prev__entry').forEach(el => {
+      el.classList.toggle('is-active', el.dataset.id === id);
+    });
+    // Highlight in mobile list
+    host.querySelectorAll('.tl-mobile__item').forEach(el => {
       el.classList.toggle('is-active', el.dataset.id === id);
     });
 

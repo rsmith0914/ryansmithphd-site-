@@ -1478,85 +1478,81 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
   aspect-ratio: 4/5;
 }
 
-/* Mobile: collapse timeline to vertical card list */
-@media (max-width: 720px) {
-  .tl-axis { height: auto; padding: 0; background: none; box-shadow: none; border: none; }
-  .tl-axis::before, .tl-axis::after { display: none; }
-  .tl-axis__line { display: none; }
-  /* Year labels are redundant in mobile — each card carries its own year */
-  .tl-year { display: none; }
+/* Mobile list — always present in DOM, only shown below 720px */
+.tl-mobile { display: none; }
+.tl-dot__mobile-label,
+.tl-span__mobile-label { display: none; }
 
-  /* Shared card style for both dots and spans */
-  .tl-dot,
-  .tl-span {
-    position: relative !important;   /* so the colored ::before pip lands inside the card, not the timeline */
-    transform: none !important;
+@media (max-width: 720px) {
+  /* Hide the entire desktop axis + previously panel on mobile */
+  .tl-axis,
+  .tl-previously { display: none !important; }
+
+  /* Show the dedicated mobile list */
+  .tl-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+  .tl-mobile__item {
+    position: relative;
     display: flex;
     align-items: center;
-    width: 100%;                     /* fill the axis column edge-to-edge */
+    gap: .75rem;
+    width: 100%;
     box-sizing: border-box;
-    height: auto;
-    min-width: 0;
-    padding: .65rem .85rem .65rem 2rem;
+    padding: .7rem .9rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
     border-radius: .6rem;
-    background: var(--bg-card) !important;
-    border: 1px solid var(--border) !important;
-    margin: 0 0 .5rem 0 !important;
-    font-family: var(--font-body);
-    font-size: .9rem;
+    cursor: pointer;
     text-align: left;
-    color: var(--fg);
-    white-space: normal;
-    filter: none !important;
-    box-shadow: none !important;
-    z-index: auto !important;        /* hover-lift from desktop must not carry into mobile */
+    transition: border-color .2s var(--ease), background .2s var(--ease);
   }
-  /* Colour pip */
-  .tl-dot::before,
-  .tl-span::before {
-    content: "";
-    position: absolute;
-    left: .75rem;
-    top: 50%;
-    transform: translateY(-50%);
-    width: .7rem;
-    height: .7rem;
-    border-radius: 50%;
+  .tl-mobile__item:hover,
+  .tl-mobile__item.is-active { border-color: var(--accent); }
+  .tl-mobile__pip {
     flex-shrink: 0;
+    width: .75rem;
+    height: .75rem;
+    border-radius: 50%;
+    background: var(--border-hi);
   }
-  /* Group colours for pips */
-  .tl-dot--publication::before,
-  .tl-span--publication::before { background: #b490dc; }
-  .tl-dot--funding::before,
-  .tl-span--funding::before     { background: #5ec4b8; }
-  .tl-dot--award::before        { background: #e8c060; }
-  .tl-dot--education::before,
-  .tl-span--education::before   { background: #7fa8e0; }
-  .tl-dot--service::before,
-  .tl-span--service::before     { background: #e36882; }
-  .tl-dot--other::before,
-  .tl-span--other::before       { background: #e89550; }
-  .tl-dot--rejection::before    { background: transparent; border: 1.5px solid #d49890; }
-
-  .tl-dot:hover, .tl-dot:focus-visible, .tl-dot.is-active,
-  .tl-span:hover, .tl-span:focus-visible, .tl-span.is-active {
-    transform: none !important;
-    border-color: var(--accent) !important;
-    box-shadow: none !important;
-    filter: none !important;
+  .tl-mobile__item--publication .tl-mobile__pip { background: #b490dc; }
+  .tl-mobile__item--funding     .tl-mobile__pip { background: #5ec4b8; }
+  .tl-mobile__item--award       .tl-mobile__pip { background: #e8c060; }
+  .tl-mobile__item--education   .tl-mobile__pip { background: #7fa8e0; }
+  .tl-mobile__item--service     .tl-mobile__pip { background: #e36882; }
+  .tl-mobile__item--other       .tl-mobile__pip { background: #e89550; }
+  .tl-mobile__item--rejection   .tl-mobile__pip { background: transparent; border: 1.5px solid #d49890; }
+  .tl-mobile__body {
+    display: flex;
+    flex-direction: column;
+    gap: .15rem;
+    min-width: 0;
+    flex: 1;
   }
-  .tl-previously { display: none; } /* stack cards only on mobile */
-  .tl-dot__tooltip,
-  .tl-span .tl-dot__tooltip { display: none; }
-
-  .tl-dot__mobile-label,
-  .tl-span__mobile-label { display: inline !important; }
+  .tl-mobile__meta {
+    font-family: var(--font-mono);
+    font-size: .72rem;
+    color: var(--fg-muted);
+    text-transform: lowercase;
+  }
+  .tl-mobile__title {
+    font-family: var(--font-body);
+    font-size: .92rem;
+    color: var(--fg);
+    font-weight: 500;
+    line-height: 1.3;
+  }
 
   .timeline__footer { grid-template-columns: 1fr; }
   .awards__photo--inline { max-width: 18rem; }
 }
-
-.tl-dot__mobile-label { display: none; }
 
 /* ========================================================================
    PUBLICATIONS  (standalone list section)
