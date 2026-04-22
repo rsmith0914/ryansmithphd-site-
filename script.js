@@ -225,7 +225,9 @@ if ('IntersectionObserver' in window) {
   function spanCeilingRem(year) {
     let maxLane = -1;
     items.filter(isSpan).forEach(it => {
-      if (it.year <= year && year < it.yearEnd) {
+      // `<=` on both ends: a span that ends exactly at `year` still visually
+      // reaches the dot, so we push the dot above it.
+      if (it.year <= year && year <= it.yearEnd) {
         const lane = itemLane.get(it.id);
         if (lane > maxLane) maxLane = lane;
       }
@@ -289,16 +291,17 @@ if ('IntersectionObserver' in window) {
   });
 
   // Vertical layout constants — rightward stacking instead of upward
-  const V_AXIS_LEFT_REM = 3.25;               // matches .tl-axis-vert__line left
-  const V_SPAN_W_REM    = 0.45;               // narrow vertical bar width
-  const V_LANE_GAP      = 0.2;
-  const V_LANE_STEP     = V_SPAN_W_REM + V_LANE_GAP;
-  const V_DOT_STEP      = 1.35;               // dot diameter (1.1) + gap
+  const V_AXIS_LEFT_REM  = 3.25;              // matches .tl-axis-vert__line left
+  const V_MARK_START_REM = V_AXIS_LEFT_REM + 0.85;  // marks sit right of the line, not on it
+  const V_SPAN_W_REM     = 0.45;              // narrow vertical bar width
+  const V_LANE_GAP       = 0.2;
+  const V_LANE_STEP      = V_SPAN_W_REM + V_LANE_GAP;
+  const V_DOT_STEP       = 1.2;               // dot diameter (1.1) + small gap
 
   // Render span bars vertically, splitting past/future at NOW (same as desktop)
   items.filter(isSpan).forEach(it => {
     const lane    = itemLane.get(it.id);
-    const leftRem = V_AXIS_LEFT_REM + lane * V_LANE_STEP;
+    const leftRem = V_MARK_START_REM + lane * V_LANE_STEP;
 
     const makeSegV = (startY, endY, isFuture) => {
       const bar = document.createElement('button');
@@ -323,7 +326,7 @@ if ('IntersectionObserver' in window) {
   function spanCeilingLeftRem(year) {
     let maxLane = -1;
     items.filter(isSpan).forEach(it => {
-      if (it.year <= year && year < it.yearEnd) {
+      if (it.year <= year && year <= it.yearEnd) {
         const lane = itemLane.get(it.id);
         if (lane > maxLane) maxLane = lane;
       }
@@ -331,8 +334,8 @@ if ('IntersectionObserver' in window) {
     const DOT_RADIUS = 0.55;
     const BAR_DOT_GAP = 0.25;
     return maxLane === -1
-      ? V_AXIS_LEFT_REM
-      : V_AXIS_LEFT_REM + maxLane * V_LANE_STEP + (V_SPAN_W_REM / 2) + BAR_DOT_GAP + DOT_RADIUS;
+      ? V_MARK_START_REM
+      : V_MARK_START_REM + maxLane * V_LANE_STEP + (V_SPAN_W_REM / 2) + BAR_DOT_GAP + DOT_RADIUS;
   }
 
   Object.keys(dotsByYear).sort((a, b) => +a - +b).forEach(y => {

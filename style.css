@@ -1272,8 +1272,8 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 .tl-span--education { background: #7fa8e0; border-color: #4b76af; }
 .tl-span--service   { background: #e36882; border-color: #a63d56; }
 .tl-span--other     { background: #e89550; border-color: #ab6326; }
-/* Future / dashed segments: keep border for shape but drop the drop-shadow */
-.tl-span--future    { box-shadow: none; }
+/* Future / dashed segments: no border, no drop-shadow — pure dashed fill */
+.tl-span--future    { border: none; box-shadow: none; }
 
 /* Future / planned portion of a span bar — same lane, same color, dashed */
 .tl-span--future.tl-span--education {
@@ -1448,8 +1448,30 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 @media (max-width: 720px) {
   /* Hide desktop horizontal axis on mobile; "previously" panel still shows above */
   .tl-axis { display: none !important; }
-  .timeline { display: block; padding: 0; margin-bottom: 1.5rem; }
+  .timeline { display: block; padding: 0; margin-bottom: 0; }
   .tl-previously { margin-bottom: 1rem; }
+
+  /* Side-by-side on mobile: axis on the left, detail panel on the right
+     (same height as the axis). Head + legend stay full-width above. */
+  .section--timeline {
+    display: grid;
+    grid-template-columns: 12rem 1fr;
+    column-gap: 1rem;
+    row-gap: 1rem;
+    align-items: stretch;
+  }
+  .section--timeline > .section__head,
+  .section--timeline > .timeline__legend { grid-column: 1 / -1; }
+  .section--timeline > #timeline         { grid-column: 1; min-width: 0; }
+  .section--timeline > #timeline-detail {
+    grid-column: 2;
+    margin-top: 0;
+    padding: 0;
+    border-top: none;
+    min-height: 0;
+    align-self: stretch;
+    overflow-y: auto;
+  }
 
   .tl-axis-vert {
     display: block;
