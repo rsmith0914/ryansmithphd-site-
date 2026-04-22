@@ -523,13 +523,10 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
   margin: 0 0 .7rem;
   max-width: none;
 }
-.teaching__full {
+.teaching__full,
+.service__full {
   margin-top: 1rem !important;
-  font-family: var(--font-mono);
-  font-size: .82rem;
-  letter-spacing: .02em;
 }
-.teaching__full a { border-bottom: 1px solid var(--border-hi); }
 .teaching__photo { margin: 0; }
 .teaching__photo-frame {
   border-radius: 1rem;
@@ -1480,6 +1477,10 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
     height: 44rem;
     padding: 0;
   }
+
+  /* Tooltips are redundant on mobile — tap already fills the detail panel
+     and cramped columns make them overflow the screen. */
+  .tl-dot__tooltip { display: none !important; }
   .tl-axis-vert__line {
     position: absolute;
     top: 1rem; bottom: 1rem;

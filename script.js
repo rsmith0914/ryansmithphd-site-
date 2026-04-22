@@ -195,7 +195,7 @@ if ('IntersectionObserver' in window) {
     const lane      = itemLane.get(it.id);
     const bottomRem = LINE_REM + lane * LANE_STEP;
 
-    const makeSeg = (startY, endY, isFuture) => {
+    const makeSeg = (startY, endY, isFuture, withTooltip) => {
       const bar = document.createElement('button');
       bar.type = 'button';
       bar.className = `tl-span tl-span--${it.group}${isFuture ? ' tl-span--future' : ''}`;
@@ -205,18 +205,20 @@ if ('IntersectionObserver' in window) {
       bar.style.top    = 'auto';
       bar.setAttribute('aria-label', `${it.kind}, ${it.year}–${it.yearEnd}: ${it.title}`);
       bar.dataset.id = it.id;
-      bar.innerHTML = `<span class="tl-dot__tooltip">${it.title}</span>`;
+      // Tooltip only on the start segment — otherwise split spans show the
+      // label at both their start and end, which reads as duplicate.
+      bar.innerHTML = withTooltip ? `<span class="tl-dot__tooltip">${it.title}</span>` : '';
       bar.addEventListener('click', () => selectItem(it.id));
       axis.appendChild(bar);
     };
 
     if (it.yearEnd <= NOW) {
-      makeSeg(it.year, it.yearEnd, false);      // fully past
+      makeSeg(it.year, it.yearEnd, false, true);     // fully past
     } else if (it.year >= NOW) {
-      makeSeg(it.year, it.yearEnd, true);       // fully future
+      makeSeg(it.year, it.yearEnd, true, true);      // fully future
     } else {
-      makeSeg(it.year, NOW, false);             // solid past portion
-      makeSeg(NOW, it.yearEnd, true);           // dashed future portion
+      makeSeg(it.year, NOW, false, true);            // solid past portion — tooltip lives here
+      makeSeg(NOW, it.yearEnd, true, false);         // dashed future portion — no tooltip
     }
   });
 
@@ -303,7 +305,7 @@ if ('IntersectionObserver' in window) {
     const lane    = itemLane.get(it.id);
     const leftRem = V_MARK_START_REM + lane * V_LANE_STEP;
 
-    const makeSegV = (startY, endY, isFuture) => {
+    const makeSegV = (startY, endY, isFuture, withTooltip) => {
       const bar = document.createElement('button');
       bar.type = 'button';
       bar.className = `tl-span tl-span--vert tl-span--${it.group}${isFuture ? ' tl-span--future' : ''}`;
@@ -312,14 +314,14 @@ if ('IntersectionObserver' in window) {
       bar.style.left   = `${leftRem.toFixed(3)}rem`;
       bar.setAttribute('aria-label', `${it.kind}, ${it.year}–${it.yearEnd}: ${it.title}`);
       bar.dataset.id = it.id;
-      bar.innerHTML = `<span class="tl-dot__tooltip">${it.title}</span>`;
+      bar.innerHTML = withTooltip ? `<span class="tl-dot__tooltip">${it.title}</span>` : '';
       bar.addEventListener('click', () => selectItem(it.id));
       axisV.appendChild(bar);
     };
 
-    if (it.yearEnd <= NOW)       makeSegV(it.year, it.yearEnd, false);
-    else if (it.year >= NOW)     makeSegV(it.year, it.yearEnd, true);
-    else { makeSegV(it.year, NOW, false); makeSegV(NOW, it.yearEnd, true); }
+    if (it.yearEnd <= NOW)       makeSegV(it.year, it.yearEnd, false, true);
+    else if (it.year >= NOW)     makeSegV(it.year, it.yearEnd, true, true);
+    else { makeSegV(it.year, NOW, false, true); makeSegV(NOW, it.yearEnd, true, false); }
   });
 
   // For vertical mode, dots at a given year sit just right of any covering spans
