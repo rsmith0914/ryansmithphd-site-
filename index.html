@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ryan Smith — PhD Candidate, InfoVis Lab, UBC</title>
+<meta name="description" content="Ryan Smith — PhD candidate at the University of British Columbia studying patient-centric data visualization in the InfoVis Lab." />
+<meta name="author" content="Ryan Smith" />
+<meta name="theme-color" content="#0f1113" />
+
+<!-- Favicons (v2 query string busts the old cached yellow icon) -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=2" />
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=2" />
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=2" />
+
+<!-- Canonical -->
+<link rel="canonical" href="https://ryansmithphd.com/" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ryansmithphd.com/" />
+<meta property="og:title" content="Ryan Smith — PhD Candidate, InfoVis Lab, UBC" />
+<meta property="og:description" content="Patient-centric visualization tools for communicating health data." />
+<meta property="og:image" content="https://ryansmithphd.com/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Ryan Smith — PhD Candidate at UBC's InfoVis Lab. Patient-centric visualization tools for communicating health data." />
+
+<!-- Twitter / X -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Ryan Smith — PhD Candidate, InfoVis Lab, UBC" />
+<meta name="twitter:description" content="Patient-centric visualization tools for communicating health data." />
+<meta name="twitter:image" content="https://ryansmithphd.com/og-image.png" />
+
+<!-- Fonts: Fraunces (display serif, characterful) + Inter Tight (body) + Caveat (handwritten asides) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&family=Caveat:wght@400..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- Grain overlay -->
+<div class="grain" aria-hidden="true"></div>
+
+<!-- Floating nav -->
+<nav class="nav" aria-label="Primary">
+  <a href="#top" class="nav__brand">
+    <span class="nav__brand-mark">RS</span>
+    <span class="nav__brand-text">Ryan Smith</span>
+  </a>
+  <button class="nav__toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Toggle menu">
+    <span></span><span></span>
+  </button>
+  <ul class="nav__links" id="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#publist">Publications</a></li>
+    <li><a href="#teaching">Teaching</a></li>
+    <li><a href="#service">Service</a></li>
+    <li><a href="#hobbies">Hobbies</a></li>
+    <li><a href="#publications">Timeline</a></li>
+    <li><a href="#contact" class="nav__cta">Contact</a></li>
+  </ul>
+</nav>
+
+<main id="top">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero__grid">
+      <div class="hero__intro">
+        <p class="hero__eyebrow aside" data-aside>
+          <span class="ink">PhD-ing in vis at UBC's InfoVis Lab</span>
+        </p>
+        <h1 class="hero__title">
+          Hi, I'm <em>Ryan.</em>
+        </h1>
+        <p class="hero__lede">
+          I build <mark>patient-centric visualization tools</mark> that help people communicate their health data to the providers who need to understand it.
+        </p>
+        <p class="hero__sub">
+          I study how visualization leverages our cognitive biases to translate messy, subjective experience into something two people can talk about.
+        </p>
+        <div class="hero__actions">
+          <a href="#research" class="btn btn--primary">See the research</a>
+          <a href="cv.pdf" class="btn btn--ghost" download>
+            Download CV
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" style="margin-left:.15rem">
+              <path d="M6 1.5v7M3 6l3 3 3-3M2 10.5h8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <a href="#contact" class="btn btn--ghost">Get in touch</a>
+        </div>
+        <p class="hero__announce">
+          🎓 Expecting to graduate <strong>August 2027</strong> — and already thinking about what's next. <a href="mailto:rs0914@cs.ubc.ca">Open to postdoc conversations.</a>
+        </p>
+      </div>
+
+      <figure class="hero__photo">
+        <div class="hero__photo-frame">
+          <img src="images/main.JPG" alt="Ryan Smith portrait" loading="eager" />
+        </div>
+        <figcaption class="aside aside--stack" data-aside>
+          <span><span class="ink">As you can see,</span></span>
+          <span><span class="ink">I accept any free photography</span></span>
+          <span><span class="ink">the department offers.</span></span>
+        </figcaption>
+      </figure>
+    </div>
+
+  </header>
+
+  <!-- ABOUT -->
+  <section id="about" class="section section--about">
+    <div class="section__head">
+      <h2 class="section__title">About me</h2>
+      <p class="section__sub aside" data-aside><span class="ink">the short version</span></p>
+    </div>
+
+    <div class="about__grid">
+      <div class="about__body">
+        <p>
+          I hold a Bachelor's in Psychology from <strong>Marist College</strong> and a Master's in Social and Cognitive Psychology from <strong>NYU</strong>, where I focused on decision making.
+        </p>
+        <p>
+          After my studies I worked as a research assistant in two psychology labs, the <a href="https://kimberlyquinn.net/#:~:text=About-,DUSC%20Lab,-Research" target="_blank" rel="noopener">DUSC Lab</a> and the <a href="https://visualthinking.psych.northwestern.edu/" target="_blank" rel="noopener">Visual Thinking Lab</a>, before applying to PhD programs.
+        </p>
+        <p>
+          I was initially interested in neuroaesthetics (the neuroscience of art), but pivoted to data visualization after encountering <a href="https://c4sr.columbia.edu/projects/homophily-urban-history-algorithm" target="_blank" rel="noopener">an art installation</a> that used visualization to explain a complex topic. I started wondering if people actually study this kind of work (they do) and began working in the visualization field.
+        </p>
+        <p>
+          I'm now pursuing my PhD in Computer Science at <strong>UBC</strong>, working with <a href="https://www.cs.ubc.ca/~tmm/" target="_blank" rel="noopener">Tamara Munzner</a> in the <a href="https://www.cs.ubc.ca/group/infovis/" target="_blank" rel="noopener">InfoVis Lab</a>.
+        </p>
+      </div>
+
+      <figure class="about__photo">
+        <div class="about__photo-frame">
+          <img src="images/hiking.webp" alt="Ryan Smith hiking in the Swiss Alps" loading="lazy" />
+        </div>
+        <figcaption class="aside aside--right" data-aside>
+          <span class="ink">You can tell I'm a grad student in the Pacific Northwest by the obligatory hiking photo.</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- RESEARCH INTERESTS -->
+  <section id="research" class="section section--research">
+    <div class="section__head">
+      <h2 class="section__title">Research interests</h2>
+      <p class="section__sub aside" data-aside><span class="ink">what I actually work on</span></p>
+    </div>
+
+    <div class="research__grid">
+      <div class="research__statement">
+        <p>
+          Patients don't narrate their medical history like a form. They jump around in time, organize around their own concerns, hedge their language, and rely on context and lived experience. These narratives are rich, but existing healthcare tools strip all of that away, forcing everything into discrete, standardized fields.
+        </p>
+        <p>
+          My research sits at that gap. I build systems that meet patients in their own words, whether they're speaking, writing, or describing their experiences however feels natural, and transform that freeform input into structured visualizations that can travel into a clinical encounter and actually be useful.
+        </p>
+        <p>
+          I work in collaboration with <a href="https://www.thrive.health/" target="_blank" rel="noopener">Thrive Health</a>, connecting the research to real clinical workflows, and under <a href="https://www.cs.ubc.ca/~tmm/" target="_blank" rel="noopener">Tamara Munzner</a> in UBC's <a href="https://www.cs.ubc.ca/group/infovis/" target="_blank" rel="noopener">InfoVis Lab</a>.
+        </p>
+      </div>
+
+      <figure class="research__photo">
+        <div class="research__photo-frame">
+          <img src="images/placeholder-symptomtale.svg" alt="Research interests — photo coming soon" loading="lazy" />
+        </div>
+        <figcaption class="aside aside--right" data-aside>
+          <span class="ink">new photo coming soon.</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- CURRENT PROJECTS -->
+  <section id="projects" class="section section--projects">
+    <div class="section__head">
+      <h2 class="section__title">Current projects</h2>
+      <p class="section__sub aside" data-aside><span class="ink">things I'm building</span></p>
+    </div>
+
+    <article class="project">
+      <header class="project__header">
+        <h3 class="project__title">HealthTale — visualizing your health story</h3>
+      </header>
+      <div class="project__content">
+        <div class="project__body">
+          <p>
+            When you describe your health history to a new doctor, it probably doesn't flow neatly. You jump to what feels most important, organize around concerns rather than dates, use language like "a few years back" or "right around when I started that job." Health histories are organized around <em>meaning</em>, not chronology.
+          </p>
+          <p>
+            <strong>HealthTale</strong> meets patients in that natural way of speaking. You describe your health history however feels right, and the system transforms it into a structured, timeline visualization you can bring into a clinical encounter. The goal is to help patients feel heard and help clinicians understand not just the facts, but how the patient frames their own experience.
+          </p>
+        </div>
+        <div class="project__visual">
+          <div class="gallery__item"><img src="images/healthtale.jpg" alt="HealthTale — visualizations assembled from a patient narrative" loading="lazy" /></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="project">
+      <header class="project__header">
+        <h3 class="project__title">SymptomTale — tracking what's hard to track</h3>
+      </header>
+      <div class="project__content">
+        <div class="project__body">
+          <p>
+            Most symptom tracking tools ask you to rate your pain from 1 to 10. But what if you don't know what to call what you're feeling? What if it shifts, or it's not one symptom but a cluster of things that seem connected but you're not sure how?
+          </p>
+          <p>
+            <strong>SymptomTale</strong> lets you describe your symptoms in plain language, spoken or written, whenever it makes sense to you. The system builds a longitudinal visualization that's comfortable with uncertainty: timing can be approximate, severity can be qualitative, and the picture can evolve as your understanding does. The goal is something you'd actually want to use, even when what you're tracking is hard to name.
+          </p>
+        </div>
+        <div class="project__visual">
+          <div class="gallery__item"><img src="images/placeholder-symptomtale.svg" alt="SymptomTale — design in progress" loading="lazy" /></div>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- PUBLICATIONS LIST -->
+  <section id="publist" class="section section--publist">
+    <div class="section__head">
+      <h2 class="section__title">Publications</h2>
+      <p class="section__sub aside" data-aside><span class="ink">the written record</span></p>
+    </div>
+<div class="publist__group">
+      <h3 class="publist__group-title">Primary (first author)</h3>
+      <ol class="publist__list" id="publist-primary"><li class="publist__empty">No primary publications listed yet.</li></ol>
+    </div>
+    <div class="publist__group">
+      <h3 class="publist__group-title">Secondary</h3>
+      <ol class="publist__list" id="publist-secondary"><li class="publist__empty">No secondary publications listed yet.</li></ol>
+      <aside class="pubs__aside" style="margin-top:1.5rem;">
+        <p class="aside aside--right" data-aside style="margin:0; max-width:none; text-align:left;">
+          <span class="ink">I swear people want to work with me! The papers just haven't been published yet!</span>
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- TEACHING -->
+  <section id="teaching" class="section section--teaching">
+    <div class="section__head">
+      <h2 class="section__title">Teaching</h2>
+      <p class="section__sub aside" data-aside><span class="ink">how I show up in the classroom</span></p>
+    </div>
+
+    <div class="teaching__grid">
+      <div class="teaching__statement">
+        <p>
+          Being a student is stressful. Heavy course loads, constant evaluation, and pressure to perform. In that environment, memorization has limited long-term value. What matters more is whether students leave curious and motivated to keep learning. I see my role not just as delivering content, but as helping create that outcome, where students develop the interest and confidence to continue learning beyond the course.
+        </p>
+        <p>
+          This perspective shapes how I design and support teaching. I emphasize flexible engagement through optional materials and use class time for small-group activities focused on applying ideas and working through ambiguity. I approach teaching transparently, treating students as adults with different goals, and aim to create an environment where participation feels natural. My evaluation follows a <em>pass / fail / exceed</em> structure, reducing pressure while encouraging deeper engagement, with the overall goal of fostering a low-stakes but meaningful learning environment.
+        </p>
+        <p class="teaching__full">
+          <a href="teaching-philosophy.pdf" target="_blank" rel="noopener">See the full teaching philosophy statement →</a>
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SERVICE & LEADERSHIP -->
+  <section id="service" class="section section--service">
+    <div class="section__head">
+      <h2 class="section__title">Service &amp; leadership</h2>
+      <p class="section__sub aside" data-aside><span class="ink">showing up for the grad community</span></p>
+    </div>
+
+    <div class="service__grid">
+      <div class="service__statement">
+        <p>
+          Alongside research and teaching, I've spent much of my PhD working to improve the graduate student experience, primarily by advocating for better mental-health access and breaking down silos between departments.
+        </p>
+        <p>
+          I've served as Vice President and now President of the Computer Science Graduate Student Association, a councillor on the UBC Graduate Student Society's Executive Oversight Committee, and a CUPE 2278 union steward. Out of that work came two initiatives I care about most: pushing for an embedded counselor within the Faculty of Science so grad students could have the same access as other faculties, and running inter-departmental socials across Math, Psychology, Music, and adjacent programs so students could find collaborators and friends outside their home lab.
+        </p>
+        <p>
+          This work was recognized with the UBC Faculty of Science Excellence in Service Award, given annually to two students in the Faculty. It's probably the part of my PhD I'm most proud of!
+        </p>
+      </div>
+
+      <figure class="service__photo">
+        <div class="service__photo-frame">
+          <img src="images/awards%20.webp" alt="Ryan receiving the UBC Faculty of Science Excellence in Service Award" loading="lazy" />
+        </div>
+        <figcaption class="aside aside--stack" data-aside>
+          <span><span class="ink">Yes, my mom was very proud of me!</span></span>
+          <span><span class="ink">She always is!!</span></span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- HOBBIES -->
+  <section id="hobbies" class="section section--hobbies">
+    <div class="section__head">
+      <h2 class="section__title">Hobbies</h2>
+      <p class="section__sub aside" data-aside><span class="ink">what I do when I'm not PhD-ing</span></p>
+    </div>
+
+    <div class="hobbies__grid">
+      <div class="hobbies__body">
+        <p>
+          My hobbies range from basketball, to soccer, to hiking. I also read a lot, you can see what I'm working through and what I've thought of everything on <a href="https://app.thestorygraph.com/profile/rsmith0914" target="_blank" rel="noopener">my StoryGraph</a>. And I play a lot of <em>Magic: The Gathering</em>. My pet deck, the one I keep coming back to, is <a href="https://archidekt.com/decks/4294031/gorogoro_and_satoru" target="_blank" rel="noopener">my grixis ninja deck</a>.
+        </p>
+      </div>
+
+      <figure class="hobbies__photo">
+        <div class="hobbies__photo-frame">
+          <img src="images/basketball.jpg" alt="Ryan playing basketball" loading="lazy" />
+        </div>
+        <figcaption class="aside aside--right" data-aside>
+          <span class="ink">me about to give the reviewer 2 treatment to a fellow grad student.</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- TIMELINE: publications, talks, grants, awards -->
+  <section id="publications" class="section section--timeline">
+    <div class="section__head">
+      <h2 class="section__title">My timeline</h2>
+      <p class="section__sub aside" data-aside><span class="ink">everything, in order</span></p>
+    </div>
+
+    <!-- Legend -->
+    <ul class="timeline__legend" aria-label="Legend">
+      <li><span class="swatch swatch--publication"></span> Publication</li>
+      <li><span class="swatch swatch--funding"></span> Funding</li>
+      <li><span class="swatch swatch--award"></span> Award</li>
+      <li><span class="swatch swatch--education"></span> Education</li>
+      <li><span class="swatch swatch--service"></span> Service</li>
+      <li><span class="swatch swatch--other"></span> Other</li>
+      <li><span class="swatch swatch--rejection"></span> Not accepted</li>
+    </ul>
+
+    <!-- Timeline — populated from the data list below via JS -->
+    <div class="timeline" id="timeline" aria-live="polite"></div>
+
+    <!-- Detail panel — shows the selected item -->
+    <div class="timeline__detail" id="timeline-detail" tabindex="-1"></div>
+
+    <!-- Data source: edit this list to add new entries. JS reads it on load. -->
+    <ol class="timeline__data" id="timeline-data" hidden>
+
+      <!-- ── Education (bars span full duration) ────────────────────── -->
+      <li data-year="2010" data-year-end="2014" data-kind="education" data-title="BA — Marist College">
+        <p><strong>Marist College</strong> — Poughkeepsie, NY</p>
+        <p>BA, Psychology · Dual minor in Communication &amp; Business<br>
+        <em>Sep 2010 – May 2014</em></p>
+      </li>
+
+      <li data-year="2014" data-year-end="2016" data-kind="education" data-title="MA — New York University">
+        <p><strong>New York University</strong> — New York, NY</p>
+        <p>MA, Psychology · Focus: Cognitive &amp; Social Psychology<br>
+        <em>2014 – 2016</em></p>
+      </li>
+
+      <li data-year="2022" data-year-end="2027" data-kind="education" data-title="PhD — University of British Columbia">
+        <p><strong>University of British Columbia</strong> — Vancouver, BC</p>
+        <p>PhD, Computer Science · InfoVis Lab · Supervisor: Tamara Munzner<br>
+        <em>Sep 2022 – Aug 2027 (expected)</em>
+        <span class="handwritten-note">fingers crossed 🤞</span></p>
+      </li>
+
+      <!-- ── Research positions (bars) ──────────────────────────────── -->
+      <li data-year="2019" data-year-end="2022" data-kind="research" data-title="Research Assistant — DePaul University Social Cognition Lab">
+        <p><strong>DePaul University Social Cognition Lab</strong> — Chicago, IL</p>
+        <p>Volunteer Research Assistant · PI: Dr. Kimberly Quinn<br>
+        <em>Sep 2019 – May 2022</em></p>
+      </li>
+
+      <li data-year="2020" data-year-end="2022" data-kind="research" data-title="Research Assistant — Visual Thinking Lab, Northwestern University">
+        <p><strong>Visual Thinking Lab, Northwestern University</strong> — Evanston, IL</p>
+        <p>Volunteer Research Assistant · PI: Dr. Steven Franconeri<br>
+        <em>Feb 2020 – May 2022</em></p>
+      </li>
+
+      <!-- ── Talks (dots) ──────────────────────────────────────────── -->
+      <li data-year="2020" data-kind="talk" data-role="primary" data-title="The Cheerleader Effect: Replication and Extension">
+        <p><strong>R. Smith</strong>, W. Krenzer, K. Quinn, and P. Gomez. "The Cheerleader Effect: Replication and Extension." <em>Psychonomic Society Annual Meeting</em>, Virtual, Nov. 2020.</p>
+      </li>
+
+      <li data-year="2021" data-kind="talk" data-role="primary" data-title="Sense of Place and Student Wellbeing">
+        <p><strong>R. Smith</strong>, A. Bellovary, and K. Quinn. "Sense of Place and Student Wellbeing: Preliminary Evidence for Impact of Liked but Not Disliked Spaces." <em>Society for Personality and Social Psychology Annual Convention</em>, Virtual, Feb. 2021.</p>
+      </li>
+
+      <!-- ── Grants (dots) ─────────────────────────────────────────── -->
+      <li data-year="2024" data-kind="grant" data-title="MITACS Grant IT38408">
+        <p><strong>MITACS Grant IT38408</strong> — a one-year, $45k grant to collaborate with industry partner Thrive Health.</p>
+      </li>
+
+      <!-- ── Service (bars) ────────────────────────────────────────── -->
+      <li data-year="2024" data-year-end="2027" data-kind="service" data-title="CUPE 2278 TA Union Steward — Computer Science">
+        <p><strong>CUPE 2278 TA Union Steward</strong> — Computer Science Department, UBC<br>
+        <em>Feb 2024 – present</em></p>
+      </li>
+
+      <li data-year="2024" data-year-end="2027" data-kind="service" data-title="Graduate Student Society Councillor — Executive Oversight Committee">
+        <p><strong>Graduate Student Society Councillor</strong> — Executive Oversight Committee, UBC<br>
+        <em>Apr 2024 – present</em></p>
+      </li>
+
+      <li data-year="2024" data-year-end="2025" data-kind="service" data-title="CS Graduate Student Association Vice President">
+        <p><strong>Computer Science Graduate Student Association</strong><br>
+        Vice President · <em>May 2024 – May 2025</em></p>
+      </li>
+
+      <!-- ── Paper, grant, award (2025) ─────────────────────────────── -->
+      <li data-year="2025" data-kind="paper" data-role="primary" data-title="Position Paper: Potential Areas of Bias in Visualization-as-Input Systems">
+        <p><strong>R. Smith.</strong> "Position Paper: Potential Areas of Bias in Visualization-as-Input Systems." In <em>Proc. Workshop on Envisioning a Research Agenda for Input Visualization, IEEE VIS</em>, 2025.</p>
+        <p class="detail__links">
+          <a href="https://osf.io/xvbu4/files/v3bu4" target="_blank" rel="noopener">OSF</a>
+          <span aria-hidden="true">·</span>
+          <a href="https://www.ryansmithphd.com/s/smith2025potential.pdf" target="_blank" rel="noopener">PDF</a>
+        </p>
+      </li>
+
+      <li data-year="2025" data-kind="grant" data-title="MITACS Grant IT44143">
+        <p><strong>MITACS Grant IT44143</strong> — a two-year, $90k grant to collaborate with industry partner <a href="https://www.thrive.health/" target="_blank" rel="noopener">Thrive Health</a>.</p>
+      </li>
+
+      <li data-year="2025" data-kind="award" data-title="UBC Faculty of Science Excellence in Service Award">
+        <p><strong>UBC Faculty of Science Excellence in Service Award</strong> — an annual award given to two students in UBC's Faculty of Science for service and positive impact toward the Faculty's goals.</p>
+        <p>Recognized in particular for two initiatives:</p>
+        <ul>
+          <li>Advocating for an <strong>embedded counselor</strong> within the Faculty of Science, so graduate students could access mental-health support without navigating the central university queue.</li>
+          <li>Organizing <strong>inter-departmental socials</strong> across Computer Science, Math, Stats, and adjacent programs, to break down the silos that form between grad cohorts and make it easier for students to find collaborators and friends outside their home department.</li>
+        </ul>
+      </li>
+
+      <!-- ── 2026 ────────────────────────────────────────────────────── -->
+      <li data-year="2026" data-kind="teaching" data-title="Lecturer — COGS 303: Research Methods in Cognitive Systems">
+        <p><strong>Lecturer</strong> — COGS 303: Research Methods in Cognitive Systems<br>
+        Cognitive Systems Program, UBC<br>
+        <em>Jan 2026 – May 2026</em></p>
+      </li>
+
+      <li data-year="2026" data-year-end="2027" data-kind="service" data-title="CS Graduate Student Association President">
+        <p><strong>Computer Science Graduate Student Association</strong><br>
+        President · <em>May 2026 – May 2027</em></p>
+      </li>
+
+      <li data-year="2026" data-kind="rejection" data-title="CHI 2026 Submission — Not Accepted">
+        <p><strong>CHI 2026 Submission</strong> — submitted Feb 2026; not accepted.</p>
+        <p>The work has since been broken up and redistributed into other active submissions. Details withheld pending anonymous review.</p>
+      </li>
+
+    </ol>
+
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section section--contact">
+    <div class="section__head">
+      <h2 class="section__title">Get in touch</h2>
+      <p class="section__sub aside" data-aside><span class="ink">say hi</span></p>
+    </div>
+
+    <div class="contact">
+      <ul class="contact__emails">
+        <li>
+          <a href="mailto:rsmith0914@gmail.com" class="contact__email">
+            <span class="contact__email-label">personal</span>
+            <span class="contact__email-address">rsmith0914<span class="at">[at]</span>gmail.com</span>
+          </a>
+        </li>
+        <li>
+          <a href="mailto:rs0914@cs.ubc.ca" class="contact__email">
+            <span class="contact__email-label">academic</span>
+            <span class="contact__email-address">rs0914<span class="at">[at]</span>cs.ubc.ca</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="colophon">
+      <h3 class="colophon__title">Colophon</h3>
+      <p>
+        Set in <a href="https://fonts.google.com/specimen/Fraunces" target="_blank" rel="noopener">Fraunces</a>,
+        <a href="https://fonts.google.com/specimen/Inter+Tight" target="_blank" rel="noopener">Inter Tight</a>,
+        and <a href="https://fonts.google.com/specimen/Caveat" target="_blank" rel="noopener">Caveat</a>.
+        Hand-written asides are drawn with SVG and CSS.
+      </p>
+      <p>
+        Hosted on <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a>.
+        No cookies, no tracking, no ads.
+        <a href="#" class="colophon__repo" id="repo-link">View source on GitHub →</a>
+      </p>
+    </div>
+    <div class="footer__meta">
+      <p>&copy; <span id="year"></span> Ryan Smith</p>
+      <p>Built with care in Vancouver, BC</p>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

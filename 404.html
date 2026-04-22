@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>404 — Ryan Smith</title>
+<meta name="description" content="The page you're looking for couldn't be found." />
+<meta name="theme-color" content="#0f1113" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&family=Caveat:wght@400..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/style.css" />
+<style>
+  .notfound {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 2rem;
+    text-align: center;
+  }
+  .notfound__inner { max-width: 32rem; }
+  .notfound__code {
+    font-family: var(--font-display);
+    font-size: clamp(6rem, 20vw, 12rem);
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.06em;
+    color: var(--accent);
+    margin: 0;
+    font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 144;
+    font-style: italic;
+  }
+  .notfound__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 400;
+    letter-spacing: -.02em;
+    color: var(--fg);
+    margin: 1rem 0 .5rem;
+  }
+  .notfound__aside {
+    font-family: var(--font-hand);
+    font-size: 1.5rem;
+    color: var(--accent);
+    margin: 1.5rem 0;
+    transform: rotate(-1.5deg);
+  }
+  .notfound__body {
+    color: var(--fg-dim);
+    max-width: 28rem;
+    margin: 0 auto 2rem;
+    line-height: 1.6;
+  }
+  .notfound .btn { margin-top: 0.5rem; }
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<main class="notfound">
+  <div class="notfound__inner">
+    <p class="notfound__code">404</p>
+    <h1 class="notfound__title">This page is as elusive as my next publication.</h1>
+    <p class="notfound__aside">(too soon?)</p>
+    <p class="notfound__body">
+      The URL you followed doesn't point anywhere on this site.
+      Maybe I moved it, maybe it never existed — either way, sorry for the detour.
+    </p>
+    <a href="/" class="btn btn--primary">Back to the homepage</a>
+  </div>
+</main>
+</body>
+</html>

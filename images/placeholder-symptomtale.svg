@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 380">
+  <defs>
+    <pattern id="dots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
+      <circle cx="14" cy="14" r="1.2" fill="#d4cfc6"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="600" height="380" fill="#f0eee8" rx="12"/>
+  <rect width="600" height="380" fill="url(#dots)" rx="12" opacity="0.8"/>
+
+  <!-- Clipboard body -->
+  <rect x="210" y="88" width="180" height="200" rx="10" fill="#faf9f6" stroke="#d4cfc6" stroke-width="1.5"/>
+  <!-- Clipboard clip top -->
+  <rect x="258" y="78" width="84" height="26" rx="7" fill="#faf9f6" stroke="#d4cfc6" stroke-width="1.5"/>
+  <rect x="274" y="83" width="52" height="14" rx="5" fill="#e8e5de"/>
+
+  <!-- Form lines on clipboard -->
+  <line x1="234" y1="136" x2="366" y2="136" stroke="#d4cfc6" stroke-width="2.2" stroke-linecap="round"/>
+  <line x1="234" y1="158" x2="366" y2="158" stroke="#d4cfc6" stroke-width="2.2" stroke-linecap="round"/>
+  <line x1="234" y1="180" x2="366" y2="180" stroke="#d4cfc6" stroke-width="2.2" stroke-linecap="round"/>
+  <line x1="234" y1="202" x2="340" y2="202" stroke="#d4cfc6" stroke-width="2.2" stroke-linecap="round"/>
+  <line x1="234" y1="224" x2="355" y2="224" stroke="#d4cfc6" stroke-width="2.2" stroke-linecap="round"/>
+  <line x1="234" y1="246" x2="320" y2="246" stroke="#d4cfc6" stroke-width="2.2" stroke-linecap="round"/>
+
+  <!-- One partially filled purple line — work in progress -->
+  <line x1="234" y1="136" x2="295" y2="136" stroke="#6e40c9" stroke-width="2.2" stroke-linecap="round" opacity="0.5"/>
+
+  <!-- Pencil (rotated, overlapping clipboard corner) -->
+  <g transform="translate(358, 248) rotate(-42)">
+    <!-- eraser -->
+    <rect x="-7" y="-54" width="14" height="13" rx="2" fill="#e8908a" opacity="0.85"/>
+    <!-- ferrule -->
+    <rect x="-7" y="-43" width="14" height="6" rx="1" fill="#bfb9ae"/>
+    <!-- body -->
+    <rect x="-7" y="-37" width="14" height="52" rx="2" fill="#6e40c9" opacity="0.8"/>
+    <!-- wood tip -->
+    <polygon points="-7,15 7,15 0,30" fill="#5530a8"/>
+    <!-- graphite tip -->
+    <polygon points="-3,24 3,24 0,30" fill="#9a9790"/>
+    <!-- detail stripe -->
+    <line x1="-7" y1="-30" x2="7" y2="-30" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+  </g>
+
+  <!-- Sparkle cluster near pencil tip -->
+  <g opacity="0.7" fill="#6e40c9">
+    <circle cx="388" cy="225" r="2.2"/>
+    <circle cx="400" cy="237" r="1.4"/>
+    <circle cx="376" cy="240" r="1.8"/>
+    <!-- 4-point star -->
+    <polygon transform="translate(396,218)" points="0,-5 1.2,-1.2 5,0 1.2,1.2 0,5 -1.2,1.2 -5,0 -1.2,-1.2"/>
+  </g>
+
+  <!-- Small question mark bubble — cutesy -->
+  <circle cx="175" cy="155" r="22" fill="#faf9f6" stroke="#d4cfc6" stroke-width="1.5"/>
+  <text x="175" y="162" text-anchor="middle" font-family="Georgia, serif" font-size="22" fill="#16856e" opacity="0.8">?</text>
+
+  <!-- Another question mark, smaller, different side -->
+  <circle cx="432" cy="130" r="16" fill="#faf9f6" stroke="#d4cfc6" stroke-width="1.5"/>
+  <text x="432" y="136" text-anchor="middle" font-family="Georgia, serif" font-size="16" fill="#6e40c9" opacity="0.75">?</text>
+
+  <!-- Text -->
+  <text x="300" y="322" text-anchor="middle" font-family="cursive" font-size="26" fill="#6e40c9" opacity="0.88">design in progress...</text>
+  <text x="300" y="354" text-anchor="middle" font-family="cursive" font-size="17" fill="#979390">something good is cooking 🍵</text>
+</svg>

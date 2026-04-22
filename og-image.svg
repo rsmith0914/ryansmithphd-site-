@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <!-- background gradients matching the site -->
+    <radialGradient id="glow1" cx="0.85" cy="0" r="0.7">
+      <stop offset="0%" stop-color="#b490dc" stop-opacity="0.22"/>
+      <stop offset="60%" stop-color="#b490dc" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="0.08" cy="0.28" r="0.65">
+      <stop offset="0%" stop-color="#5ec4b8" stop-opacity="0.16"/>
+      <stop offset="60%" stop-color="#5ec4b8" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="noise" x="0" y="0" width="1" height="1">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
+      <feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.06 0"/>
+    </filter>
+  </defs>
+
+  <!-- cream background -->
+  <rect width="1200" height="630" fill="#f9f8f4"/>
+  <rect width="1200" height="630" fill="url(#glow1)"/>
+  <rect width="1200" height="630" fill="url(#glow2)"/>
+  <rect width="1200" height="630" filter="url(#noise)"/>
+
+  <!-- decorative timeline dots in the lower-right, in the new palette -->
+  <g opacity="0.95">
+    <line x1="860" y1="500" x2="1125" y2="500" stroke="#d4cfc6" stroke-width="1.25"/>
+    <circle cx="880"  cy="500" r="8"  fill="#b490dc"/>  <!-- publication -->
+    <circle cx="935"  cy="500" r="8"  fill="#5ec4b8"/>  <!-- funding -->
+    <circle cx="990"  cy="500" r="8"  fill="#e8c060"/>  <!-- award -->
+    <circle cx="1045" cy="500" r="8"  fill="#7fa8e0"/>  <!-- education -->
+    <circle cx="1100" cy="500" r="8"  fill="#e36882"/>  <!-- service -->
+  </g>
+
+  <!-- eyebrow, handwritten, matches the site's aside style -->
+  <text x="80" y="130" font-family="'Caveat', 'Marker Felt', cursive" font-size="40" fill="#6e40c9" letter-spacing="0.5">
+    PhD-ing in vis at UBC's InfoVis Lab
+  </text>
+
+  <!-- name -->
+  <text x="80" y="270" font-family="Georgia, 'Iowan Old Style', serif" font-size="116" font-weight="400" fill="#1c1a17" letter-spacing="-3">
+    Hi, I'm <tspan font-style="italic" fill="#6e40c9">Ryan.</tspan>
+  </text>
+
+  <!-- tagline -->
+  <text x="80" y="360" font-family="Georgia, 'Iowan Old Style', serif" font-size="38" font-weight="400" fill="#1c1a17" letter-spacing="-0.5">
+    <tspan>Patient-centric visualization tools</tspan>
+  </text>
+  <text x="80" y="410" font-family="Georgia, 'Iowan Old Style', serif" font-size="38" font-weight="400" fill="#58554d" letter-spacing="-0.5">
+    <tspan>for communicating health data.</tspan>
+  </text>
+
+  <!-- credentials line -->
+  <text x="80" y="515" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="18" fill="#58554d" letter-spacing="1.5">
+    PHD CANDIDATE  ·  INFOVIS LAB  ·  UBC
+  </text>
+
+  <!-- URL -->
+  <text x="80" y="580" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="18" fill="#979390" letter-spacing="1">
+    ryansmithphd.com
+  </text>
+
+  <!-- corner monogram, new palette -->
+  <g transform="translate(1050, 80)">
+    <rect x="0" y="0" width="70" height="70" rx="16" fill="#b490dc"/>
+    <text x="35" y="49" font-family="Georgia, 'Iowan Old Style', serif" font-size="34" font-weight="600" text-anchor="middle" fill="#ffffff" letter-spacing="-1">RS</text>
+  </g>
+</svg>
