@@ -99,7 +99,7 @@ if ('IntersectionObserver' in window) {
   const spanGroups = new Set(['education', 'other', 'service']);
 
   // Parse all items
-  const allItems = Array.from(dataEl.querySelectorAll('li')).map((li, i) => {
+  const allItems = Array.from(dataEl.querySelectorAll(':scope > li')).map((li, i) => {
     const year    = parseInt(li.dataset.year, 10);
     const yearEnd = li.dataset.yearEnd ? parseInt(li.dataset.yearEnd, 10) : null;
     const kind    = li.dataset.kind;
@@ -203,6 +203,7 @@ if ('IntersectionObserver' in window) {
       bar.style.width  = spanWidth(startY, endY);
       bar.style.bottom = `${bottomRem}rem`;
       bar.style.top    = 'auto';
+      bar.style.setProperty('--tilt', `${(Math.random() * 1.4 - 0.7).toFixed(2)}deg`);
       bar.setAttribute('aria-label', `${it.kind}, ${it.year}–${it.yearEnd}: ${it.title}`);
       bar.dataset.id = it.id;
       bar.innerHTML = `
@@ -260,6 +261,7 @@ if ('IntersectionObserver' in window) {
       btn.style.left   = yearPos(+y);
       btn.style.bottom = `${(baseBottom + idx * DOT_STEP).toFixed(3)}rem`;
       btn.style.top    = 'auto';
+      btn.style.setProperty('--tilt', `${(Math.random() * 6 - 3).toFixed(2)}deg`);
       btn.setAttribute('aria-label', `${it.kind}, ${it.year}: ${it.title}`);
       btn.dataset.id = it.id;
 
@@ -287,7 +289,7 @@ if ('IntersectionObserver' in window) {
     rejection: 'rejection',
   };
   // Include everything (prev + axis items), sort by start year ascending, most recent at top
-  const mobileItems = [...allItems].sort((a, b) => (b.year - a.year) || ((b.yearEnd || b.year) - (a.yearEnd || a.year)));
+  const mobileItems = [...allItems].sort((a, b) => (a.year - b.year) || ((a.yearEnd || a.year) - (b.yearEnd || b.year)));
   mobileItems.forEach(it => {
     const li = document.createElement('li');
     li.className = `tl-mobile__item tl-mobile__item--${it.group}`;
