@@ -1320,8 +1320,11 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
   white-space: nowrap;
   line-height: 1.1;
 }
-.tl-annot--left  .tl-annot__text { left:  1.7rem; transform: rotate(-2deg); transform-origin: left center; }
-.tl-annot--right .tl-annot__text { right: 1.7rem; transform: rotate(-2deg); transform-origin: right center; }
+/* Line's top endpoint after 14° rotation over 6.1rem height sits at roughly
+   (1.48rem across, 1.58rem down) from the anchor corner — text is centered
+   on that point so the line enters through the middle of the label. */
+.tl-annot--left  .tl-annot__text { left:  1.48rem; top: 1.58rem; transform: translate(-50%, -50%) rotate(-2deg); }
+.tl-annot--right .tl-annot__text { right: 1.48rem; top: 1.58rem; transform: translate(50%, -50%) rotate(-2deg); }
 .tl-annot__line {
   position: absolute;
   bottom: 0;
