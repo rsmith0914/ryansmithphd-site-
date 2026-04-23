@@ -310,6 +310,22 @@ if ('IntersectionObserver' in window) {
     axisV.appendChild(el);
   });
 
+  // Mobile annotations — same text as desktop, laid out horizontally.
+  // Path flows right→left (82→4) so the tip lands near the axis line.
+  const linePathV = 'M 82 4 Q 60 10, 38 14 Q 20 20, 4 28';
+  const makeAnnotV = (year, text, side) => {
+    const a = document.createElement('div');
+    a.className = `tl-annot tl-annot--vert tl-annot--${side}`;
+    a.style.top = yearPosV(year);
+    a.innerHTML =
+      `<svg class="tl-annot__line tl-annot__line--vert" viewBox="0 0 85 32" ` +
+        `preserveAspectRatio="none" aria-hidden="true"><path d="${linePathV}"/></svg>` +
+      `<span class="tl-annot__text tl-annot__text--vert">${text}</span>`;
+    axisV.appendChild(a);
+  };
+  makeAnnotV(2022, 'started my PhD', 'top');
+  makeAnnotV(2027, 'ending my PhD (hopefully)', 'bottom');
+
   // Vertical layout constants — rightward stacking instead of upward
   const V_AXIS_LEFT_REM  = 3.25;              // matches .tl-axis-vert__line left
   const V_MARK_START_REM = V_AXIS_LEFT_REM + 0.85;  // marks sit right of the line, not on it

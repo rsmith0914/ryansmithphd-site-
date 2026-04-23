@@ -1314,7 +1314,7 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
   position: absolute;
   top: 0;
   font-family: var(--font-hand);
-  font-size: .95rem;
+  font-size: 1.1rem;
   color: var(--accent);
   opacity: .9;
   white-space: nowrap;
@@ -1343,7 +1343,7 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 .tl-annot__line path {
   fill: none;
   stroke: var(--accent);
-  stroke-width: 1.6;
+  stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
   opacity: .7;
@@ -1535,7 +1535,38 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
   /* Tooltips are redundant on mobile — tap already fills the detail panel
      and cramped columns make them overflow the screen. */
   .tl-dot__tooltip { display: none !important; }
-  .tl-annot { display: none !important; }
+
+  /* Mobile annotations — positioned on the vertical axis (axisV) at their
+     year's Y. Text extends rightward past axisV into the detail column;
+     pointer-events: none so detail-panel taps aren't blocked. */
+  .tl-annot--vert {
+    display: block;
+    position: absolute;
+    left: 3rem;
+    transform: translateY(-50%);
+    height: 2.2rem;
+    width: auto;
+    pointer-events: none;
+    z-index: 3;
+  }
+  .tl-annot__line--vert {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3rem;
+    height: 1.6rem;
+    overflow: visible;
+  }
+  .tl-annot__text--vert {
+    position: absolute;
+    top: 50%;
+    left: 3.2rem;
+    transform: translateY(-50%) rotate(-2deg);
+    transform-origin: left center;
+    white-space: nowrap;
+    font-size: 1.05rem;
+  }
   .tl-axis-vert__line {
     position: absolute;
     top: 1rem; bottom: 1rem;
