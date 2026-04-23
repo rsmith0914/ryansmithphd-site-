@@ -1315,22 +1315,25 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
   top: 0;
   font-family: var(--font-hand);
   font-size: .95rem;
-  color: var(--fg-muted);
-  opacity: .85;
+  color: var(--accent);
+  opacity: .9;
   white-space: nowrap;
   line-height: 1.1;
 }
-.tl-annot--left  .tl-annot__text { left: .4rem;  transform: rotate(-2deg); transform-origin: left center; }
-.tl-annot--right .tl-annot__text { right: .4rem; transform: rotate(-2deg); transform-origin: right center; }
+.tl-annot--left  .tl-annot__text { left:  1.7rem; transform: rotate(-2deg); transform-origin: left center; }
+.tl-annot--right .tl-annot__text { right: 1.7rem; transform: rotate(-2deg); transform-origin: right center; }
 .tl-annot__line {
   position: absolute;
-  top: 1.45rem;
+  bottom: 0;
   left: 0;
   width: 1px;
   height: 6.1rem;
-  background: var(--fg-muted);
-  opacity: .4;
+  background: var(--accent);
+  opacity: .55;
+  transform-origin: bottom center;
 }
+.tl-annot--left  .tl-annot__line { transform: rotate(14deg); }
+.tl-annot--right .tl-annot__line { transform: rotate(-14deg); }
 
 .tl-dot__tooltip {
   position: absolute;
