@@ -1538,26 +1538,35 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 
   /* Mobile annotations — positioned on the vertical axis (axisV) at their
      year's Y. Text extends rightward past axisV into the detail column;
-     pointer-events: none so detail-panel taps aren't blocked. */
+     pointer-events: none so detail-panel taps aren't blocked. Container is
+     tall (3.2rem) so the curved line has vertical room to bend away from
+     the tick toward the label. */
   .tl-annot--vert {
     display: block;
     position: absolute;
     left: 3rem;
-    transform: translateY(-50%);
-    height: 2.2rem;
     width: auto;
+    height: 3.2rem;
     pointer-events: none;
     z-index: 3;
   }
+  /* Top variant ("started my PhD"): annotation sits BELOW the tick so the
+     line starts at top-left (tick) and bends down-right toward the label. */
+  .tl-annot--vert.tl-annot--top    { /* top: yearPosV(year) — no translate */ }
+  /* Bottom variant ("ending my PhD"): annotation sits ABOVE the tick so
+     the line starts at bottom-left (tick) and bends up-right to the label. */
+  .tl-annot--vert.tl-annot--bottom { transform: translateY(-100%); }
+
   .tl-annot__line--vert {
     position: absolute;
     left: 0;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 0;
     width: 3rem;
-    height: 1.6rem;
+    height: 3.2rem;
     overflow: visible;
   }
+  /* Text is vertically centered inside the annotation container — which
+     puts its center at the midpoint of the curve where the path lands. */
   .tl-annot__text--vert {
     position: absolute;
     top: 50%;
