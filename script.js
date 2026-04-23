@@ -91,12 +91,13 @@ if ('IntersectionObserver' in window) {
     grant: 'funding',     award: 'award',
     education: 'education',
     service:   'service',
-    research:  'other',   teaching: 'other',
+    teaching:  'teaching',
+    research:  'other',
     rejection: 'rejection',
   };
 
   // Groups that render as horizontal span bars (the rest are dots)
-  const spanGroups = new Set(['education', 'other', 'service']);
+  const spanGroups = new Set(['education', 'other', 'service', 'teaching']);
 
   // Parse all items
   const allItems = Array.from(dataEl.querySelectorAll(':scope > li')).map((li, i) => {
@@ -181,9 +182,13 @@ if ('IntersectionObserver' in window) {
   // ── Greedy lane assignment — single shared pool across all groups ──
   // Everything stacks upward from the axis line
   const LINE_REM    = 2.5;   // must match .tl-axis__line bottom in CSS
+  const MARK_LIFT   = 0.2;   // all marks hover slightly above the axis line
   const SPAN_H_REM  = 1.1;   // must match .tl-span height in CSS
   const LANE_GAP    = 0.2;
-  const LANE_STEP   = SPAN_H_REM + LANE_GAP;  // 0.65rem per lane
+  const LANE_STEP   = SPAN_H_REM + LANE_GAP;  // per-lane vertical step
+  // Year buffer for overlap detection: dots close enough to a span's start/end
+  // should still sit above it (rather than colliding at their shared axis Y).
+  const YEAR_OVERLAP_BUFFER = 0.12;  // ~6 weeks
 
   // Cutoff between solid "already happened" and dashed "planned/upcoming"
   const NOW = 2026 + 4/12;   // May 2026
@@ -211,7 +216,7 @@ if ('IntersectionObserver' in window) {
   // ── Render span bars (split into solid past + dashed future at NOW) ──
   items.filter(isSpan).forEach(it => {
     const lane      = itemLane.get(it.id);
-    const bottomRem = LINE_REM + lane * LANE_STEP;
+    const bottomRem = LINE_REM + MARK_LIFT + lane * LANE_STEP;
 
     const makeSeg = (startY, endY, isFuture, withTooltip) => {
       const bar = document.createElement('button');
@@ -245,20 +250,21 @@ if ('IntersectionObserver' in window) {
   function spanCeilingRem(year) {
     let maxLane = -1;
     items.filter(isSpan).forEach(it => {
-      // `<=` on both ends: a span that ends exactly at `year` still visually
-      // reaches the dot, so we push the dot above it.
-      if (it.year <= year && year <= it.yearEnd) {
+      // Buffer by YEAR_OVERLAP_BUFFER on each side so a dot that's visually
+      // close to a span's edge (e.g. a grant at 2024 next to a service bar
+      // starting 2024.08) still gets pushed above instead of overlapping it.
+      if (it.year - YEAR_OVERLAP_BUFFER <= year && year <= it.yearEnd + YEAR_OVERLAP_BUFFER) {
         const lane = itemLane.get(it.id);
         if (lane > maxLane) maxLane = lane;
       }
     });
-    // Bar top = LINE_REM + lane * LANE_STEP + SPAN_H_REM
-    // Dots now anchor from their BOTTOM edge (transform translateY removed),
-    // so we just need bar top + a small gap for the dot's bottom to sit on.
+    // Dots anchor from their BOTTOM edge (no translateY), so we just need
+    // bar top + a small gap for the dot's bottom to sit on. Use MARK_LIFT
+    // as the floor so the first-lane dots also hover above the axis line.
     const BAR_DOT_GAP = 0.2;
     return maxLane === -1
-      ? LINE_REM
-      : LINE_REM + maxLane * LANE_STEP + SPAN_H_REM + BAR_DOT_GAP;
+      ? LINE_REM + MARK_LIFT
+      : LINE_REM + MARK_LIFT + maxLane * LANE_STEP + SPAN_H_REM + BAR_DOT_GAP;
   }
 
   // ── Render dots — stack upward from above any bars at that year ───────
@@ -369,7 +375,7 @@ if ('IntersectionObserver' in window) {
   function spanCeilingLeftRem(year) {
     let maxLane = -1;
     items.filter(isSpan).forEach(it => {
-      if (it.year <= year && year <= it.yearEnd) {
+      if (it.year - YEAR_OVERLAP_BUFFER <= year && year <= it.yearEnd + YEAR_OVERLAP_BUFFER) {
         const lane = itemLane.get(it.id);
         if (lane > maxLane) maxLane = lane;
       }
