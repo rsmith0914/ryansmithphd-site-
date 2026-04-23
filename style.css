@@ -1067,8 +1067,8 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 .swatch--funding     { background: #5ec4b8; border-color: #5ec4b8; }
 .swatch--award       { background: #e8c060;       border-color: #e8c060; }
 .swatch--education   { background: #7fa8e0;       border-color: #7fa8e0; }
-.swatch--service     { background: #e36882;       border-color: #e36882; }
-.swatch--other       { background: #e89550;       border-color: #e89550; }
+.swatch--service     { background: #7fa8e0;       border-color: #7fa8e0; }
+.swatch--other       { background: #e36882;       border-color: #e36882; }
 /* rejection swatch: tiny × */
 .swatch--rejection {
   background: transparent;
@@ -1218,8 +1218,8 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 .tl-dot--funding     { background: #5ec4b8; border-color: #3d8a74; }
 .tl-dot--award       { background: #e8c060; border-color: #a8862e; }
 .tl-dot--education   { background: #7fa8e0; border-color: #4b76af; }
-.tl-dot--service     { background: #e36882; border-color: #a63d56; }
-.tl-dot--other       { background: #e89550; border-color: #ab6326; }
+.tl-dot--service     { background: #7fa8e0; border-color: #4b76af; }
+.tl-dot--other       { background: #e36882; border-color: #a63d56; }
 /* rejection: X mark via pseudo-elements */
 .tl-dot--rejection {
   background: transparent;
@@ -1267,8 +1267,8 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
   z-index: 50;
 }
 .tl-span--education { background: #7fa8e0; border-color: #4b76af; }
-.tl-span--service   { background: #e36882; border-color: #a63d56; }
-.tl-span--other     { background: #e89550; border-color: #ab6326; }
+.tl-span--service   { background: #7fa8e0; border-color: #4b76af; }
+.tl-span--other     { background: #e36882; border-color: #a63d56; }
 /* Future / dashed segments: no border, no drop-shadow — pure dashed fill */
 .tl-span--future    { border: none; box-shadow: none; }
 
@@ -1279,11 +1279,11 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 }
 .tl-span--future.tl-span--service {
   background: repeating-linear-gradient(to right,
-    #e36882 0, #e36882 5px, transparent 5px, transparent 10px);
+    #7fa8e0 0, #7fa8e0 5px, transparent 5px, transparent 10px);
 }
 .tl-span--future.tl-span--other {
   background: repeating-linear-gradient(to right,
-    #e89550 0, #e89550 5px, transparent 5px, transparent 10px);
+    #e36882 0, #e36882 5px, transparent 5px, transparent 10px);
 }
 .tl-span--future { opacity: .85; }
 
@@ -1300,6 +1300,37 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 }
 
 .tl-span__mobile-label { display: none; }
+
+/* ── Hand-drawn annotations (replaces the old PhD education bar) ───── */
+.tl-annot {
+  position: absolute;
+  top: .25rem;
+  pointer-events: none;
+  z-index: 1;
+  width: 0;
+  height: 7.5rem;
+}
+.tl-annot__text {
+  position: absolute;
+  top: 0;
+  font-family: var(--font-hand);
+  font-size: .95rem;
+  color: var(--fg-muted);
+  opacity: .85;
+  white-space: nowrap;
+  line-height: 1.1;
+}
+.tl-annot--left  .tl-annot__text { left: .4rem;  transform: rotate(-2deg); transform-origin: left center; }
+.tl-annot--right .tl-annot__text { right: .4rem; transform: rotate(-2deg); transform-origin: right center; }
+.tl-annot__line {
+  position: absolute;
+  top: 1.45rem;
+  left: 0;
+  width: 1px;
+  height: 6.1rem;
+  background: var(--fg-muted);
+  opacity: .4;
+}
 
 .tl-dot__tooltip {
   position: absolute;
@@ -1395,9 +1426,9 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 .detail__kind--award { background: rgba(192,136,24,.1); color: #e8c060; border: 1px solid rgba(192,136,24,.3); }
 /* Education, Service, Other */
 .detail__kind--education { background: rgba(80,128,208,.12); color: #7fa8e0; }
-.detail__kind--service   { background: rgba(192,64,96,.1);  color: #e36882; }
-.detail__kind--research  { background: rgba(200,104,32,.1); color: #e89550; }
-.detail__kind--teaching  { background: rgba(200,104,32,.07); color: #e89550; border: 1px solid rgba(200,104,32,.25); }
+.detail__kind--service   { background: rgba(80,128,208,.12); color: #7fa8e0; }
+.detail__kind--research  { background: rgba(192,64,96,.1);  color: #e36882; }
+.detail__kind--teaching  { background: rgba(192,64,96,.07); color: #e36882; border: 1px solid rgba(192,64,96,.25); }
 /* Rejection */
 .detail__kind--rejection { background: rgba(192,112,112,.1); color: #d49890; border: 1px solid rgba(192,112,112,.3); }
 .detail__year {
@@ -1481,6 +1512,7 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
   /* Tooltips are redundant on mobile — tap already fills the detail panel
      and cramped columns make them overflow the screen. */
   .tl-dot__tooltip { display: none !important; }
+  .tl-annot { display: none !important; }
   .tl-axis-vert__line {
     position: absolute;
     top: 1rem; bottom: 1rem;
@@ -1541,11 +1573,11 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
   }
   .tl-span--vert.tl-span--future.tl-span--service {
     background: repeating-linear-gradient(180deg,
-      #e36882 0, #e36882 5px, transparent 5px, transparent 10px);
+      #7fa8e0 0, #7fa8e0 5px, transparent 5px, transparent 10px);
   }
   .tl-span--vert.tl-span--future.tl-span--other {
     background: repeating-linear-gradient(180deg,
-      #e89550 0, #e89550 5px, transparent 5px, transparent 10px);
+      #e36882 0, #e36882 5px, transparent 5px, transparent 10px);
   }
 
   .timeline__footer { grid-template-columns: 1fr; }

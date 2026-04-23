@@ -160,6 +160,18 @@ if ('IntersectionObserver' in window) {
     axis.appendChild(el);
   });
 
+  // Hand-drawn annotations — stand in for the old PhD education bar.
+  // A thin line drops from the text down toward the axis, marking start + end.
+  const makeAnnot = (year, text, side) => {
+    const a = document.createElement('div');
+    a.className = `tl-annot tl-annot--${side}`;
+    a.style.left = yearPos(year);
+    a.innerHTML = `<span class="tl-annot__text">${text}</span><span class="tl-annot__line"></span>`;
+    axis.appendChild(a);
+  };
+  makeAnnot(2022, 'started my PhD', 'left');
+  makeAnnot(2027, 'ending my PhD (hopefully)', 'right');
+
   // ── Greedy lane assignment — single shared pool across all groups ──
   // Everything stacks upward from the axis line
   const LINE_REM    = 2.5;   // must match .tl-axis__line bottom in CSS
