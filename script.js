@@ -100,8 +100,8 @@ if ('IntersectionObserver' in window) {
 
   // Parse all items
   const allItems = Array.from(dataEl.querySelectorAll(':scope > li')).map((li, i) => {
-    const year    = parseInt(li.dataset.year, 10);
-    const yearEnd = li.dataset.yearEnd ? parseInt(li.dataset.yearEnd, 10) : null;
+    const year    = parseFloat(li.dataset.year);
+    const yearEnd = li.dataset.yearEnd ? parseFloat(li.dataset.yearEnd) : null;
     const kind    = li.dataset.kind;
     const group   = kindToGroup[kind] || kind;
     return { id: `tl-${i}`, year, yearEnd, kind, group, title: li.dataset.title, html: li.innerHTML };
@@ -253,12 +253,12 @@ if ('IntersectionObserver' in window) {
       }
     });
     // Bar top = LINE_REM + lane * LANE_STEP + SPAN_H_REM
-    // Dot center must be above bar top + gap (0.2rem) + dot radius (0.6875rem)
-    const DOT_RADIUS = 0.6875;  // half of 1.375rem dot diameter
+    // Dots now anchor from their BOTTOM edge (transform translateY removed),
+    // so we just need bar top + a small gap for the dot's bottom to sit on.
     const BAR_DOT_GAP = 0.2;
     return maxLane === -1
       ? LINE_REM
-      : LINE_REM + maxLane * LANE_STEP + SPAN_H_REM + DOT_RADIUS + BAR_DOT_GAP;
+      : LINE_REM + maxLane * LANE_STEP + SPAN_H_REM + BAR_DOT_GAP;
   }
 
   // ── Render dots — stack upward from above any bars at that year ───────
