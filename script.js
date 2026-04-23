@@ -162,11 +162,17 @@ if ('IntersectionObserver' in window) {
 
   // Hand-drawn annotations — stand in for the old PhD education bar.
   // A thin line drops from the text down toward the axis, marking start + end.
+  // SVG path with two gentle control points — reads as hand-drawn because it
+  // wobbles off a perfectly straight line. viewBox 32×85 matches the CSS
+  // container ratio (2rem × 5.3rem) so the stroke stays uniform.
+  const linePath = 'M 3 82 Q 7 60, 14 38 Q 20 20, 28 4';
   const makeAnnot = (year, text, side) => {
     const a = document.createElement('div');
     a.className = `tl-annot tl-annot--${side}`;
     a.style.left = yearPos(year);
-    a.innerHTML = `<span class="tl-annot__text">${text}</span><span class="tl-annot__line"></span>`;
+    a.innerHTML = `<span class="tl-annot__text">${text}</span>` +
+      `<svg class="tl-annot__line" viewBox="0 0 32 85" preserveAspectRatio="none" aria-hidden="true">` +
+      `<path d="${linePath}"/></svg>`;
     axis.appendChild(a);
   };
   makeAnnot(2022, 'started my PhD', 'left');

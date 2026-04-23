@@ -1323,28 +1323,37 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 /* Line's top endpoint after 14° rotation over 6.1rem height sits at roughly
    (1.48rem across, 1.58rem down) from the anchor corner — text is centered
    on that point so the line enters through the middle of the label. */
-.tl-annot--left  .tl-annot__text { left:  1.48rem; top: 1.58rem; transform: translate(-50%, -50%) rotate(-2deg); }
-.tl-annot--right .tl-annot__text { right: 1.48rem; top: 1.58rem; transform: translate(50%, -50%) rotate(-2deg); }
+/* Text sits above the SVG stroke's top endpoint so the line points up to
+   the label. Line top endpoint (at path "M 3 82 ... 28 4") lands near
+   x=1.75rem, y=2.4rem from the annotation container top. */
+.tl-annot--left  .tl-annot__text { left:  1.75rem; top: 1.3rem; transform: translate(-50%, -50%) rotate(-2deg); }
+.tl-annot--right .tl-annot__text { right: 1.75rem; top: 1.3rem; transform: translate(50%, -50%) rotate(-2deg); }
+
+/* Inline-SVG stroke with two gentle control points — a curved path reads
+   as hand-drawn where a rotated rectangle never will. */
 .tl-annot__line {
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 1.5px;
+  width: 2rem;
   height: 5.3rem;
-  /* Vertical gradient: solid at the axis-point, fades out toward the text
-     for a hand-drawn tapered look. "to top" is pre-rotation; after rotation
-     it becomes axis-end → text-end along the tilted line. */
-  background: linear-gradient(to top,
-    var(--accent) 0%,
-    var(--accent) 65%,
-    rgba(110, 64, 201, .25) 92%,
-    transparent 100%);
-  opacity: .75;
-  border-radius: 1px;
-  transform-origin: bottom center;
+  overflow: visible;
+  pointer-events: none;
 }
-.tl-annot--left  .tl-annot__line { transform: rotate(14deg); }
-.tl-annot--right .tl-annot__line { transform: rotate(-14deg); }
+.tl-annot__line path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: .7;
+}
+/* Right annotation: mirror the same path so the curve heads inward */
+.tl-annot--right .tl-annot__line {
+  left: auto;
+  right: 0;
+  transform: scaleX(-1);
+}
 
 .tl-dot__tooltip {
   position: absolute;
