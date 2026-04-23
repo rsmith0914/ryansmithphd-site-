@@ -1329,10 +1329,18 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 1px;
-  height: 6.1rem;
-  background: var(--accent);
-  opacity: .55;
+  width: 1.5px;
+  height: 5.3rem;
+  /* Vertical gradient: solid at the axis-point, fades out toward the text
+     for a hand-drawn tapered look. "to top" is pre-rotation; after rotation
+     it becomes axis-end → text-end along the tilted line. */
+  background: linear-gradient(to top,
+    var(--accent) 0%,
+    var(--accent) 65%,
+    rgba(110, 64, 201, .25) 92%,
+    transparent 100%);
+  opacity: .75;
+  border-radius: 1px;
   transform-origin: bottom center;
 }
 .tl-annot--left  .tl-annot__line { transform: rotate(14deg); }
