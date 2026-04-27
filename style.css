@@ -1063,17 +1063,17 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
   display: inline-block;
 }
 /* 7 visual groups */
-.swatch--publication { background: #b490dc; border-color: #b490dc; }
-.swatch--funding     { background: #5ec4b8; border-color: #5ec4b8; }
-.swatch--award       { background: #e8c060;       border-color: #e8c060; }
-.swatch--education   { background: #7fa8e0;       border-color: #7fa8e0; }
-.swatch--service     { background: #7fa8e0;       border-color: #7fa8e0; }
-.swatch--teaching    { background: #e89550;       border-color: #e89550; }
-.swatch--other       { background: #e36882;       border-color: #e36882; }
+.swatch--publication { background: #cc99ff; border-color: #cc99ff; }
+.swatch--funding     { background: #99d6d6; border-color: #99d6d6; }
+.swatch--award       { background: #ffeb99;       border-color: #ffeb99; }
+.swatch--education   { background: #99ccff;       border-color: #99ccff; }
+.swatch--service     { background: #99ccff;       border-color: #99ccff; }
+.swatch--teaching    { background: #ffb366;       border-color: #ffb366; }
+.swatch--other       { background: #ff99dd;       border-color: #ff99dd; }
 /* rejection swatch: tiny × */
 .swatch--rejection {
   background: transparent;
-  border-color: #d49890;
+  border-color: #ff9999;
   position: relative;
 }
 .swatch--rejection::before,
@@ -1083,7 +1083,7 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
   top: 50%; left: 50%;
   width: 1.5px;
   height: 65%;
-  background: #d49890;
+  background: #ff9999;
   transform-origin: center;
 }
 .swatch--rejection::before { transform: translate(-50%, -50%) rotate(45deg); }
@@ -1215,17 +1215,17 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
   z-index: 50;
 }
 /* Dot colours — 7 visual groups. Border = darker shade of fill for visual weight. */
-.tl-dot--publication { background: #b490dc; border-color: #7a5cab; }
-.tl-dot--funding     { background: #5ec4b8; border-color: #3d8a74; }
-.tl-dot--award       { background: #e8c060; border-color: #a8862e; }
-.tl-dot--education   { background: #7fa8e0; border-color: #4b76af; }
-.tl-dot--service     { background: #7fa8e0; border-color: #4b76af; }
-.tl-dot--teaching    { background: #e89550; border-color: #ab6326; }
-.tl-dot--other       { background: #e36882; border-color: #a63d56; }
+.tl-dot--publication { background: #cc99ff; border-color: #9966cc; }
+.tl-dot--funding     { background: #99d6d6; border-color: #5ea3a3; }
+.tl-dot--award       { background: #ffeb99; border-color: #c9a13d; }
+.tl-dot--education   { background: #99ccff; border-color: #6699cc; }
+.tl-dot--service     { background: #99ccff; border-color: #6699cc; }
+.tl-dot--teaching    { background: #ffb366; border-color: #cc7a33; }
+.tl-dot--other       { background: #ff99dd; border-color: #cc66aa; }
 /* rejection: X mark via pseudo-elements */
 .tl-dot--rejection {
   background: transparent;
-  border-color: #d49890;
+  border-color: #ff9999;
 }
 .tl-dot--rejection::before,
 .tl-dot--rejection::after {
@@ -1234,7 +1234,7 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
   top: 50%; left: 50%;
   width: 2px;
   height: 70%;
-  background: #d49890;
+  background: #ff9999;
   border-radius: 1px;
   transform-origin: center;
 }
@@ -1268,29 +1268,29 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
   box-shadow: 0 1px 2px rgba(0,0,0,.1), 0 0 0 4px rgba(0,0,0,.12);
   z-index: 50;
 }
-.tl-span--education { background: #7fa8e0; border-color: #4b76af; }
-.tl-span--service   { background: #7fa8e0; border-color: #4b76af; }
-.tl-span--teaching  { background: #e89550; border-color: #ab6326; }
-.tl-span--other     { background: #e36882; border-color: #a63d56; }
+.tl-span--education { background: #99ccff; border-color: #6699cc; }
+.tl-span--service   { background: #99ccff; border-color: #6699cc; }
+.tl-span--teaching  { background: #ffb366; border-color: #cc7a33; }
+.tl-span--other     { background: #ff99dd; border-color: #cc66aa; }
 /* Future / dashed segments: no border, no drop-shadow — pure dashed fill */
 .tl-span--future    { border: none; box-shadow: none; }
 
 /* Future / planned portion of a span bar — same lane, same color, dashed */
 .tl-span--future.tl-span--education {
   background: repeating-linear-gradient(to right,
-    #7fa8e0 0, #7fa8e0 5px, transparent 5px, transparent 10px);
+    #99ccff 0, #99ccff 5px, transparent 5px, transparent 10px);
 }
 .tl-span--future.tl-span--service {
   background: repeating-linear-gradient(to right,
-    #7fa8e0 0, #7fa8e0 5px, transparent 5px, transparent 10px);
+    #99ccff 0, #99ccff 5px, transparent 5px, transparent 10px);
 }
 .tl-span--future.tl-span--teaching {
   background: repeating-linear-gradient(to right,
-    #e89550 0, #e89550 5px, transparent 5px, transparent 10px);
+    #ffb366 0, #ffb366 5px, transparent 5px, transparent 10px);
 }
 .tl-span--future.tl-span--other {
   background: repeating-linear-gradient(to right,
-    #e36882 0, #e36882 5px, transparent 5px, transparent 10px);
+    #ff99dd 0, #ff99dd 5px, transparent 5px, transparent 10px);
 }
 .tl-span--future { opacity: .85; }
 
@@ -1449,18 +1449,18 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
   margin-bottom: .75rem;
 }
 /* Publications group (paper = filled, talk = outlined) */
-.detail__kind--paper { background: rgba(155,120,212,.16); color: #6e49c2; }
-.detail__kind--talk  { background: rgba(155,120,212,.08); color: #6e49c2; border: 1px solid rgba(155,120,212,.3); }
+.detail__kind--paper { background: rgba(204,153,255,.22); color: #9966cc; }
+.detail__kind--talk  { background: rgba(204,153,255,.12); color: #9966cc; border: 1px solid rgba(204,153,255,.4); }
 /* Funding group */
-.detail__kind--grant { background: rgba(109,190,163,.2); color: #3d8a74; }
-.detail__kind--award { background: rgba(192,136,24,.1); color: #e8c060; border: 1px solid rgba(192,136,24,.3); }
+.detail__kind--grant { background: rgba(153,214,214,.28); color: #5ea3a3; }
+.detail__kind--award { background: rgba(255,235,153,.3);  color: #c9a13d; border: 1px solid rgba(201,161,61,.35); }
 /* Education, Service, Other */
-.detail__kind--education { background: rgba(80,128,208,.12); color: #7fa8e0; }
-.detail__kind--service   { background: rgba(80,128,208,.12); color: #7fa8e0; }
-.detail__kind--research  { background: rgba(192,64,96,.1);  color: #e36882; }
-.detail__kind--teaching  { background: rgba(200,104,32,.1); color: #e89550; }
+.detail__kind--education { background: rgba(153,204,255,.22); color: #6699cc; }
+.detail__kind--service   { background: rgba(153,204,255,.22); color: #6699cc; }
+.detail__kind--research  { background: rgba(255,153,221,.22); color: #cc66aa; }
+.detail__kind--teaching  { background: rgba(255,179,102,.22); color: #cc7a33; }
 /* Rejection */
-.detail__kind--rejection { background: rgba(192,112,112,.1); color: #d49890; border: 1px solid rgba(192,112,112,.3); }
+.detail__kind--rejection { background: rgba(255,153,153,.22); color: #cc6666; border: 1px solid rgba(255,153,153,.4); }
 .detail__year {
   font-family: var(--font-mono);
   font-size: .78rem;
@@ -1639,19 +1639,19 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
   /* Future segments: vertical dashed pattern (top→bottom instead of left→right) */
   .tl-span--vert.tl-span--future.tl-span--education {
     background: repeating-linear-gradient(180deg,
-      #7fa8e0 0, #7fa8e0 5px, transparent 5px, transparent 10px);
+      #99ccff 0, #99ccff 5px, transparent 5px, transparent 10px);
   }
   .tl-span--vert.tl-span--future.tl-span--service {
     background: repeating-linear-gradient(180deg,
-      #7fa8e0 0, #7fa8e0 5px, transparent 5px, transparent 10px);
+      #99ccff 0, #99ccff 5px, transparent 5px, transparent 10px);
   }
   .tl-span--vert.tl-span--future.tl-span--teaching {
     background: repeating-linear-gradient(180deg,
-      #e89550 0, #e89550 5px, transparent 5px, transparent 10px);
+      #ffb366 0, #ffb366 5px, transparent 5px, transparent 10px);
   }
   .tl-span--vert.tl-span--future.tl-span--other {
     background: repeating-linear-gradient(180deg,
-      #e36882 0, #e36882 5px, transparent 5px, transparent 10px);
+      #ff99dd 0, #ff99dd 5px, transparent 5px, transparent 10px);
   }
 
   .timeline__footer { grid-template-columns: 1fr; }
