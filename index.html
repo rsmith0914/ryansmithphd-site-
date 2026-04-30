@@ -235,8 +235,22 @@
     <!-- Data source: edit this list to add new entries. JS reads it on load. -->
     <ol class="timeline__data" id="timeline-data" hidden>
 
-      <!-- Education entries intentionally removed from timeline — represented
-           by the "started my PhD" / "Ending my PhD (hopefully)" annotations. -->
+      <!-- PhD timeline bar replaced by hand-drawn "started my PhD" /
+           "ending my PhD (hopefully)" annotations. BA + MA remain so they
+           render in the "previously" panel (pre-2019 entries). -->
+
+      <!-- ── Education (pre-2019, rendered in "previously" panel) ──── -->
+      <li data-year="2010" data-year-end="2014" data-kind="education" data-title="BA — Marist College">
+        <p><strong>Marist College</strong> — Poughkeepsie, NY</p>
+        <p>BA, Psychology · Dual minor in Communication &amp; Business<br>
+        <em>Sep 2010 – May 2014</em></p>
+      </li>
+
+      <li data-year="2014" data-year-end="2016" data-kind="education" data-title="MA — New York University">
+        <p><strong>New York University</strong> — New York, NY</p>
+        <p>MA, Psychology · Focus: Cognitive &amp; Social Psychology<br>
+        <em>2014 – 2016</em></p>
+      </li>
 
       <!-- ── Research positions (bars) ──────────────────────────────── -->
       <li data-year="2019.67" data-year-end="2022.33" data-kind="research" data-title="Research Assistant — DePaul University Social Cognition Lab">
