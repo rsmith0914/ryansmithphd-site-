@@ -40,6 +40,14 @@ if ('IntersectionObserver' in window) {
 
 // (handwritten aside animation removed — captions render statically)
 
+// Publication-type badge labels (data-pubtype on <li> in #timeline-data)
+const pubtypeLabels = {
+  full:     'Full Paper',
+  short:    'Short Paper',
+  workshop: 'Workshop Paper',
+  poster:   'Poster',
+};
+
 // ---------- PUBLICATIONS LIST ----------
 (function buildPubList() {
   const dataEl   = document.getElementById('timeline-data');
@@ -49,10 +57,11 @@ if ('IntersectionObserver' in window) {
 
   const papers = Array.from(dataEl.querySelectorAll('li[data-kind="paper"], li[data-kind="talk"][data-role]'))
     .map(li => ({
-      year:  parseInt(li.dataset.year, 10),
-      role:  li.dataset.role || 'primary',
-      title: li.dataset.title,
-      html:  li.innerHTML,
+      year:    parseInt(li.dataset.year, 10),
+      role:    li.dataset.role || 'primary',
+      pubtype: li.dataset.pubtype || null,
+      title:   li.dataset.title,
+      html:    li.innerHTML,
     }))
     .sort((a, b) => b.year - a.year);
 
@@ -65,7 +74,10 @@ if ('IntersectionObserver' in window) {
     items.forEach(p => {
       const li = document.createElement('li');
       li.className = 'publist__item';
-      li.innerHTML = `<span class="publist__year">${p.year}</span>${p.html}`;
+      const badge = p.pubtype
+        ? `<span class="pub-badge pub-badge--${p.pubtype}">${pubtypeLabels[p.pubtype]}</span>`
+        : '';
+      li.innerHTML = `<span class="publist__year">${p.year}</span>${badge}${p.html}`;
       li.querySelectorAll('.detail__links, .pub__links').forEach(el => {
         el.classList.add('publist__links');
         el.classList.remove('detail__links', 'pub__links');
@@ -105,7 +117,8 @@ if ('IntersectionObserver' in window) {
     const yearEnd = li.dataset.yearEnd ? parseFloat(li.dataset.yearEnd) : null;
     const kind    = li.dataset.kind;
     const group   = kindToGroup[kind] || kind;
-    return { id: `tl-${i}`, year, yearEnd, kind, group, title: li.dataset.title, html: li.innerHTML };
+    const pubtype = li.dataset.pubtype || null;
+    return { id: `tl-${i}`, year, yearEnd, kind, group, pubtype, title: li.dataset.title, html: li.innerHTML };
   }).sort((a, b) => a.year - b.year || (a.yearEnd || a.year) - (b.yearEnd || b.year));
 
   if (!allItems.length) return;
@@ -448,8 +461,10 @@ if ('IntersectionObserver' in window) {
     const yearStr = it.yearEnd && it.yearEnd !== it.year
       ? `${it.year}–${it.yearEnd}` : `${it.year}`;
 
+    const badgeMod   = it.pubtype || it.kind;
+    const badgeLabel = (it.pubtype && pubtypeLabels[it.pubtype]) || kindLabels[it.kind] || it.kind;
     detail.innerHTML = `
-      <span class="detail__kind detail__kind--${it.kind}">${kindLabels[it.kind] || it.kind}</span>
+      <span class="detail__kind detail__kind--${badgeMod}">${badgeLabel}</span>
       <span class="detail__year">${yearStr}</span>
       <div class="detail__body">${it.html}</div>`;
 

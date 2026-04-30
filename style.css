@@ -1461,6 +1461,11 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 .detail__kind--teaching  { background: rgba(255,179,102,.22); color: #cc7a33; }
 /* Rejection */
 .detail__kind--rejection { background: rgba(255,153,153,.22); color: #cc6666; border: 1px solid rgba(255,153,153,.4); }
+/* Publication-type badges (override paper/talk when data-pubtype is set) */
+.detail__kind--full     { background: rgba(204,153,255,.28); color: #7a4fb8; }
+.detail__kind--short    { background: rgba(204,153,255,.18); color: #8a5fc8; border: 1px solid rgba(204,153,255,.4); }
+.detail__kind--workshop { background: rgba(204,153,255,.22); color: #9966cc; }
+.detail__kind--poster   { background: rgba(204,153,255,.12); color: #9966cc; border: 1px solid rgba(204,153,255,.4); }
 .detail__year {
   font-family: var(--font-mono);
   font-size: .78rem;
@@ -1756,9 +1761,27 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
   font-size: .72rem;
   color: var(--fg-muted);
   letter-spacing: .06em;
-  display: block;
+  display: inline-block;
+  margin-right: .5rem;
   margin-bottom: .4rem;
 }
+
+/* Publication-type badge in the publication list */
+.pub-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: .15rem .5rem;
+  border-radius: 999px;
+  margin-bottom: .4rem;
+  vertical-align: baseline;
+}
+.pub-badge--full     { background: rgba(204,153,255,.28); color: #7a4fb8; }
+.pub-badge--short    { background: rgba(204,153,255,.18); color: #8a5fc8; border: 1px solid rgba(204,153,255,.4); }
+.pub-badge--workshop { background: rgba(204,153,255,.22); color: #9966cc; }
+.pub-badge--poster   { background: rgba(204,153,255,.12); color: #9966cc; border: 1px solid rgba(204,153,255,.4); }
 
 .publist__links {
   margin-top: .6rem;
