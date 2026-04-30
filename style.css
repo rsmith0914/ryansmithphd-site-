@@ -1063,13 +1063,13 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
   display: inline-block;
 }
 /* 7 visual groups */
-.swatch--publication { background: #b896eb; border-color: #b896eb; }
-.swatch--funding     { background: #7fc4af; border-color: #7fc4af; }
-.swatch--award       { background: #f0cc6e; border-color: #f0cc6e; }
-.swatch--education   { background: #a89bd2; border-color: #a89bd2; }
-.swatch--service     { background: #9bb4d2; border-color: #9bb4d2; }
-.swatch--teaching    { background: #f0a878; border-color: #f0a878; }
-.swatch--other       { background: #e8a0b6; border-color: #e8a0b6; }
+.swatch--publication { background: #9b6ee8; border-color: #9b6ee8; }
+.swatch--funding     { background: #4ec5a3; border-color: #4ec5a3; }
+.swatch--award       { background: #f5c84a; border-color: #f5c84a; }
+.swatch--education   { background: #8c7ad8; border-color: #8c7ad8; }
+.swatch--service     { background: #6ea8de; border-color: #6ea8de; }
+.swatch--teaching    { background: #f58e54; border-color: #f58e54; }
+.swatch--other       { background: #ec8aab; border-color: #ec8aab; }
 /* rejection swatch: tiny × */
 .swatch--rejection {
   background: transparent;
@@ -1215,13 +1215,13 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
   z-index: 50;
 }
 /* Dot colours — 7 visual groups. Border = darker shade of fill for visual weight. */
-.tl-dot--publication { background: #b896eb; border-color: #7e52d8; }
-.tl-dot--funding     { background: #7fc4af; border-color: #16856e; }
-.tl-dot--award       { background: #f0cc6e; border-color: #b8902e; }
-.tl-dot--education   { background: #a89bd2; border-color: #6e5fa0; }
-.tl-dot--service     { background: #9bb4d2; border-color: #5a78a0; }
-.tl-dot--teaching    { background: #f0a878; border-color: #c46838; }
-.tl-dot--other       { background: #e8a0b6; border-color: #b86078; }
+.tl-dot--publication { background: #9b6ee8; border-color: #6e40c9; }
+.tl-dot--funding     { background: #4ec5a3; border-color: #16856e; }
+.tl-dot--award       { background: #f5c84a; border-color: #b8902e; }
+.tl-dot--education   { background: #8c7ad8; border-color: #5e4ea8; }
+.tl-dot--service     { background: #6ea8de; border-color: #4a7eb6; }
+.tl-dot--teaching    { background: #f58e54; border-color: #c45a24; }
+.tl-dot--other       { background: #ec8aab; border-color: #b85076; }
 /* rejection: X mark via pseudo-elements */
 .tl-dot--rejection {
   background: transparent;
@@ -1268,29 +1268,29 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
   box-shadow: 0 1px 2px rgba(0,0,0,.1), 0 0 0 4px rgba(0,0,0,.12);
   z-index: 50;
 }
-.tl-span--education { background: #a89bd2; border-color: #6e5fa0; }
-.tl-span--service   { background: #9bb4d2; border-color: #5a78a0; }
-.tl-span--teaching  { background: #f0a878; border-color: #c46838; }
-.tl-span--other     { background: #e8a0b6; border-color: #b86078; }
+.tl-span--education { background: #8c7ad8; border-color: #5e4ea8; }
+.tl-span--service   { background: #6ea8de; border-color: #4a7eb6; }
+.tl-span--teaching  { background: #f58e54; border-color: #c45a24; }
+.tl-span--other     { background: #ec8aab; border-color: #b85076; }
 /* Future / dashed segments: no border, no drop-shadow — pure dashed fill */
 .tl-span--future    { border: none; box-shadow: none; }
 
 /* Future / planned portion of a span bar — same lane, same color, dashed */
 .tl-span--future.tl-span--education {
   background: repeating-linear-gradient(to right,
-    #a89bd2 0, #a89bd2 5px, transparent 5px, transparent 10px);
+    #8c7ad8 0, #8c7ad8 5px, transparent 5px, transparent 10px);
 }
 .tl-span--future.tl-span--service {
   background: repeating-linear-gradient(to right,
-    #9bb4d2 0, #9bb4d2 5px, transparent 5px, transparent 10px);
+    #6ea8de 0, #6ea8de 5px, transparent 5px, transparent 10px);
 }
 .tl-span--future.tl-span--teaching {
   background: repeating-linear-gradient(to right,
-    #f0a878 0, #f0a878 5px, transparent 5px, transparent 10px);
+    #f58e54 0, #f58e54 5px, transparent 5px, transparent 10px);
 }
 .tl-span--future.tl-span--other {
   background: repeating-linear-gradient(to right,
-    #e8a0b6 0, #e8a0b6 5px, transparent 5px, transparent 10px);
+    #ec8aab 0, #ec8aab 5px, transparent 5px, transparent 10px);
 }
 .tl-span--future { opacity: .85; }
 
