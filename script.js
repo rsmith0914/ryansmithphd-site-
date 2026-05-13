@@ -104,7 +104,9 @@ const pubtypeLabels = {
       const pdfHref = findPdfHref(linksHTML);
       if (pdfHref) {
         const stem = pdfHref.replace(/\.pdf$/i, '');
-        const pngHref = `images/${stem}.png`;
+        // Bump POSTER_ASSET_VERSION whenever any poster PNG changes — busts browser/CDN cache
+        const POSTER_ASSET_VERSION = '2026-05-13b';
+        const pngHref = `images/${stem}.png?v=${POSTER_ASSET_VERSION}`;
         parts.push(`<figure class="pub-card__poster"><a href="${pdfHref}" target="_blank" rel="noopener"><img src="${pngHref}" alt="${(p.title || '').replace(/"/g, '&quot;')} — poster preview" loading="lazy"/></a></figure>`);
       }
     }
