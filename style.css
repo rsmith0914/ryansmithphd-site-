@@ -1360,7 +1360,7 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 .tl-span .tl-dot__tooltip {
   left: 0;
   transform: translateX(0) translateY(4px);
-  background: #fff;
+  background: #fff !important;
 }
 .tl-span:hover .tl-dot__tooltip,
 .tl-span:focus-visible .tl-dot__tooltip,

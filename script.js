@@ -544,8 +544,28 @@ const pubtypeLabels = {
     });
 
     detail.classList.remove('timeline__detail--empty');
-    const yearStr = it.yearEnd && it.yearEnd !== it.year
-      ? `${it.year}–${it.yearEnd}` : `${it.year}`;
+    // Encode "yyyy.mm/12" → "Mon YYYY"; integer years → "YYYY".
+    const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    function fmtDate(y) {
+      if (y == null) return '';
+      const yr = Math.floor(y);
+      const frac = y - yr;
+      if (frac < 0.001) return String(yr);
+      const m = Math.round(frac * 12);          // 0–11
+      return `${MONTH_NAMES[Math.min(11, Math.max(0, m))]} ${yr}`;
+    }
+    function fmtRange(start, end) {
+      if (end == null || end === start) return fmtDate(start);
+      const sy = Math.floor(start), ey = Math.floor(end);
+      const sFrac = start - sy, eFrac = end - ey;
+      // Same year, both have months → "Sep – Dec 2023"
+      if (sy === ey && sFrac >= 0.001 && eFrac >= 0.001) {
+        const sm = Math.round(sFrac * 12), em = Math.round(eFrac * 12);
+        return `${MONTH_NAMES[sm]} – ${MONTH_NAMES[em]} ${sy}`;
+      }
+      return `${fmtDate(start)} – ${fmtDate(end)}`;
+    }
+    const yearStr = fmtRange(it.year, it.yearEnd);
 
     const badgeMod   = it.pubtype || it.kind;
     const badgeLabel = (it.pubtype && pubtypeLabels[it.pubtype]) || kindLabels[it.kind] || it.kind;
