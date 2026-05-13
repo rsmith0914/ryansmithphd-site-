@@ -100,9 +100,12 @@ const pubtypeLabels = {
       parts.push(`<figure class="pub-card__teaser"><img src="images/smith2025-inputviz-teaser.png" alt="Teaser figure — examples of scaffolding elements and anchor points in visualization-as-input systems" loading="lazy"/></figure>`);
       parts.push(`<p class="pub-card__abstract"><strong>Abstract.</strong> ${POSITION_PAPER_ABSTRACT}</p>`);
     } else if (p.pubtype === 'poster') {
+      // Match poster PDF filename to its PNG preview (same stem, images/ folder)
       const pdfHref = findPdfHref(linksHTML);
       if (pdfHref) {
-        parts.push(`<div class="pub-card__pdf"><embed src="${pdfHref}" type="application/pdf"/></div>`);
+        const stem = pdfHref.replace(/\.pdf$/i, '');
+        const pngHref = `images/${stem}.png`;
+        parts.push(`<figure class="pub-card__poster"><a href="${pdfHref}" target="_blank" rel="noopener"><img src="${pngHref}" alt="${(p.title || '').replace(/"/g, '&quot;')} — poster preview" loading="lazy"/></a></figure>`);
       }
     }
     if (linksHTML) parts.push(linksHTML);
