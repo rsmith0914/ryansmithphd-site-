@@ -68,26 +68,107 @@ const pubtypeLabels = {
   const primary   = papers.filter(p => p.role === 'primary');
   const secondary = papers.filter(p => p.role !== 'primary');
 
+  // Position paper abstract (shown in workshop-paper card body)
+  const POSITION_PAPER_ABSTRACT = `Visualizations are typically seen as tools for interpreting and analyzing data, yet in visualization-as-input systems, where users enter information directly into a visual interface, the structure of the visualization may actively shape the data input by the user. This paper argues that visual aspects such as Scaffolding Elements (e.g., axes, ranges, and labels) and Anchor Points (e.g., visualized data) influence what users perceive as appropriate, complete, and accurate input. I outline a high level research agenda for the community to empirically study how these structural aspects guide user input. By reframing visualization-as-input as a dynamic way to elicit data, I highlight the need for design strategies that mitigate bias and promote more authentic and representative user data.`;
+
+  // Split each pub's html into citation + links (links go in the card body)
+  function splitCitation(html) {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    const linksEl = tmp.querySelector('.detail__links, .pub__links');
+    let linksHTML = '';
+    if (linksEl) {
+      linksEl.classList.add('publist__links');
+      linksEl.classList.remove('detail__links', 'pub__links');
+      linksHTML = linksEl.outerHTML;
+      linksEl.remove();
+    }
+    return { citationHTML: tmp.innerHTML.trim(), linksHTML };
+  }
+
+  function findPdfHref(linksHTML) {
+    if (!linksHTML) return null;
+    const tmp = document.createElement('div');
+    tmp.innerHTML = linksHTML;
+    const a = Array.from(tmp.querySelectorAll('a')).find(el => /\.pdf$/i.test(el.getAttribute('href') || ''));
+    return a ? a.getAttribute('href') : null;
+  }
+
+  function buildBody(p, linksHTML) {
+    const parts = [];
+    if (p.pubtype === 'workshop') {
+      parts.push(`<figure class="pub-card__teaser"><img src="images/smith2025-inputviz-teaser.png" alt="Teaser figure — examples of scaffolding elements and anchor points in visualization-as-input systems" loading="lazy"/></figure>`);
+      parts.push(`<p class="pub-card__abstract"><strong>Abstract.</strong> ${POSITION_PAPER_ABSTRACT}</p>`);
+    } else if (p.pubtype === 'poster') {
+      const pdfHref = findPdfHref(linksHTML);
+      if (pdfHref) {
+        parts.push(`<div class="pub-card__pdf"><embed src="${pdfHref}" type="application/pdf"/></div>`);
+      }
+    }
+    if (linksHTML) parts.push(linksHTML);
+    return parts.join('');
+  }
+
   function render(list, items) {
     if (!items.length) return;
     list.innerHTML = '';
     items.forEach(p => {
-      const li = document.createElement('li');
-      li.className = 'publist__item';
+      const { citationHTML, linksHTML } = splitCitation(p.html);
       const badge = p.pubtype
         ? `<span class="pub-badge pub-badge--${p.pubtype}">${pubtypeLabels[p.pubtype]}</span>`
         : '';
-      li.innerHTML = `<span class="publist__year">${p.year}</span>${badge}${p.html}`;
-      li.querySelectorAll('.detail__links, .pub__links').forEach(el => {
-        el.classList.add('publist__links');
-        el.classList.remove('detail__links', 'pub__links');
-      });
+      const li = document.createElement('li');
+      li.className = 'pub-card';
+      li.innerHTML = `
+        <button type="button" class="pub-card__head" aria-expanded="false">
+          <span class="pub-card__meta">
+            <span class="publist__year">${p.year}</span>
+            ${badge}
+          </span>
+          <span class="pub-card__citation">${citationHTML}</span>
+          <span class="pub-card__chevron" aria-hidden="true">›</span>
+        </button>
+        <div class="pub-card__body" hidden></div>
+      `;
+      const body = li.querySelector('.pub-card__body');
+      // Stash for lazy build on first open
+      body.dataset.deferred = '1';
+      body._buildArgs = { p, linksHTML };
       list.appendChild(li);
     });
   }
 
   render(listPri, primary);
   render(listSec, secondary);
+
+  // Single-open accordion across the entire publication list
+  const cards = document.querySelectorAll('.pub-card');
+  const heads = document.querySelectorAll('.pub-card__head');
+  heads.forEach(head => {
+    head.addEventListener('click', () => {
+      const card = head.parentElement;
+      const body = card.querySelector('.pub-card__body');
+      const isOpen = head.getAttribute('aria-expanded') === 'true';
+      // Close all
+      cards.forEach(c => {
+        const h = c.querySelector('.pub-card__head');
+        const b = c.querySelector('.pub-card__body');
+        if (h && b) {
+          h.setAttribute('aria-expanded', 'false');
+          b.hidden = true;
+        }
+      });
+      if (!isOpen) {
+        // Lazy-build body content on first open
+        if (body.dataset.deferred === '1') {
+          body.innerHTML = buildBody(body._buildArgs.p, body._buildArgs.linksHTML);
+          body.dataset.deferred = '0';
+        }
+        head.setAttribute('aria-expanded', 'true');
+        body.hidden = false;
+      }
+    });
+  });
 })();
 
 // ---------- TIMELINE ----------
