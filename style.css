@@ -1872,3 +1872,84 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
   margin-left: .25em;
   opacity: .85;
 }
+
+/* ---------- Research interest cards ---------- */
+.research__journey {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.2vw, 1.55rem);
+  line-height: 1.4;
+  margin: 0 0 1.25rem;
+  max-width: 38ch;
+}
+.research__journey strong { color: var(--accent); font-weight: 600; }
+
+.research__cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+}
+.research__cards > li { margin: 0; }
+
+.research-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+  background: #fdfcf9;
+  border: 1px solid var(--border);
+  border-radius: .75rem;
+  padding: .9rem 1.1rem;
+  color: var(--fg);
+  transition: border-color .2s var(--ease), background .2s var(--ease), box-shadow .2s var(--ease);
+}
+.research-card:hover,
+.research-card:focus-visible {
+  border-color: var(--border-hi);
+  background: #fff;
+  box-shadow: 0 8px 24px -16px rgba(0,0,0,.18);
+  outline: none;
+}
+.research-card__num {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--mark);
+  min-width: 1.5ch;
+}
+.research-card__label { font-size: 1rem; line-height: 1.4; }
+.research-card__label strong { color: var(--fg); font-weight: 600; }
+.research-card__chevron {
+  font-family: var(--font-display);
+  color: var(--fg-muted);
+  font-size: 1.5rem;
+  line-height: 1;
+  transition: transform .25s var(--ease);
+}
+.research-card[aria-expanded="true"] .research-card__chevron {
+  transform: rotate(90deg);
+}
+.research-card[aria-expanded="true"] {
+  border-color: var(--accent);
+  background: #fff;
+}
+.research-card__body {
+  padding: .6rem 1.1rem 1rem calc(1.1rem + 2rem + 1rem);
+  color: var(--fg-dim);
+}
+.research-card__body p { margin: 0; max-width: 56ch; line-height: 1.55; }
+.research-card__body[hidden] { display: none; }
+
+@media (max-width: 560px) {
+  .research-card { padding: .8rem .9rem; gap: .75rem; }
+  .research-card__num { font-size: 1.6rem; }
+  .research-card__body { padding-left: calc(.9rem + 1.6ch + .75rem); }
+}

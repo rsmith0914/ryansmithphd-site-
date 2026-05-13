@@ -490,3 +490,24 @@ const pubtypeLabels = {
     }
   });
 })();
+
+// ---------- RESEARCH CARDS (accordion, single-open) ----------
+(function researchCards() {
+  const cards = document.querySelectorAll('.research-card');
+  if (!cards.length) return;
+  cards.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const open = btn.getAttribute('aria-expanded') === 'true';
+      cards.forEach(b => {
+        b.setAttribute('aria-expanded', 'false');
+        const body = b.parentElement.querySelector('.research-card__body');
+        if (body) body.hidden = true;
+      });
+      if (!open) {
+        btn.setAttribute('aria-expanded', 'true');
+        const body = btn.parentElement.querySelector('.research-card__body');
+        if (body) body.hidden = false;
+      }
+    });
+  });
+})();
