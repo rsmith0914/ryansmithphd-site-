@@ -2102,6 +2102,5 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
   line-height: 1.55;
   font-size: .9rem;
   color: var(--fg-dim);
-  max-width: 60ch;
 }
 .detail__abstract strong { font-weight: 600; color: var(--fg); }
