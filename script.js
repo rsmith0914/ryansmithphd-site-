@@ -549,10 +549,30 @@ const pubtypeLabels = {
 
     const badgeMod   = it.pubtype || it.kind;
     const badgeLabel = (it.pubtype && pubtypeLabels[it.pubtype]) || kindLabels[it.kind] || it.kind;
+
+    // Build mini preview for publication-type items
+    const POSTER_ASSET_VERSION_LOCAL = '2026-05-13b';
+    const POSITION_PAPER_ABSTRACT_LOCAL = `Visualizations are typically seen as tools for interpreting and analyzing data, yet in visualization-as-input systems, where users enter information directly into a visual interface, the structure of the visualization may actively shape the data input by the user. This paper argues that visual aspects such as Scaffolding Elements (e.g., axes, ranges, and labels) and Anchor Points (e.g., visualized data) influence what users perceive as appropriate, complete, and accurate input. I outline a high level research agenda for the community to empirically study how these structural aspects guide user input. By reframing visualization-as-input as a dynamic way to elicit data, I highlight the need for design strategies that mitigate bias and promote more authentic and representative user data.`;
+    let extras = '';
+    if (it.pubtype === 'poster') {
+      const tmp = document.createElement('div');
+      tmp.innerHTML = it.html;
+      const a = Array.from(tmp.querySelectorAll('a')).find(el => /\.pdf$/i.test(el.getAttribute('href') || ''));
+      if (a) {
+        const pdfHref = a.getAttribute('href');
+        const stem    = pdfHref.replace(/\.pdf$/i, '');
+        const pngHref = `images/${stem}.png?v=${POSTER_ASSET_VERSION_LOCAL}`;
+        extras = `<figure class="detail__preview detail__preview--poster"><a href="${pdfHref}" target="_blank" rel="noopener"><img src="${pngHref}" alt="${(it.title || '').replace(/"/g, '&quot;')} — poster preview" loading="lazy"/></a></figure>`;
+      }
+    } else if (it.pubtype === 'workshop') {
+      extras = `<figure class="detail__preview detail__preview--teaser"><img src="images/smith2025-inputviz-teaser.png" alt="Teaser figure" loading="lazy"/></figure>` +
+               `<p class="detail__abstract"><strong>Abstract.</strong> ${POSITION_PAPER_ABSTRACT_LOCAL}</p>`;
+    }
+
     detail.innerHTML = `
       <span class="detail__kind detail__kind--${badgeMod}">${badgeLabel}</span>
       <span class="detail__year">${yearStr}</span>
-      <div class="detail__body">${it.html}</div>`;
+      <div class="detail__body">${it.html}${extras}</div>`;
 
     detail.querySelectorAll('.pub__links, .detail__links').forEach(el => {
       el.classList.add('detail__links');

@@ -2083,3 +2083,25 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
   .pub-card__citation { grid-area: citation; }
   .pub-card__body { padding: 0 .9rem .9rem; }
 }
+
+/* ---------- Timeline detail-panel previews (mini versions) ---------- */
+.detail__preview {
+  margin: 1rem 0;
+  border: 1px solid var(--border);
+  border-radius: .5rem;
+  overflow: hidden;
+  background: #fff;
+  max-width: 22rem;
+}
+.detail__preview--teaser { max-width: 20rem; }
+.detail__preview a { display: block; border-bottom: 0; }
+.detail__preview img { display: block; width: 100%; height: auto; }
+
+.detail__abstract {
+  margin: .75rem 0 0;
+  line-height: 1.55;
+  font-size: .9rem;
+  color: var(--fg-dim);
+  max-width: 60ch;
+}
+.detail__abstract strong { font-weight: 600; color: var(--fg); }
