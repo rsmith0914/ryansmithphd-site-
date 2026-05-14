@@ -275,11 +275,35 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
   white-space: nowrap;
 }
 .paper-promo__link:hover .paper-promo__cta { color: var(--accent-hi); }
+
+/* Multi-paper variant: header row + stacked link rows */
+.paper-promo--multi {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+.paper-promo--multi .paper-promo__header {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  padding: 0 1.1rem;
+}
+.paper-promo__status {
+  font-family: var(--font-hand);
+  font-size: 1rem;
+  color: var(--fg-dim);
+}
+.paper-promo--multi .paper-promo__link {
+  /* override the gutter padding so links sit inside the section gutters */
+  margin: 0;
+}
+
 @media (max-width: 600px) {
   .paper-promo { margin-top: 4.25rem; }
   .paper-promo__link { padding: .75rem .9rem; }
   .paper-promo__title { font-size: .92rem; }
   .paper-promo__sub { font-size: .98rem; min-width: 0; }
+  .paper-promo--multi .paper-promo__header { padding: 0 .9rem; }
 }
 
 /* ---------- HERO ---------- */
