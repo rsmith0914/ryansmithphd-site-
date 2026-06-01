@@ -1596,24 +1596,17 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 .tl-axis-vert { display: none; }
 
 @media (max-width: 720px) {
-  /* Keep the desktop horizontal axis on mobile. The axis is wider than the
-     viewport, so the .timeline container scrolls horizontally to pan it. */
+  /* Horizontal axis fits the viewport — no horizontal scrolling.
+     Year labels, dots, and span bars are scaled down to fit. */
   .timeline {
     flex-direction: column;
-    align-items: flex-start;
-    overflow-x: auto;
-    overflow-y: visible;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: .5rem;
+    align-items: stretch;
   }
 
-  /* "Previously" panel above the axis. Sticky-left so it stays visible
-     while the user pans the axis horizontally. */
+  /* "Previously" panel stacks above the axis as a wrapped row. */
   .tl-previously {
     width: 100%;
     box-sizing: border-box;
-    position: sticky;
-    left: 0;
     border-right: none;
     border-bottom: 1.5px dashed var(--border-hi);
     padding-right: 0;
@@ -1627,16 +1620,31 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
   }
   .tl-prev__label { margin-bottom: 0; }
 
-  /* Axis: explicit width wider than mobile viewport so the parent scrolls. */
-  .tl-axis {
-    flex: none;
-    width: 42rem;
-    min-width: 42rem;
-  }
-
   /* Tooltips are redundant on mobile — tap fills the detail panel and
      cramped columns make tooltips overflow the screen. */
   .tl-dot__tooltip { display: none !important; }
+
+  /* Reset flex:1 (desktop) so the axis honours its 11rem height in column
+     flex; align-items:stretch on .timeline gives it full width. */
+  .tl-axis { flex: none; }
+
+  /* Right annotation ("ending my PhD") extends past the year anchor on
+     desktop; on a narrow mobile axis that pushes the page to overflow
+     horizontally. Shrink + nudge it inward so it stays within bounds. */
+  .tl-annot__text { font-size: .85rem; }
+  .tl-annot--right .tl-annot__text { right: 0; transform: translate(0, -50%) rotate(-2deg); }
+  .tl-annot--left  .tl-annot__text { left: 0;  transform: translate(0, -50%) rotate(-2deg); }
+
+  /* Compact year labels. The early-year region (2020–2022) is dense
+     because of the power-1.7 easing, so we hide every other label to
+     keep them from colliding. Ticks still render for all years. */
+  .tl-year { width: 2.4rem; font-size: .62rem; }
+  .tl-year__tick { height: .4rem; }
+  .tl-year:nth-of-type(odd) .tl-year__label { display: none; }
+
+  /* Smaller dots and span bars so neighbouring items don't overlap. */
+  .tl-dot { width: 1.05rem; height: 1.05rem; }
+  .tl-span { height: .85rem; border-radius: .425rem; }
 
   /* Hide the vertical-axis alternative — horizontal is now used on all sizes. */
   .tl-axis-vert { display: none !important; }
