@@ -1029,9 +1029,9 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 }
 .swatch--publication { background: var(--tl-pub);       border-color: var(--tl-pub-dk); }
 .swatch--funding     { background: var(--tl-funding);   border-color: var(--tl-funding-dk); }
-.swatch--award       { background: var(--tl-award);     border-color: var(--tl-award-dk); }
+.swatch--award       { background: var(--tl-award);     border-color: var(--tl-award-dk); border-radius: .1rem; transform: rotate(45deg) scale(.85); }
 .swatch--education   { background: var(--tl-education); border-color: var(--tl-education-dk); }
-.swatch--service     { background: var(--tl-service);   border-color: var(--tl-service-dk); }
+.swatch--service     { background: var(--tl-service-dk); border-color: var(--tl-service-dk); }
 .swatch--teaching    { background: var(--tl-teaching);  border-color: var(--tl-teaching-dk); }
 .swatch--other       { background: var(--tl-other);     border-color: var(--tl-other-dk); }
 /* Publication encoding keys: shape (full paper) and fill (authorship).
@@ -1110,229 +1110,202 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 .tl-prev__entry strong { display: block; font-size: .78rem; }
 .tl-prev__entry span { font-size: .72rem; color: var(--fg-muted); font-family: var(--font-mono); }
 
-/* Desktop: horizontal axis — line sits at the bottom, everything stacks up */
+/* Swimlane axis: one labeled row per category. Everything inside is
+   absolutely positioned by script.js; heights/tops are set inline (rem). */
 .tl-axis {
+  --tl-l: 8rem;     /* row-label column */
+  --tl-r: 1.25rem;
   position: relative;
   flex: 1;
-  height: 12.75rem;
-  padding: 0 2.25rem;
+  min-width: 0;
+}
+.tl-rowlabel {
+  position: absolute;
+  left: 0;
+  top: var(--row-mid);
+  transform: translateY(-50%);
+  width: calc(var(--tl-l) - .75rem);
+  font-family: var(--font-mono);
+  font-size: .66rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  line-height: 1.2;
+  pointer-events: none;
+}
+.tl-rowline {
+  position: absolute;
+  left: var(--tl-l);
+  right: var(--tl-r);
+  height: 0;
+  border-top: 1px dashed rgba(191,185,174,.45);
+  pointer-events: none;
+}
+.tl-grid {
+  position: absolute;
+  width: 1px;
+  background: rgba(212,207,198,.55);
+  pointer-events: none;
 }
 .tl-axis__line {
   position: absolute;
-  left: 2.25rem; right: 2.25rem;
-  bottom: 2.5rem;               /* just above the year labels */
-  top: auto;
+  left: var(--tl-l);
+  right: var(--tl-r);
   height: 1px;
   background: var(--border-hi);
 }
-/* Year labels sit at the very bottom of the axis so bars don't collide with them */
 .tl-year {
   position: absolute;
-  bottom: 0;
   transform: translateX(-50%);
-  text-align: center;
   font-family: var(--font-mono);
-  font-size: .75rem;
+  font-size: .72rem;
   color: var(--fg-muted);
   letter-spacing: .04em;
-  width: 3.6rem;
-  line-height: 1.2;
-}
-.tl-year__tick {
-  display: block;
-  width: 1px;
-  height: .55rem;
-  background: var(--border-hi);
-  margin: 0 auto .2rem;
-}
-.tl-year__label {
-  display: block;
-}
-/* Faint year gridlines rising from each tick — editorial chart feel */
-.tl-year::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  bottom: 100%;
-  width: 1px;
-  height: 10rem;
-  background: linear-gradient(to top, var(--border) 0%, rgba(212,207,198,0) 100%);
-  pointer-events: none;
+  line-height: 1;
 }
 
-/* Dots — anchored to the bottom axis line, stacking upward */
+/* Point marks: the button is a generous hit area; ::before draws the mark */
 .tl-dot {
   position: absolute;
-  bottom: 2.5rem;               /* bottom edge sits on the axis line */
-  top: auto;
-  width: 1.2rem;
-  height: 1.2rem;
-  border-radius: 50%;
-  background: var(--bg);
-  border: 1.5px solid var(--fg-dim);
-  cursor: pointer;
-  transform: translate(-50%, 0); /* horizontally centered on year; dot sits ABOVE the line */
+  width: 1.15rem;
+  height: 1.15rem;
+  transform: translate(-50%, -50%);
   padding: 0;
-  transition: transform .25s var(--ease), box-shadow .25s var(--ease);
+  border: 0;
+  background: transparent;
+  cursor: pointer;
   z-index: 2;
 }
-.tl-dot:hover,
-.tl-dot:focus-visible {
-  transform: translate(-50%, 0) scale(1.25);
-  outline: none;
-  box-shadow: 0 0 0 4px rgba(110,64,201,.16);
-  z-index: 9999;              /* lift entire stacking context above nav (z 100) and everything else */
-}
-.tl-dot.is-active {
-  transform: translate(-50%, 0) scale(1.3);
-  box-shadow: 0 0 0 5px rgba(110,64,201,.24);
-  z-index: 9999;
-}
-.tl-dot--publication { background: var(--tl-pub);       border-color: var(--tl-pub-dk); }
-.tl-dot--funding     { background: var(--tl-funding);   border-color: var(--tl-funding-dk); }
-.tl-dot--award       { background: var(--tl-award);     border-color: var(--tl-award-dk); }
-.tl-dot--education   { background: var(--tl-education); border-color: var(--tl-education-dk); }
-.tl-dot--service     { background: var(--tl-service);   border-color: var(--tl-service-dk); }
-.tl-dot--teaching    { background: var(--tl-teaching);  border-color: var(--tl-teaching-dk); }
-.tl-dot--other       { background: var(--tl-other);     border-color: var(--tl-other-dk); }
-/* Publication encoding: square = full paper; hollow ring = co-author */
-.tl-dot--full     { border-radius: .26rem; }
-.tl-dot--coauthor { background: var(--bg); border: 2.5px solid var(--tl-pub); }
-/* rejection: X mark via pseudo-elements */
-.tl-dot--rejection {
-  background: var(--bg);
-  border-color: var(--tl-reject);
-}
-.tl-dot--rejection::before,
-.tl-dot--rejection::after {
+.tl-dot::before {
   content: '';
   position: absolute;
   top: 50%; left: 50%;
-  width: 1.5px;
-  height: 62%;
-  background: var(--tl-reject);
-  border-radius: 1px;
-  transform-origin: center;
+  width: .62rem;
+  height: .62rem;
+  border-radius: 50%;
+  background: var(--fg-muted);
+  transform: translate(-50%, -50%);
+  transition: transform .2s var(--ease), box-shadow .2s var(--ease);
 }
-.tl-dot--rejection::before { transform: translate(-50%, -50%) rotate(45deg); }
-.tl-dot--rejection::after  { transform: translate(-50%, -50%) rotate(-45deg); }
+.tl-dot:hover::before,
+.tl-dot:focus-visible::before { transform: translate(-50%, -50%) scale(1.4); }
+.tl-dot.is-active::before {
+  transform: translate(-50%, -50%) scale(1.45);
+  box-shadow: 0 0 0 3px var(--bg), 0 0 0 4.5px currentColor;
+}
+.tl-dot:hover, .tl-dot:focus-visible, .tl-dot.is-active { outline: none; z-index: 9999; }
 
-/* ── Span bars (education / service / teaching / research) ─────────── */
+.tl-dot--publication { color: var(--tl-pub); }
+.tl-dot--publication::before { background: var(--tl-pub); }
+.tl-dot--full::before { width: .72rem; height: .72rem; border-radius: .12rem; }
+.tl-dot--coauthor::before { background: var(--bg); border: 1.75px solid var(--tl-pub); box-sizing: border-box; }
+.tl-dot--funding { color: var(--tl-funding-dk); }
+.tl-dot--funding::before { background: var(--tl-funding); width: .55rem; height: .55rem; }
+.tl-dot--award { color: var(--tl-award-dk); }
+.tl-dot--award::before {
+  background: var(--tl-award);
+  width: .5rem; height: .5rem;
+  border-radius: .08rem;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.tl-dot--award:hover::before,
+.tl-dot--award:focus-visible::before { transform: translate(-50%, -50%) rotate(45deg) scale(1.4); }
+.tl-dot--award.is-active::before { transform: translate(-50%, -50%) rotate(45deg) scale(1.45); }
+/* rejection: a small × */
+.tl-dot--rejection { color: var(--tl-reject); }
+.tl-dot--rejection::before {
+  background:
+    linear-gradient(45deg, transparent 43%, var(--tl-reject) 43% 57%, transparent 57%),
+    linear-gradient(-45deg, transparent 43%, var(--tl-reject) 43% 57%, transparent 57%);
+  border-radius: 0;
+}
+
+/* Spans: thin rules with round caps; the button is a taller hit area */
 .tl-span {
   position: absolute;
-  height: .7rem;               /* must match SPAN_H_REM in script.js */
-  min-width: .7rem;
-  border-radius: .35rem;
-  border: 1px solid transparent;
-  cursor: pointer;
+  height: .55rem;
+  min-width: .5rem;
+  transform: translateY(-50%);
   padding: 0;
-  top: auto;                     /* bottom-anchored; value set by JS */
-  transform: none;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
   z-index: 2;
-  transition: filter .2s var(--ease), box-shadow .2s var(--ease);
 }
-.tl-span:hover,
-.tl-span:focus-visible {
-  filter: brightness(.92);
-  box-shadow: 0 0 0 3px rgba(0,0,0,.07);
-  outline: none;
-  z-index: 9999;              /* lift above nav and everything else */
+.tl-span::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  top: 50%;
+  height: 3px;
+  margin-top: -1.5px;
+  border-radius: 2px;
+  background: currentColor;
+  transition: height .15s var(--ease), margin .15s var(--ease);
 }
-.tl-span.is-active {
-  filter: brightness(.86);
-  box-shadow: 0 0 0 4px rgba(110,64,201,.18);
-  z-index: 9999;
-}
-.tl-span--education { background: var(--tl-education); border-color: var(--tl-education-dk); }
-.tl-span--service   { background: var(--tl-service);   border-color: var(--tl-service-dk); }
-.tl-span--teaching  { background: var(--tl-teaching);  border-color: var(--tl-teaching-dk); }
-.tl-span--other     { background: var(--tl-other);     border-color: var(--tl-other-dk); }
-
-/* Future / planned portion of a span bar — same lane, same hue, dashed */
-.tl-span--future { border: none; opacity: .9; }
-.tl-span--future.tl-span--education { background: repeating-linear-gradient(to right, var(--tl-education) 0 5px, transparent 5px 9px); }
-.tl-span--future.tl-span--service   { background: repeating-linear-gradient(to right, var(--tl-service) 0 5px, transparent 5px 9px); }
-.tl-span--future.tl-span--teaching  { background: repeating-linear-gradient(to right, var(--tl-teaching) 0 5px, transparent 5px 9px); }
-.tl-span--future.tl-span--other     { background: repeating-linear-gradient(to right, var(--tl-other) 0 5px, transparent 5px 9px); }
-
-/* Span tooltip — same system as dots, anchored to left edge of bar */
-.tl-span .tl-dot__tooltip {
-  left: 0;
-  transform: translateX(0) translateY(4px);
-  background: #fff !important;
-}
-.tl-span:hover .tl-dot__tooltip,
-.tl-span:focus-visible .tl-dot__tooltip,
-.tl-span.is-active .tl-dot__tooltip {
-  opacity: 1;
-  transform: translateX(0) translateY(0);
+.tl-span:hover::before,
+.tl-span:focus-visible::before,
+.tl-span.is-active::before { height: 5px; margin-top: -2.5px; }
+.tl-span:hover, .tl-span:focus-visible, .tl-span.is-active { outline: none; z-index: 9999; }
+.tl-span--education { color: var(--tl-education-dk); }
+.tl-span--service   { color: var(--tl-service-dk); }
+.tl-span--teaching  { color: var(--tl-teaching-dk); }
+.tl-span--other     { color: var(--tl-other-dk); }
+.tl-span--future::before {
+  background: repeating-linear-gradient(to right, currentColor 0 4px, transparent 4px 7px);
+  opacity: .8;
 }
 
-.tl-span__mobile-label { display: none; }
+/* Full-paper labels above the papers row, with a hairline leader */
+.tl-plabel {
+  position: absolute;
+  transform: translateX(-100%);
+  padding-right: .3rem;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: .92rem;
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--fg);
+  pointer-events: none;
+}
+.tl-leader {
+  position: absolute;
+  width: 1px;
+  background: var(--border-hi);
+  pointer-events: none;
+}
 
-/* ── Hand-drawn annotations (replaces the old PhD education bar) ───── */
+/* PhD start / end: dashed rule through every row + handwritten label */
 .tl-annot {
   position: absolute;
-  top: .25rem;
-  pointer-events: none;
-  z-index: 60;      /* sit above dots/spans (z 2) and their hover z (50) */
   width: 0;
-  height: 7.5rem;
+  border-left: 1.5px dashed rgba(110,64,201,.45);
+  pointer-events: none;
+  z-index: 1;
 }
 .tl-annot__text {
   position: absolute;
-  top: 0;
+  top: -.15rem;
   font-family: var(--font-hand);
   font-size: 1.1rem;
+  line-height: 1;
   color: var(--accent);
-  opacity: .9;
   white-space: nowrap;
-  line-height: 1.1;
 }
-/* Line's top endpoint after 14° rotation over 6.1rem height sits at roughly
-   (1.48rem across, 1.58rem down) from the anchor corner — text is centered
-   on that point so the line enters through the middle of the label. */
-/* Text sits above the SVG stroke's top endpoint so the line points up to
-   the label. Line top endpoint (at path "M 3 82 ... 28 4") lands near
-   x=1.75rem, y=2.4rem from the annotation container top. */
-.tl-annot--left  .tl-annot__text { left:  1.75rem; top: 1.3rem; transform: translate(-50%, -50%) rotate(-2deg); }
-.tl-annot--right .tl-annot__text { right: 1.75rem; top: 1.3rem; transform: translate(50%, -50%) rotate(-2deg); }
+.tl-annot--left  .tl-annot__text { left: .35rem; }
+.tl-annot--right .tl-annot__text { right: .35rem; }
 
-/* Inline-SVG stroke with two gentle control points — a curved path reads
-   as hand-drawn where a rotated rectangle never will. */
-.tl-annot__line {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 2rem;
-  height: 5.3rem;
-  overflow: visible;
-  pointer-events: none;
-}
-.tl-annot__line path {
-  fill: none;
-  stroke: var(--accent);
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  opacity: .7;
-}
-/* Right annotation: mirror the same path so the curve heads inward */
-.tl-annot--right .tl-annot__line {
-  left: auto;
-  right: 0;
-  transform: scaleX(-1);
-}
-
+/* Tooltips (desktop hover) */
 .tl-dot__tooltip {
   position: absolute;
-  bottom: calc(100% + .75rem);
+  bottom: calc(100% + .5rem);
   left: 50%;
   transform: translateX(-50%) translateY(4px);
   background: #fff;
   border: 1px solid var(--border-hi);
   border-radius: .5rem;
-  padding: .4rem .7rem;
+  padding: .35rem .65rem;
   font-size: .78rem;
   font-family: var(--font-body);
   color: var(--fg);
@@ -1347,33 +1320,19 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
   box-shadow: 0 8px 24px -8px rgba(0,0,0,.14);
 }
 .tl-dot:hover .tl-dot__tooltip,
-.tl-dot:focus-visible .tl-dot__tooltip,
-.tl-dot.is-active .tl-dot__tooltip {
+.tl-dot:focus-visible .tl-dot__tooltip {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
-/* edge-aware tooltips: pin to the dot side so they don't overflow */
-.tl-dot--tip-left .tl-dot__tooltip {
-  left: 0;
-  transform: translateX(0) translateY(4px);
-}
+.tl-span .tl-dot__tooltip { left: 0; transform: translateY(4px); }
+.tl-span:hover .tl-dot__tooltip,
+.tl-span:focus-visible .tl-dot__tooltip { opacity: 1; transform: translateY(0); }
+.tl-dot--tip-left .tl-dot__tooltip { left: 0; transform: translateY(4px); }
 .tl-dot--tip-left:hover .tl-dot__tooltip,
-.tl-dot--tip-left:focus-visible .tl-dot__tooltip,
-.tl-dot--tip-left.is-active .tl-dot__tooltip {
-  transform: translateX(0) translateY(0);
-}
-.tl-dot--tip-right .tl-dot__tooltip {
-  left: auto;
-  right: 0;
-  transform: translateX(0) translateY(4px);
-}
+.tl-dot--tip-left:focus-visible .tl-dot__tooltip { transform: translateY(0); }
+.tl-dot--tip-right .tl-dot__tooltip { left: auto; right: 0; transform: translateY(4px); }
 .tl-dot--tip-right:hover .tl-dot__tooltip,
-.tl-dot--tip-right:focus-visible .tl-dot__tooltip,
-.tl-dot--tip-right.is-active .tl-dot__tooltip {
-  transform: translateX(0) translateY(0);
-}
-
-/* Dot vertical position is set entirely via inline style in JS — no margin classes needed */
+.tl-dot--tip-right:focus-visible .tl-dot__tooltip { transform: translateY(0); }
 
 /* Detail panel — styled like an open publication card */
 .timeline__detail {
@@ -1468,13 +1427,8 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
   aspect-ratio: 4/5;
 }
 
-/* Vertical axis — mobile-only, rotated copy of the desktop horizontal axis.
-   Hidden above the mobile breakpoint. */
-.tl-axis-vert { display: none; }
-
 @media (max-width: 720px) {
-  /* Horizontal axis fits the viewport — no horizontal scrolling.
-     Year labels, dots, and span bars are scaled down to fit. */
+  /* Axis fits the viewport — no horizontal scrolling. */
   .timeline {
     flex-direction: column;
     align-items: stretch;
@@ -1497,38 +1451,27 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
   }
   .tl-prev__label { margin-bottom: 0; }
 
-  /* Tooltips are redundant on mobile — tap fills the detail panel and
-     cramped columns make tooltips overflow the screen. */
+  /* Tooltips are redundant on mobile — tap fills the detail panel. */
   .tl-dot__tooltip { display: none !important; }
 
-  /* Reset flex:1 (desktop) so the axis honours its 12.75rem height in column
-     flex; align-items:stretch on .timeline gives it full width. */
-  .tl-axis { flex: none; }
+  /* No label column: row labels sit above each row instead */
+  .tl-axis { flex: none; --tl-l: .35rem; --tl-r: .35rem; }
+  .tl-rowlabel {
+    top: calc(var(--row-top) - .85rem);
+    transform: none;
+    width: auto;
+    font-size: .6rem;
+  }
+  .tl-rowline { display: none; }
 
-  /* Right annotation ("ending my PhD") extends past the year anchor on
-     desktop; on a narrow mobile axis that pushes the page to overflow
-     horizontally. Shrink + nudge it inward so it stays within bounds. */
-  .tl-annot__text { font-size: .85rem; }
-  .tl-annot--right .tl-annot__text { right: 0; transform: translate(0, -50%) rotate(-2deg); }
-  .tl-annot--left  .tl-annot__text { left: 0;  transform: translate(0, -50%) rotate(-2deg); }
+  /* Every other year label so the dense early years don't collide */
+  .tl-year { font-size: .62rem; }
+  .tl-year--minor { visibility: hidden; }
 
-  /* Compact year labels. The early-year region (2020–2022) is dense
-     because of the power-1.7 easing, so we hide every other label to
-     keep them from colliding. Ticks still render for all years. */
-  .tl-year { width: 2.4rem; font-size: .62rem; }
-  .tl-year__tick { height: .4rem; }
-  .tl-year:nth-of-type(odd) .tl-year__label { display: none; }
+  .tl-annot__text { font-size: .9rem; }
 
-  /* Smaller dots and span bars so neighbouring items don't overlap. */
-  .tl-dot { width: .95rem; height: .95rem; }
-  .tl-dot--full { border-radius: .2rem; }
-  .tl-span { height: .55rem; border-radius: .275rem; }
-  .tl-year::before { height: 10.3rem; }
   .timeline__legend-head { min-width: 0; width: 100%; }
   .timeline__detail { padding: 1rem 1.1rem; }
-
-  /* Hide the vertical-axis alternative — horizontal is now used on all sizes. */
-  .tl-axis-vert { display: none !important; }
 
   .timeline__footer { grid-template-columns: 1fr; }
   .awards__photo--inline { max-width: 18rem; }

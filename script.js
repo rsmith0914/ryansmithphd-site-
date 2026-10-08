@@ -65,6 +65,7 @@ function parseDataItem(li) {
     role:    li.dataset.role || null,
     pubtype: li.dataset.pubtype || null,
     teaser:  li.dataset.teaser || null,
+    short:   li.dataset.short || null,
     title:   li.dataset.title,
     abstract,
     html:    clone.innerHTML.trim(),
@@ -215,24 +216,11 @@ function pubPreviewHTML(p, cls) {
     rejection: 'rejection',
   };
 
-  // Groups that render as horizontal span bars (the rest are dots)
-  const spanGroups = new Set(['education', 'other', 'service', 'teaching']);
-
   // Parse all items
   const allItems = Array.from(dataEl.querySelectorAll(':scope > li')).map((li, i) => {
     const it = parseDataItem(li);
     return { ...it, id: `tl-${i}`, group: kindToGroup[it.kind] || it.kind };
   }).sort((a, b) => a.year - b.year || (a.yearEnd || a.year) - (b.yearEnd || b.year));
-
-  // Publication marks encode paper type (square = full paper, circle =
-  // everything else) and authorship (filled = first author, ring = co-author).
-  function pubMarkClasses(it) {
-    if (it.group !== 'publication') return '';
-    let cls = '';
-    if (it.pubtype === 'full') cls += ' tl-dot--full';
-    if (it.role && it.role !== 'primary') cls += ' tl-dot--coauthor';
-    return cls;
-  }
 
   if (!allItems.length) return;
 
@@ -241,19 +229,21 @@ function pubPreviewHTML(p, cls) {
   const prevItems = allItems.filter(it => (it.yearEnd || it.year) <= AXIS_START && it.year < AXIS_START);
   const items     = allItems.filter(it => it.year >= AXIS_START || (it.yearEnd && it.yearEnd > AXIS_START));
 
-  // Fixed axis range: 2019–2027, all years labelled
+  // Fixed axis range 2019–2027; power-of-1.7 easing compresses the sparse early years
   const minYear = AXIS_START;
   const maxYear = 2027;
-  const sortedYears = [];
-  for (let y = minYear + 1; y <= maxYear; y++) sortedYears.push(y);
-
-  // ── Position helpers (power-of-1.7: compresses sparse early years) ──
   const yearPct = (y) => {
     const clamped = Math.max(minYear, Math.min(maxYear, y));
     return Math.pow((clamped - minYear) / (maxYear - minYear), 1.7);
   };
-  const yearPos   = (y) => `calc(2.25rem + (100% - 4.5rem) * ${yearPct(y).toFixed(5)})`;
-  const spanWidth = (s, e) => `calc((100% - 4.5rem) * ${(yearPct(e) - yearPct(s)).toFixed(5)})`;
+  // Plot insets come from CSS (--tl-l holds the row-label column on desktop)
+  const xPos = (y) => `calc(var(--tl-l) + (100% - var(--tl-l) - var(--tl-r)) * ${yearPct(y).toFixed(5)})`;
+  const xLen = (s, e) => `calc((100% - var(--tl-l) - var(--tl-r)) * ${(yearPct(e) - yearPct(s)).toFixed(5)})`;
+
+  // Cutoff between solid "already happened" and dashed "planned/upcoming"
+  const today = new Date();
+  const NOW = today.getFullYear() + today.getMonth() / 12;
+  const isMobile = window.matchMedia('(max-width: 720px)').matches;
 
   // ── Previously panel ─────────────────────────────────────────────────
   if (prevItems.length) {
@@ -273,269 +263,163 @@ function pubPreviewHTML(p, cls) {
     host.appendChild(panel);
   }
 
-  // ── Build axis ──────────────────────────────────────────────────────
+  // ── Swimlanes: one labeled row per category ─────────────────────────
+  const ROWS = [
+    { label: 'papers',          groups: ['publication', 'rejection'], spans: false },
+    { label: 'grants & awards', groups: ['funding', 'award'],         spans: false },
+    { label: 'service',         groups: ['service'],                  spans: true  },
+    { label: 'teaching',        groups: ['teaching'],                 spans: true  },
+    { label: 'research',        groups: ['other'],                    spans: true  },
+  ];
+  // Vertical rhythm (rem)
+  const ANNOT_H   = 1.75;  // band for "started / ending my PhD"
+  const LABEL_H   = 1.15;  // one line of full-paper labels
+  const ROW_GAP   = 1.1;   // between rows (mobile row labels sit here)
+  const ROW_PAD   = 0.3;
+  const LANE      = 0.55;  // span lane step
+  const STACK     = 1.05;  // same-date marks stack step
+  const YEAR_H    = 1.6;
+
+  const fullPapers = items.filter(it => it.group === 'publication' && it.pubtype === 'full');
+  const labelLines = isMobile ? 0 : Math.min(fullPapers.length, 3);
+
   const axis = document.createElement('div');
   axis.className = 'tl-axis';
-  axis.innerHTML = `<div class="tl-axis__line"></div>`;
 
-  // All years 2019–2027
-  sortedYears.forEach(y => {
+  const add = (cls, style, html = '') => {
     const el = document.createElement('div');
-    el.className = 'tl-year';
-    el.style.left = yearPos(y);
-    el.innerHTML = `<span class="tl-year__tick"></span><span class="tl-year__label">${y}</span>`;
+    el.className = cls;
+    for (const [k, v] of Object.entries(style)) {
+      if (k.startsWith('--')) el.style.setProperty(k, v); else el.style[k] = v;
+    }
+    el.innerHTML = html;
     axis.appendChild(el);
-  });
-
-  // Hand-drawn annotations — stand in for the old PhD education bar.
-  // A thin line drops from the text down toward the axis, marking start + end.
-  // SVG path with two gentle control points — reads as hand-drawn because it
-  // wobbles off a perfectly straight line. viewBox 32×85 matches the CSS
-  // container ratio (2rem × 5.3rem) so the stroke stays uniform.
-  const linePath = 'M 3 82 Q 7 60, 14 38 Q 20 20, 28 4';
-  const makeAnnot = (year, text, side) => {
-    const a = document.createElement('div');
-    a.className = `tl-annot tl-annot--${side}`;
-    a.style.left = yearPos(year);
-    a.innerHTML = `<span class="tl-annot__text">${text}</span>` +
-      `<svg class="tl-annot__line" viewBox="0 0 32 85" preserveAspectRatio="none" aria-hidden="true">` +
-      `<path d="${linePath}"/></svg>`;
-    axis.appendChild(a);
+    return el;
   };
-  makeAnnot(2022, 'started my PhD', 'left');
-  makeAnnot(2027, 'ending my PhD (hopefully)', 'right');
 
-  // ── Greedy lane assignment — single shared pool across all groups ──
-  // Everything stacks upward from the axis line
-  const LINE_REM    = 2.5;   // must match .tl-axis__line bottom in CSS
-  const MARK_LIFT   = 0.25;  // all marks hover slightly above the axis line
-  const SPAN_H_REM  = 0.7;   // must match .tl-span height in CSS
-  const LANE_GAP    = 0.25;
-  const LANE_STEP   = SPAN_H_REM + LANE_GAP;  // per-lane vertical step
-  // Year buffer for overlap detection: dots close enough to a span's start/end
-  // should still sit above it (rather than colliding at their shared axis Y).
-  const YEAR_OVERLAP_BUFFER = 0.12;  // ~6 weeks
-
-  // Cutoff between solid "already happened" and dashed "planned/upcoming"
-  const today = new Date();
-  const NOW = today.getFullYear() + today.getMonth() / 12;
-
-  const sharedSlots = [];  // array-of-arrays of {s, e}
-  function assignLane(s, e) {
-    for (let i = 0; i < sharedSlots.length; i++) {
-      if (!sharedSlots[i].some(b => b.s < e && s < b.e)) {
-        sharedSlots[i].push({ s, e });
-        return i;
-      }
+  function makeMark(it, topRem) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    let cls = `tl-dot tl-dot--${it.group}`;
+    if (it.group === 'publication') {
+      if (it.pubtype === 'full') cls += ' tl-dot--full';
+      if (it.role && it.role !== 'primary') cls += ' tl-dot--coauthor';
     }
-    sharedSlots.push([{ s, e }]);
-    return sharedSlots.length - 1;
+    btn.className = cls;
+    btn.style.left = xPos(it.year);
+    btn.style.top  = `${topRem.toFixed(3)}rem`;
+    btn.setAttribute('aria-label', `${it.kind}, ${it.year}: ${it.title}`);
+    btn.dataset.id = it.id;
+    btn.innerHTML = `<span class="tl-dot__tooltip">${it.title}</span>`;
+    btn.addEventListener('click', () => selectItem(it.id));
+    axis.appendChild(btn);
+    return btn;
   }
 
-  const isSpan = (it) => spanGroups.has(it.group) && it.yearEnd && it.yearEnd > it.year;
+  function makeSpan(it, startY, endY, centerRem, isFuture, withTooltip) {
+    const bar = document.createElement('button');
+    bar.type = 'button';
+    bar.className = `tl-span tl-span--${it.group}${isFuture ? ' tl-span--future' : ''}`;
+    bar.style.left  = xPos(startY);
+    bar.style.width = xLen(startY, endY);
+    bar.style.top   = `${centerRem.toFixed(3)}rem`;
+    bar.setAttribute('aria-label', `${it.kind}, ${it.year}–${it.yearEnd}: ${it.title}`);
+    bar.dataset.id = it.id;
+    bar.innerHTML = withTooltip ? `<span class="tl-dot__tooltip">${it.title}</span>` : '';
+    bar.addEventListener('click', () => selectItem(it.id));
+    axis.appendChild(bar);
+  }
 
-  // Pre-assign lanes for span items (sorted by start year for deterministic packing)
-  const itemLane = new Map();
-  items.filter(isSpan).forEach(it => {
-    itemLane.set(it.id, assignLane(it.year, it.yearEnd));
-  });
+  let y = ANNOT_H + labelLines * LABEL_H;
+  const plotTop = ANNOT_H - 0.2;
+  const paperMarks = [];   // [item, button, centerRem] for full-paper labels
 
-  // ── Render span bars (split into solid past + dashed future at NOW) ──
-  items.filter(isSpan).forEach(it => {
-    const lane      = itemLane.get(it.id);
-    const bottomRem = LINE_REM + MARK_LIFT + lane * LANE_STEP;
+  ROWS.forEach((row, ri) => {
+    const rowItems = items.filter(it => row.groups.includes(it.group));
+    const rowTop = y + (ri === 0 ? 0.2 : ROW_GAP);
+    let height;
 
-    const makeSeg = (startY, endY, isFuture, withTooltip) => {
-      const bar = document.createElement('button');
-      bar.type = 'button';
-      bar.className = `tl-span tl-span--${it.group}${isFuture ? ' tl-span--future' : ''}`;
-      bar.style.left   = yearPos(startY);
-      bar.style.width  = spanWidth(startY, endY);
-      bar.style.bottom = `${bottomRem}rem`;
-      bar.style.top    = 'auto';
-      bar.setAttribute('aria-label', `${it.kind}, ${it.year}–${it.yearEnd}: ${it.title}`);
-      bar.dataset.id = it.id;
-      // Tooltip only on the start segment — otherwise split spans show the
-      // label at both their start and end, which reads as duplicate.
-      bar.innerHTML = withTooltip ? `<span class="tl-dot__tooltip">${it.title}</span>` : '';
-      bar.addEventListener('click', () => selectItem(it.id));
-      axis.appendChild(bar);
-    };
-
-    if (it.yearEnd <= NOW) {
-      makeSeg(it.year, it.yearEnd, false, true);     // fully past
-    } else if (it.year >= NOW) {
-      makeSeg(it.year, it.yearEnd, true, true);      // fully future
+    if (row.spans) {
+      // Greedy lane packing within the row
+      const lanes = [];
+      const laneOf = new Map();
+      rowItems.filter(it => it.yearEnd).sort((a, b) => a.year - b.year).forEach(it => {
+        let i = lanes.findIndex(l => !l.some(b => b.s < it.yearEnd && it.year < b.e));
+        if (i === -1) { lanes.push([]); i = lanes.length - 1; }
+        lanes[i].push({ s: it.year, e: it.yearEnd });
+        laneOf.set(it.id, i);
+      });
+      rowItems.filter(it => it.yearEnd).forEach(it => {
+        const cy = rowTop + ROW_PAD + (laneOf.get(it.id) + 0.5) * LANE;
+        if (it.yearEnd <= NOW)   makeSpan(it, it.year, it.yearEnd, cy, false, true);
+        else if (it.year >= NOW) makeSpan(it, it.year, it.yearEnd, cy, true, true);
+        else { makeSpan(it, it.year, NOW, cy, false, true); makeSpan(it, NOW, it.yearEnd, cy, true, false); }
+      });
+      height = 2 * ROW_PAD + Math.max(lanes.length, 1) * LANE;
     } else {
-      makeSeg(it.year, NOW, false, true);            // solid past portion — tooltip lives here
-      makeSeg(NOW, it.yearEnd, true, false);         // dashed future portion — no tooltip
+      // Point marks; same-date marks stack downward (full papers first)
+      const rank = (it) => it.group === 'publication' ? (it.pubtype === 'full' ? 0 : 1) : 2;
+      const byDate = {};
+      rowItems.forEach(it => (byDate[it.year.toFixed(2)] = byDate[it.year.toFixed(2)] || []).push(it));
+      let maxStack = 1;
+      Object.values(byDate).forEach(list => {
+        list.sort((a, b) => rank(a) - rank(b));
+        maxStack = Math.max(maxStack, list.length);
+        list.forEach((it, k) => {
+          const cy = rowTop + ROW_PAD + (k + 0.5) * STACK;
+          const btn = makeMark(it, cy);
+          if (it.group === 'publication' && it.pubtype === 'full') paperMarks.push([it, btn, cy]);
+        });
+      });
+      height = 2 * ROW_PAD + maxStack * STACK;
     }
+
+    // Row label + faint separator
+    const mid = rowTop + height / 2;
+    add('tl-rowlabel', { '--row-top': `${rowTop}rem`, '--row-mid': `${mid}rem` }, row.label);
+    if (ri > 0) add('tl-rowline', { top: `${(rowTop - ROW_GAP / 2).toFixed(3)}rem` });
+    y = rowTop + height;
   });
 
-  // ── Helper: bottom rem where dots should START at a given year ───────
-  // Dots sit just above the highest span bar covering that year.
-  function spanCeilingRem(year) {
-    let maxLane = -1;
-    items.filter(isSpan).forEach(it => {
-      // Buffer by YEAR_OVERLAP_BUFFER on each side so a dot that's visually
-      // close to a span's edge (e.g. a grant at 2024 next to a service bar
-      // starting 2024.08) still gets pushed above instead of overlapping it.
-      if (it.year - YEAR_OVERLAP_BUFFER <= year && year <= it.yearEnd + YEAR_OVERLAP_BUFFER) {
-        const lane = itemLane.get(it.id);
-        if (lane > maxLane) maxLane = lane;
-      }
-    });
-    // Dots anchor from their BOTTOM edge (no translateY), so we just need
-    // bar top + a small gap for the dot's bottom to sit on. Use MARK_LIFT
-    // as the floor so the first-lane dots also hover above the axis line.
-    const BAR_DOT_GAP = 0.2;
-    return maxLane === -1
-      ? LINE_REM + MARK_LIFT
-      : LINE_REM + MARK_LIFT + maxLane * LANE_STEP + SPAN_H_REM + BAR_DOT_GAP;
+  const plotBottom = y + 0.35;
+
+  // Year gridlines, ticks and labels; baseline
+  for (let yr = minYear + 1; yr <= maxYear; yr++) {
+    add('tl-grid', { left: xPos(yr), top: `${plotTop}rem`, height: `${plotBottom - plotTop}rem` });
+    add(`tl-year${(yr - minYear) % 2 === 0 ? ' tl-year--minor' : ''}`,
+        { left: xPos(yr), top: `${plotBottom + 0.3}rem` }, yr);
   }
+  add('tl-axis__line', { top: `${plotBottom}rem` });
 
-  // ── Render dots — stack upward from above any bars at that year ───────
-  const DOT_STEP = 1.45; // dot diameter (1.2rem) + gap (0.25rem)
+  // PhD start / end: dashed rule through every row, handwritten label on top
+  const annot = (yr, text, side) => {
+    add(`tl-annot tl-annot--${side}`, { left: xPos(yr), top: `${plotTop - 1.45}rem`, height: `${plotBottom - plotTop + 1.45}rem` },
+        `<span class="tl-annot__text">${text}</span>`);
+  };
+  annot(2022.67, 'started my PhD', 'left');
+  annot(2027, 'ending my PhD (hopefully)', 'right');
 
-  const dotsByYear = {};
-  items.filter(it => !isSpan(it)).forEach(it => {
-    (dotsByYear[it.year] = dotsByYear[it.year] || []).push(it);
-  });
-  // Within a stack, publications sit closest to the axis (full papers first)
-  const stackRank = (it) => it.group === 'publication' ? (it.pubtype === 'full' ? 0 : 1) : 2;
-  Object.values(dotsByYear).forEach(list => list.sort((a, b) => stackRank(a) - stackRank(b)));
-
-  Object.keys(dotsByYear).sort((a, b) => +a - +b).forEach(y => {
-    const baseBottom = spanCeilingRem(+y);
-    dotsByYear[y].forEach((it, idx) => {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = `tl-dot tl-dot--${it.group}${pubMarkClasses(it)}`;
-      btn.style.left   = yearPos(+y);
-      btn.style.bottom = `${(baseBottom + idx * DOT_STEP).toFixed(3)}rem`;
-      btn.style.top    = 'auto';
-      btn.setAttribute('aria-label', `${it.kind}, ${it.year}: ${it.title}`);
-      btn.dataset.id = it.id;
-
-      btn.innerHTML = `<span class="tl-dot__tooltip">${it.title}</span>`;
-
-      btn.addEventListener('click', () => selectItem(it.id));
-      axis.appendChild(btn);
-    });
-  });
-
+  axis.style.height = `${plotBottom + YEAR_H}rem`;
   host.appendChild(axis);
 
-  // ── Mobile: vertical axis — same semantics as desktop, rotated 90° ────
-  // Time flows top-to-bottom on the left side; detail panel sits below.
-  const axisV = document.createElement('div');
-  axisV.className = 'tl-axis-vert';
-  axisV.innerHTML = `<div class="tl-axis-vert__line"></div>`;
-
-  // Vertical position along the axis uses the same easing, applied to Y.
-  // The axis line is inset 1rem from top/bottom of the 44rem container.
-  const yearPosV   = (y) => `calc(1rem + (100% - 2rem) * ${yearPct(y).toFixed(5)})`;
-  const spanHeightV = (s, e) => `calc((100% - 2rem) * ${(yearPct(e) - yearPct(s)).toFixed(5)})`;
-
-  // Year labels on the left
-  sortedYears.forEach(y => {
-    const el = document.createElement('div');
-    el.className = 'tl-year tl-year--vert';
-    el.style.top = yearPosV(y);
-    el.innerHTML = `<span class="tl-year__label">${y}</span><span class="tl-year__tick"></span>`;
-    axisV.appendChild(el);
-  });
-
-  // Mobile annotations — same text as desktop, laid out horizontally.
-  // Container is 3rem wide × 3.2rem tall → viewBox 85 × 85 (square-ish).
-  // Top variant: starts at top-left (tick corner) and curves down-right to
-  //   the vertical middle (where the text is).
-  // Bottom variant: starts at bottom-left (tick corner) and curves up-right
-  //   to the vertical middle.
-  // Both land at (82, 42) so the line enters the text's vertical centerline.
-  const linePathVTop    = 'M 4 6 Q 22 18, 42 30 Q 62 40, 82 42';
-  const linePathVBottom = 'M 4 80 Q 22 68, 42 54 Q 62 44, 82 42';
-  const makeAnnotV = (year, text, side) => {
-    const a = document.createElement('div');
-    a.className = `tl-annot tl-annot--vert tl-annot--${side}`;
-    a.style.top = yearPosV(year);
-    const path = side === 'top' ? linePathVTop : linePathVBottom;
-    a.innerHTML =
-      `<svg class="tl-annot__line tl-annot__line--vert" viewBox="0 0 85 85" ` +
-        `preserveAspectRatio="none" aria-hidden="true"><path d="${path}"/></svg>` +
-      `<span class="tl-annot__text tl-annot__text--vert">${text}</span>`;
-    axisV.appendChild(a);
-  };
-  makeAnnotV(2022, 'started my PhD', 'top');
-  makeAnnotV(2027, 'ending my PhD (hopefully)', 'bottom');
-
-  // Vertical layout constants — rightward stacking instead of upward
-  const V_AXIS_LEFT_REM  = 3.25;              // matches .tl-axis-vert__line left
-  const V_MARK_START_REM = V_AXIS_LEFT_REM + 0.85;  // marks sit right of the line, not on it
-  const V_SPAN_W_REM     = 1.1;               // vertical bar width (matches dot diameter)
-  const V_LANE_GAP       = 0.2;
-  const V_LANE_STEP      = V_SPAN_W_REM + V_LANE_GAP;
-  const V_DOT_STEP       = 1.475;             // dot diameter (1.375) + small gap
-
-  // Render span bars vertically, splitting past/future at NOW (same as desktop)
-  items.filter(isSpan).forEach(it => {
-    const lane    = itemLane.get(it.id);
-    const leftRem = V_MARK_START_REM + lane * V_LANE_STEP;
-
-    const makeSegV = (startY, endY, isFuture, withTooltip) => {
-      const bar = document.createElement('button');
-      bar.type = 'button';
-      bar.className = `tl-span tl-span--vert tl-span--${it.group}${isFuture ? ' tl-span--future' : ''}`;
-      bar.style.top    = yearPosV(startY);
-      bar.style.height = spanHeightV(startY, endY);
-      bar.style.left   = `${leftRem.toFixed(3)}rem`;
-      bar.setAttribute('aria-label', `${it.kind}, ${it.year}–${it.yearEnd}: ${it.title}`);
-      bar.dataset.id = it.id;
-      bar.innerHTML = withTooltip ? `<span class="tl-dot__tooltip">${it.title}</span>` : '';
-      bar.addEventListener('click', () => selectItem(it.id));
-      axisV.appendChild(bar);
-    };
-
-    if (it.yearEnd <= NOW)       makeSegV(it.year, it.yearEnd, false, true);
-    else if (it.year >= NOW)     makeSegV(it.year, it.yearEnd, true, true);
-    else { makeSegV(it.year, NOW, false, true); makeSegV(NOW, it.yearEnd, true, false); }
-  });
-
-  // For vertical mode, dots at a given year sit just right of any covering spans
-  function spanCeilingLeftRem(year) {
-    let maxLane = -1;
-    items.filter(isSpan).forEach(it => {
-      if (it.year - YEAR_OVERLAP_BUFFER <= year && year <= it.yearEnd + YEAR_OVERLAP_BUFFER) {
-        const lane = itemLane.get(it.id);
-        if (lane > maxLane) maxLane = lane;
-      }
+  // Full-paper labels above the papers row, leader line down to the mark.
+  // Placed after layout so overlapping labels can drop to the next line.
+  if (labelLines) {
+    const placed = [];
+    paperMarks.sort((a, b) => b[0].year - a[0].year).forEach(([it, btn, cy]) => {
+      const short = it.short || it.title.split(':')[0];
+      const lab = add('tl-plabel', { left: xPos(it.year) }, short);
+      const lr = lab.getBoundingClientRect();
+      let line = 0;
+      while (line < labelLines - 1 && placed.some(p => p.line === line && p.l < lr.right + 8 && lr.left < p.r + 8)) line++;
+      placed.push({ line, l: lr.left, r: lr.right });
+      const labTop = ANNOT_H + line * LABEL_H;
+      lab.style.top = `${labTop}rem`;
+      add('tl-leader', { left: xPos(it.year), top: `${labTop + 0.95}rem`, height: `${Math.max(cy - labTop - 0.95 - 0.4, 0.2)}rem` });
     });
-    const DOT_RADIUS = 0.6875;
-    const BAR_DOT_GAP = 0.25;
-    return maxLane === -1
-      ? V_MARK_START_REM
-      : V_MARK_START_REM + maxLane * V_LANE_STEP + (V_SPAN_W_REM / 2) + BAR_DOT_GAP + DOT_RADIUS;
   }
 
-  Object.keys(dotsByYear).sort((a, b) => +a - +b).forEach(y => {
-    const baseLeft = spanCeilingLeftRem(+y);
-    dotsByYear[y].forEach((it, idx) => {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = `tl-dot tl-dot--vert tl-dot--${it.group}${pubMarkClasses(it)}`;
-      btn.style.top  = yearPosV(+y);
-      btn.style.left = `${(baseLeft + idx * V_DOT_STEP).toFixed(3)}rem`;
-      btn.setAttribute('aria-label', `${it.kind}, ${it.year}: ${it.title}`);
-      btn.dataset.id = it.id;
-      btn.innerHTML = `<span class="tl-dot__tooltip">${it.title}</span>`;
-      btn.addEventListener('click', () => selectItem(it.id));
-      axisV.appendChild(btn);
-    });
-  });
-
-  host.appendChild(axisV);
-
-  // Tooltip edge-detection (desktop axis only — vertical axis uses its own layout)
+  // Tooltip edge-detection: pin tooltips near the ends of the axis
   requestAnimationFrame(() => {
     const axisRect = axis.getBoundingClientRect();
     axis.querySelectorAll('.tl-dot').forEach(dot => {
