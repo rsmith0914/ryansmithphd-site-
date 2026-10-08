@@ -461,19 +461,8 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 .about__photo-frame img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.92); }
 
 /* ---------- research ---------- */
-/* Texture in the research prose: accent words + handwritten quotes */
+/* Accent phrase in the research prose */
 .research__statement .hl { color: var(--accent); font-weight: 500; }
-.research__statement mark {
-  background: linear-gradient(180deg, transparent 52%, rgba(110,64,201,.26) 52%, rgba(110,64,201,.26) 92%, transparent 92%);
-}
-.research__statement .hl-hand {
-  font-family: var(--font-hand);
-  font-size: 1.32em;
-  line-height: 1;
-  color: var(--accent);
-  white-space: nowrap;
-}
-
 .research__grid {
   display: grid;
   grid-template-columns: 1.3fr 1fr;

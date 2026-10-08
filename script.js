@@ -265,7 +265,7 @@ function pubPreviewHTML(p, cls) {
 
   // ── Swimlanes: one labeled row per category ─────────────────────────
   const ROWS = [
-    { label: 'papers',          groups: ['publication', 'rejection'], spans: false },
+    { label: 'publications',    groups: ['publication', 'rejection'], spans: false },
     { label: 'grants & awards', groups: ['funding', 'award'],         spans: false },
     { label: 'service',         groups: ['service'],                  spans: true  },
     { label: 'teaching',        groups: ['teaching'],                 spans: true  },
