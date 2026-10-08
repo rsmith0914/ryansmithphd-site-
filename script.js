@@ -20,7 +20,7 @@ if (toggle && links) {
 
 // ---------- generic reveal-on-scroll ----------
 const revealTargets = document.querySelectorAll(
-  '.section, .project, .hero__photo, .about__photo, .research__photo, .awards__photo'
+  '.section, .project, .hero__photo, .about__photo, .awards__photo'
 );
 revealTargets.forEach(el => el.classList.add('reveal'));
 

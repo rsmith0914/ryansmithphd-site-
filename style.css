@@ -460,47 +460,6 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 .about__photo:hover .about__photo-frame { transform: rotate(0deg); }
 .about__photo-frame img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.92); }
 
-/* ---------- research ---------- */
-/* Accent phrase in the research prose */
-.research__statement .hl { color: var(--accent); font-weight: 500; }
-.research__grid {
-  display: grid;
-  grid-template-columns: 1.3fr 1fr;
-  gap: clamp(1.25rem, 3vw, 2.5rem);
-  align-items: start;
-}
-.research__big {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 300;
-  font-size: clamp(1.5rem, 3vw, 2rem);
-  line-height: 1.25;
-  letter-spacing: -.02em;
-  margin: 0 0 1rem;
-  padding: 1rem 0 1rem 1.5rem;
-  border-left: 3px solid var(--accent);
-  color: var(--fg);
-  max-width: 28ch;
-}
-.research__statement p {
-  margin: 0 0 .7rem;
-  max-width: 56ch;
-}
-.research__photo { margin: 0; }
-.research__photo-frame {
-  border-radius: 1rem;
-  overflow: hidden;
-  border: 1px solid var(--border-hi);
-  background: var(--bg-card);
-  aspect-ratio: 5/4;
-  max-height: 18rem;
-  transform: rotate(2deg);
-  box-shadow: 0 20px 60px -20px rgba(0,0,0,.18);
-  transition: transform .4s var(--ease);
-}
-.research__photo:hover .research__photo-frame { transform: rotate(0deg); }
-.research__photo-frame img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.92); }
-
 /* ---------- hobbies ---------- */
 .hobbies__grid {
   display: grid;
@@ -902,12 +861,10 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
   .hero__grid { grid-template-columns: 1fr; }
   .hero__photo { justify-self: start; max-width: 22rem; margin-top: 1rem; }
   .about__grid,
-  .research__grid,
   .hobbies__grid,
   .service__grid,
   .awards__grid { grid-template-columns: 1fr; }
   .about__photo,
-  .research__photo,
   .hobbies__photo,
   .service__photo,
   .awards__photo { max-width: 22rem; }
