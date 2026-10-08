@@ -11,8 +11,8 @@ communicate their medical story to their clinicians, in collaboration with
 ## What's in here
 
 - `index.html`, `style.css`, `script.js` — the entire site
-- `images/` — photos and SVG illustrations
-- `cv.pdf`, `teaching-philosophy.pdf`, `smith2025-inputviz.pdf` — linked documents
+- `images/` — photos, poster previews, and paper figures
+- `cv.pdf`, `smith2025-inputviz.pdf`, `smith2026-userstudy47b.pdf`, poster PDFs — linked documents
 - `404.html`, `.nojekyll` — GitHub Pages plumbing
 
 ## Local preview

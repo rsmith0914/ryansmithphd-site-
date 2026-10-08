@@ -48,8 +48,8 @@ const pubtypeLabels = {
   poster:   'Poster',
 };
 
-// Bump whenever any poster PNG changes — busts browser/CDN cache
-const POSTER_ASSET_VERSION = '2026-05-13b';
+// Bump whenever any poster preview image changes — busts browser/CDN cache
+const POSTER_ASSET_VERSION = '2026-10-08';
 
 // Parse one #timeline-data <li>. The hidden .pub__abstract is pulled out so it
 // never leaks into the citation or the raw detail-panel HTML.
@@ -74,21 +74,21 @@ function parseDataItem(li) {
 
 const escAttr = (s) => (s || '').replace(/"/g, '&quot;');
 
-// Preview for a publication: teaser figure, or poster PNG (same stem as the
+// Preview for a publication: teaser figure, or poster JPEG (same stem as the
 // poster PDF, in images/), followed by the abstract. `cls` picks the
 // publist-card or timeline-detail styling.
 function pubPreviewHTML(p, cls) {
   const parts = [];
   if (p.teaser) {
-    parts.push(`<figure class="${cls}__teaser"><img src="${p.teaser}" alt="${escAttr(p.title)} — figure" loading="lazy"/></figure>`);
+    parts.push(`<figure class="${cls}__teaser"><img src="${p.teaser}" alt="${escAttr(p.title)} — figure" loading="lazy" decoding="async"/></figure>`);
   } else if (p.pubtype === 'poster') {
     const tmp = document.createElement('div');
     tmp.innerHTML = p.html;
     const a = Array.from(tmp.querySelectorAll('a')).find(el => /\.pdf$/i.test(el.getAttribute('href') || ''));
     if (a) {
       const pdfHref = a.getAttribute('href');
-      const pngHref = `images/${pdfHref.replace(/\.pdf$/i, '')}.png?v=${POSTER_ASSET_VERSION}`;
-      parts.push(`<figure class="${cls}__poster"><a href="${pdfHref}" target="_blank" rel="noopener"><img src="${pngHref}" alt="${escAttr(p.title)} — poster preview" loading="lazy"/></a></figure>`);
+      const imgHref = `images/${pdfHref.replace(/\.pdf$/i, '')}.jpg?v=${POSTER_ASSET_VERSION}`;
+      parts.push(`<figure class="${cls}__poster"><a href="${pdfHref}" target="_blank" rel="noopener"><img src="${imgHref}" alt="${escAttr(p.title)} — poster preview" loading="lazy" decoding="async"/></a></figure>`);
     }
   }
   if (p.abstract) parts.push(`<p class="${cls}__abstract"><strong>Abstract.</strong> ${p.abstract}</p>`);
