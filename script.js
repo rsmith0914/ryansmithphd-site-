@@ -48,6 +48,52 @@ const pubtypeLabels = {
   poster:   'Poster',
 };
 
+// Bump whenever any poster PNG changes — busts browser/CDN cache
+const POSTER_ASSET_VERSION = '2026-05-13b';
+
+// Parse one #timeline-data <li>. The hidden .pub__abstract is pulled out so it
+// never leaks into the citation or the raw detail-panel HTML.
+function parseDataItem(li) {
+  const clone = li.cloneNode(true);
+  const absEl = clone.querySelector('.pub__abstract');
+  const abstract = absEl ? absEl.innerHTML.trim() : '';
+  if (absEl) absEl.remove();
+  return {
+    year:    parseFloat(li.dataset.year),
+    yearEnd: li.dataset.yearEnd ? parseFloat(li.dataset.yearEnd) : null,
+    kind:    li.dataset.kind,
+    role:    li.dataset.role || null,
+    pubtype: li.dataset.pubtype || null,
+    teaser:  li.dataset.teaser || null,
+    title:   li.dataset.title,
+    abstract,
+    html:    clone.innerHTML.trim(),
+  };
+}
+
+const escAttr = (s) => (s || '').replace(/"/g, '&quot;');
+
+// Preview for a publication: teaser figure, or poster PNG (same stem as the
+// poster PDF, in images/), followed by the abstract. `cls` picks the
+// publist-card or timeline-detail styling.
+function pubPreviewHTML(p, cls) {
+  const parts = [];
+  if (p.teaser) {
+    parts.push(`<figure class="${cls}__teaser"><img src="${p.teaser}" alt="${escAttr(p.title)} — figure" loading="lazy"/></figure>`);
+  } else if (p.pubtype === 'poster') {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = p.html;
+    const a = Array.from(tmp.querySelectorAll('a')).find(el => /\.pdf$/i.test(el.getAttribute('href') || ''));
+    if (a) {
+      const pdfHref = a.getAttribute('href');
+      const pngHref = `images/${pdfHref.replace(/\.pdf$/i, '')}.png?v=${POSTER_ASSET_VERSION}`;
+      parts.push(`<figure class="${cls}__poster"><a href="${pdfHref}" target="_blank" rel="noopener"><img src="${pngHref}" alt="${escAttr(p.title)} — poster preview" loading="lazy"/></a></figure>`);
+    }
+  }
+  if (p.abstract) parts.push(`<p class="${cls}__abstract"><strong>Abstract.</strong> ${p.abstract}</p>`);
+  return parts.join('');
+}
+
 // ---------- PUBLICATIONS LIST ----------
 (function buildPubList() {
   const dataEl   = document.getElementById('timeline-data');
@@ -56,20 +102,11 @@ const pubtypeLabels = {
   if (!dataEl || !listPri || !listSec) return;
 
   const papers = Array.from(dataEl.querySelectorAll('li[data-kind="paper"], li[data-kind="talk"][data-role]'))
-    .map(li => ({
-      year:    parseInt(li.dataset.year, 10),
-      role:    li.dataset.role || 'primary',
-      pubtype: li.dataset.pubtype || null,
-      title:   li.dataset.title,
-      html:    li.innerHTML,
-    }))
+    .map(parseDataItem)
     .sort((a, b) => b.year - a.year);
 
-  const primary   = papers.filter(p => p.role === 'primary');
-  const secondary = papers.filter(p => p.role !== 'primary');
-
-  // Position paper abstract (shown in workshop-paper card body)
-  const POSITION_PAPER_ABSTRACT = `Visualizations are typically seen as tools for interpreting and analyzing data, yet in visualization-as-input systems, where users enter information directly into a visual interface, the structure of the visualization may actively shape the data input by the user. This paper argues that visual aspects such as Scaffolding Elements (e.g., axes, ranges, and labels) and Anchor Points (e.g., visualized data) influence what users perceive as appropriate, complete, and accurate input. I outline a high level research agenda for the community to empirically study how these structural aspects guide user input. By reframing visualization-as-input as a dynamic way to elicit data, I highlight the need for design strategies that mitigate bias and promote more authentic and representative user data.`;
+  const primary   = papers.filter(p => (p.role || 'primary') === 'primary');
+  const secondary = papers.filter(p => (p.role || 'primary') !== 'primary');
 
   // Split each pub's html into citation + links (links go in the card body)
   function splitCitation(html) {
@@ -86,32 +123,8 @@ const pubtypeLabels = {
     return { citationHTML: tmp.innerHTML.trim(), linksHTML };
   }
 
-  function findPdfHref(linksHTML) {
-    if (!linksHTML) return null;
-    const tmp = document.createElement('div');
-    tmp.innerHTML = linksHTML;
-    const a = Array.from(tmp.querySelectorAll('a')).find(el => /\.pdf$/i.test(el.getAttribute('href') || ''));
-    return a ? a.getAttribute('href') : null;
-  }
-
   function buildBody(p, linksHTML) {
-    const parts = [];
-    if (p.pubtype === 'workshop') {
-      parts.push(`<figure class="pub-card__teaser"><img src="images/smith2025-inputviz-teaser.png" alt="Teaser figure — examples of scaffolding elements and anchor points in visualization-as-input systems" loading="lazy"/></figure>`);
-      parts.push(`<p class="pub-card__abstract"><strong>Abstract.</strong> ${POSITION_PAPER_ABSTRACT}</p>`);
-    } else if (p.pubtype === 'poster') {
-      // Match poster PDF filename to its PNG preview (same stem, images/ folder)
-      const pdfHref = findPdfHref(linksHTML);
-      if (pdfHref) {
-        const stem = pdfHref.replace(/\.pdf$/i, '');
-        // Bump POSTER_ASSET_VERSION whenever any poster PNG changes — busts browser/CDN cache
-        const POSTER_ASSET_VERSION = '2026-05-13b';
-        const pngHref = `images/${stem}.png?v=${POSTER_ASSET_VERSION}`;
-        parts.push(`<figure class="pub-card__poster"><a href="${pdfHref}" target="_blank" rel="noopener"><img src="${pngHref}" alt="${(p.title || '').replace(/"/g, '&quot;')} — poster preview" loading="lazy"/></a></figure>`);
-      }
-    }
-    if (linksHTML) parts.push(linksHTML);
-    return parts.join('');
+    return pubPreviewHTML(p, 'pub-card') + (linksHTML || '');
   }
 
   function render(list, items) {
@@ -127,7 +140,7 @@ const pubtypeLabels = {
       li.innerHTML = `
         <button type="button" class="pub-card__head" aria-expanded="false">
           <span class="pub-card__meta">
-            <span class="publist__year">${p.year}</span>
+            <span class="publist__year">${Math.floor(p.year)}</span>
             ${badge}
           </span>
           <span class="pub-card__citation">${citationHTML}</span>
@@ -199,13 +212,19 @@ const pubtypeLabels = {
 
   // Parse all items
   const allItems = Array.from(dataEl.querySelectorAll(':scope > li')).map((li, i) => {
-    const year    = parseFloat(li.dataset.year);
-    const yearEnd = li.dataset.yearEnd ? parseFloat(li.dataset.yearEnd) : null;
-    const kind    = li.dataset.kind;
-    const group   = kindToGroup[kind] || kind;
-    const pubtype = li.dataset.pubtype || null;
-    return { id: `tl-${i}`, year, yearEnd, kind, group, pubtype, title: li.dataset.title, html: li.innerHTML };
+    const it = parseDataItem(li);
+    return { ...it, id: `tl-${i}`, group: kindToGroup[it.kind] || it.kind };
   }).sort((a, b) => a.year - b.year || (a.yearEnd || a.year) - (b.yearEnd || b.year));
+
+  // Publication marks encode paper type (square = full paper, circle =
+  // everything else) and authorship (filled = first author, ring = co-author).
+  function pubMarkClasses(it) {
+    if (it.group !== 'publication') return '';
+    let cls = '';
+    if (it.pubtype === 'full') cls += ' tl-dot--full';
+    if (it.role && it.role !== 'primary') cls += ' tl-dot--coauthor';
+    return cls;
+  }
 
   if (!allItems.length) return;
 
@@ -281,16 +300,17 @@ const pubtypeLabels = {
   // ── Greedy lane assignment — single shared pool across all groups ──
   // Everything stacks upward from the axis line
   const LINE_REM    = 2.5;   // must match .tl-axis__line bottom in CSS
-  const MARK_LIFT   = 0.2;   // all marks hover slightly above the axis line
-  const SPAN_H_REM  = 1.1;   // must match .tl-span height in CSS
-  const LANE_GAP    = 0.2;
+  const MARK_LIFT   = 0.25;  // all marks hover slightly above the axis line
+  const SPAN_H_REM  = 0.7;   // must match .tl-span height in CSS
+  const LANE_GAP    = 0.25;
   const LANE_STEP   = SPAN_H_REM + LANE_GAP;  // per-lane vertical step
   // Year buffer for overlap detection: dots close enough to a span's start/end
   // should still sit above it (rather than colliding at their shared axis Y).
   const YEAR_OVERLAP_BUFFER = 0.12;  // ~6 weeks
 
   // Cutoff between solid "already happened" and dashed "planned/upcoming"
-  const NOW = 2026 + 4/12;   // May 2026
+  const today = new Date();
+  const NOW = today.getFullYear() + today.getMonth() / 12;
 
   const sharedSlots = [];  // array-of-arrays of {s, e}
   function assignLane(s, e) {
@@ -367,19 +387,22 @@ const pubtypeLabels = {
   }
 
   // ── Render dots — stack upward from above any bars at that year ───────
-  const DOT_STEP = 1.625; // dot diameter (1.375rem) + gap (0.25rem)
+  const DOT_STEP = 1.45; // dot diameter (1.2rem) + gap (0.25rem)
 
   const dotsByYear = {};
   items.filter(it => !isSpan(it)).forEach(it => {
     (dotsByYear[it.year] = dotsByYear[it.year] || []).push(it);
   });
+  // Within a stack, publications sit closest to the axis (full papers first)
+  const stackRank = (it) => it.group === 'publication' ? (it.pubtype === 'full' ? 0 : 1) : 2;
+  Object.values(dotsByYear).forEach(list => list.sort((a, b) => stackRank(a) - stackRank(b)));
 
   Object.keys(dotsByYear).sort((a, b) => +a - +b).forEach(y => {
     const baseBottom = spanCeilingRem(+y);
     dotsByYear[y].forEach((it, idx) => {
       const btn = document.createElement('button');
       btn.type = 'button';
-      btn.className = `tl-dot tl-dot--${it.group}`;
+      btn.className = `tl-dot tl-dot--${it.group}${pubMarkClasses(it)}`;
       btn.style.left   = yearPos(+y);
       btn.style.bottom = `${(baseBottom + idx * DOT_STEP).toFixed(3)}rem`;
       btn.style.top    = 'auto';
@@ -491,7 +514,7 @@ const pubtypeLabels = {
     dotsByYear[y].forEach((it, idx) => {
       const btn = document.createElement('button');
       btn.type = 'button';
-      btn.className = `tl-dot tl-dot--vert tl-dot--${it.group}`;
+      btn.className = `tl-dot tl-dot--vert tl-dot--${it.group}${pubMarkClasses(it)}`;
       btn.style.top  = yearPosV(+y);
       btn.style.left = `${(baseLeft + idx * V_DOT_STEP).toFixed(3)}rem`;
       btn.setAttribute('aria-label', `${it.kind}, ${it.year}: ${it.title}`);
@@ -569,30 +592,14 @@ const pubtypeLabels = {
 
     const badgeMod   = it.pubtype || it.kind;
     const badgeLabel = (it.pubtype && pubtypeLabels[it.pubtype]) || kindLabels[it.kind] || it.kind;
-
-    // Build mini preview for publication-type items
-    const POSTER_ASSET_VERSION_LOCAL = '2026-05-13b';
-    const POSITION_PAPER_ABSTRACT_LOCAL = `Visualizations are typically seen as tools for interpreting and analyzing data, yet in visualization-as-input systems, where users enter information directly into a visual interface, the structure of the visualization may actively shape the data input by the user. This paper argues that visual aspects such as Scaffolding Elements (e.g., axes, ranges, and labels) and Anchor Points (e.g., visualized data) influence what users perceive as appropriate, complete, and accurate input. I outline a high level research agenda for the community to empirically study how these structural aspects guide user input. By reframing visualization-as-input as a dynamic way to elicit data, I highlight the need for design strategies that mitigate bias and promote more authentic and representative user data.`;
-    let extras = '';
-    if (it.pubtype === 'poster') {
-      const tmp = document.createElement('div');
-      tmp.innerHTML = it.html;
-      const a = Array.from(tmp.querySelectorAll('a')).find(el => /\.pdf$/i.test(el.getAttribute('href') || ''));
-      if (a) {
-        const pdfHref = a.getAttribute('href');
-        const stem    = pdfHref.replace(/\.pdf$/i, '');
-        const pngHref = `images/${stem}.png?v=${POSTER_ASSET_VERSION_LOCAL}`;
-        extras = `<figure class="detail__preview detail__preview--poster"><a href="${pdfHref}" target="_blank" rel="noopener"><img src="${pngHref}" alt="${(it.title || '').replace(/"/g, '&quot;')} — poster preview" loading="lazy"/></a></figure>`;
-      }
-    } else if (it.pubtype === 'workshop') {
-      extras = `<figure class="detail__preview detail__preview--teaser"><img src="images/smith2025-inputviz-teaser.png" alt="Teaser figure" loading="lazy"/></figure>` +
-               `<p class="detail__abstract"><strong>Abstract.</strong> ${POSITION_PAPER_ABSTRACT_LOCAL}</p>`;
-    }
+    const roleLabel  = it.group === 'publication' && it.role
+      ? `<span class="detail__role">${it.role === 'primary' ? 'first author' : 'co-author'}</span>`
+      : '';
 
     detail.innerHTML = `
-      <span class="detail__kind detail__kind--${badgeMod}">${badgeLabel}</span>
+      <span class="detail__kind detail__kind--${badgeMod}">${badgeLabel}</span>${roleLabel}
       <span class="detail__year">${yearStr}</span>
-      <div class="detail__body">${it.html}${extras}</div>`;
+      <div class="detail__body">${it.html}${pubPreviewHTML(it, 'detail')}</div>`;
 
     detail.querySelectorAll('.pub__links, .detail__links').forEach(el => {
       el.classList.add('detail__links');
@@ -617,23 +624,3 @@ const pubtypeLabels = {
   });
 })();
 
-// ---------- RESEARCH CARDS (accordion, single-open) ----------
-(function researchCards() {
-  const cards = document.querySelectorAll('.research-card');
-  if (!cards.length) return;
-  cards.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const open = btn.getAttribute('aria-expanded') === 'true';
-      cards.forEach(b => {
-        b.setAttribute('aria-expanded', 'false');
-        const body = b.parentElement.querySelector('.research-card__body');
-        if (body) body.hidden = true;
-      });
-      if (!open) {
-        btn.setAttribute('aria-expanded', 'true');
-        const body = btn.parentElement.querySelector('.research-card__body');
-        if (body) body.hidden = false;
-      }
-    });
-  });
-})();

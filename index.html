@@ -4,8 +4,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Ryan Smith — PhD Candidate, Data Visualization, UBC Computer Science</title>
-<meta name="description" content="Ryan Smith — PhD candidate in Computer Science at the University of British Columbia (UBC), working in the InfoVis Lab on patient-centric data visualization, human-computer interaction (HCI), and health communication tools." />
-<meta name="keywords" content="Ryan Smith, UBC, University of British Columbia, Computer Science, PhD, data visualization, information visualization, InfoVis, HCI, human-computer interaction, health data, patient-centric visualization" />
+<meta name="description" content="Ryan Smith — PhD candidate in Computer Science at the University of British Columbia (UBC), working in the InfoVis Lab on text visualization for personal and medical data, human-computer interaction (HCI), and health communication." />
+<meta name="keywords" content="Ryan Smith, UBC, University of British Columbia, Computer Science, PhD, data visualization, information visualization, InfoVis, HCI, human-computer interaction, health data, text visualization, patient-centric visualization" />
 <meta name="author" content="Ryan Smith" />
 <meta name="theme-color" content="#0f1113" />
 
@@ -21,16 +21,16 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://ryansmithphd.com/" />
 <meta property="og:title" content="Ryan Smith — PhD Candidate, Data Visualization, UBC Computer Science" />
-<meta property="og:description" content="PhD candidate in Computer Science at UBC's InfoVis Lab. Patient-centric visualization tools for communicating health data." />
+<meta property="og:description" content="PhD candidate in Computer Science at UBC's InfoVis Lab. Visualizing text so people can make sense of their personal and medical data." />
 <meta property="og:image" content="https://ryansmithphd.com/og-image.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content="Ryan Smith — PhD Candidate at UBC's InfoVis Lab. Patient-centric visualization tools for communicating health data." />
+<meta property="og:image:alt" content="Ryan Smith — PhD Candidate at UBC's InfoVis Lab. Visualizing text so people can make sense of their personal and medical data." />
 
 <!-- Twitter / X -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Ryan Smith — PhD Candidate, Data Visualization, UBC Computer Science" />
-<meta name="twitter:description" content="PhD candidate in Computer Science at UBC's InfoVis Lab. Patient-centric visualization tools for communicating health data." />
+<meta name="twitter:description" content="PhD candidate in Computer Science at UBC's InfoVis Lab. Visualizing text so people can make sense of their personal and medical data." />
 <meta name="twitter:image" content="https://ryansmithphd.com/og-image.png" />
 
 <!-- Structured data: Person schema helps Google recognize this as an
@@ -45,10 +45,11 @@
   "url": "https://ryansmithphd.com/",
   "image": "https://ryansmithphd.com/og-image.png",
   "jobTitle": "PhD Candidate in Computer Science",
-  "description": "PhD candidate in Computer Science at the University of British Columbia, working in the InfoVis Lab on patient-centric data visualization and human-computer interaction.",
+  "description": "PhD candidate in Computer Science at the University of British Columbia, working in the InfoVis Lab on text visualization for personal and medical data and human-computer interaction.",
   "knowsAbout": [
     "Data Visualization",
     "Information Visualization",
+    "Text Visualization",
     "Human-Computer Interaction",
     "Health Informatics",
     "Patient-Centric Visualization"
@@ -59,6 +60,7 @@
     "url": "https://www.cs.ubc.ca/"
   },
   "sameAs": [
+    "https://scholar.google.ca/citations?user=VAehdmkAAAAJ",
     "https://github.com/rsmith0914"
   ]
 }
@@ -91,38 +93,12 @@
     <li><a href="#publications">Timeline</a></li>
     <li><a href="#publist">Publications</a></li>
     <li><a href="#awards">Awards</a></li>
-    <li><a href="#teaching">Teaching</a></li>
     <li><a href="#hobbies">Hobbies</a></li>
     <li><a href="#contact" class="nav__cta">Contact</a></li>
   </ul>
 </nav>
 
 <main id="top">
-
-  <!-- TEMPORARY paper promo (remove after review) -->
-  <aside class="paper-promo paper-promo--multi" aria-label="New papers">
-    <div class="paper-promo__header">
-      <span class="paper-promo__chip">📄 New papers</span>
-    </div>
-    <a class="paper-promo__link" href="health-story-authoring-2026.pdf" target="_blank" rel="noopener">
-      <span class="paper-promo__title">HealthTale: A Patient-Centric Health Story Visualization Tool</span>
-      <span class="paper-promo__status">in review</span>
-      <span class="paper-promo__sub">on the integration of LLMs, visualization, and healthcare</span>
-      <span class="paper-promo__cta">Read PDF&nbsp;→</span>
-    </a>
-    <a class="paper-promo__link" href="semantic-vagueness-2026.pdf" target="_blank" rel="noopener">
-      <span class="paper-promo__title">Crisping up Vagueness Visualization</span>
-      <span class="paper-promo__status">in review</span>
-      <span class="paper-promo__sub">on visualizing semantic vagueness in natural-language data</span>
-      <span class="paper-promo__cta">Read PDF&nbsp;→</span>
-    </a>
-    <a class="paper-promo__link" href="premature-crisping-2026.pdf" target="_blank" rel="noopener">
-      <span class="paper-promo__title">Premature Crisping: When Visualization Systems Make Vague Data Look Precise</span>
-      <span class="paper-promo__status">rough draft, aiming for fall submission</span>
-      <span class="paper-promo__sub">on natural-language visualization pipelines</span>
-      <span class="paper-promo__cta">Read PDF&nbsp;→</span>
-    </a>
-  </aside>
 
   <!-- HERO -->
   <header class="hero">
@@ -135,13 +111,13 @@
           Hi, I'm <em>Ryan.</em>
         </h1>
         <p class="hero__lede">
-          I build <mark>patient-centric visualization tools</mark> that help people communicate their health data to the providers who need to understand it.
+          I build <mark>visualizations of text</mark> that help people make sense of their personal and medical data, without throwing out the messy parts.
         </p>
         <p class="hero__sub">
-          Basically, I study how visualization leverages our cognitive biases to translate messy, subjective experience into something two people can talk about.
+          Basically, people describe their health in vague, wandering stories, and I want tools that can work with that instead of flattening it into a spreadsheet.
         </p>
         <div class="hero__actions">
-          <a href="#research" class="btn btn--primary">See the research</a>
+          <a href="#publist" class="btn btn--primary">See the research</a>
           <a href="cv.pdf" class="btn btn--ghost" download>
             Download CV
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" style="margin-left:.15rem">
@@ -210,39 +186,12 @@
 
     <div class="research__grid">
       <div class="research__statement">
-        <p class="research__journey">How patients <strong>capture</strong>, <strong>reflect on</strong>, and <strong>share</strong> their own health stories.</p>
-        <ol class="research__cards">
-          <li>
-            <button type="button" class="research-card" aria-expanded="false">
-              <span class="research-card__num" aria-hidden="true">1</span>
-              <span class="research-card__label"><strong>Capture:</strong> visualizing lived experience</span>
-              <span class="research-card__chevron" aria-hidden="true">›</span>
-            </button>
-            <div class="research-card__body" hidden>
-              <p>Medical histories don't live in neat tables, they live in stories, feelings, and vague subjectivity.</p>
-            </div>
-          </li>
-          <li>
-            <button type="button" class="research-card" aria-expanded="false">
-              <span class="research-card__num" aria-hidden="true">2</span>
-              <span class="research-card__label"><strong>Reflect:</strong> seeing yourself in the data</span>
-              <span class="research-card__chevron" aria-hidden="true">›</span>
-            </button>
-            <div class="research-card__body" hidden>
-              <p>Personal data visualizations are mirrors. Seeing your own patterns changes the way you understand them.</p>
-            </div>
-          </li>
-          <li>
-            <button type="button" class="research-card" aria-expanded="false">
-              <span class="research-card__num" aria-hidden="true">3</span>
-              <span class="research-card__label"><strong>Share:</strong> data as a conversation starter</span>
-              <span class="research-card__chevron" aria-hidden="true">›</span>
-            </button>
-            <div class="research-card__body" hidden>
-              <p>A good chart isn't a final answer, it's an opening for two people to talk about one person's experience.</p>
-            </div>
-          </li>
-        </ol>
+        <p>
+          I'm interested in visualizing text, especially the messy, personal way people talk about their health and their lives. Most tools turn that into tidy data by tossing out a lot of it: the fuzzy timing, the "it comes and goes," everything that was happening around it. I'd rather keep it.
+        </p>
+        <p>
+          So I build and study visualization systems that give people just enough structure to actually look at and analyze their own data, without removing the stuff that made it theirs in the first place.
+        </p>
       </div>
 
       <figure class="research__photo">
@@ -265,15 +214,24 @@
     </div>
 
     <!-- Legend -->
-    <ul class="timeline__legend" aria-label="Legend">
-      <li><span class="swatch swatch--publication"></span> Publication</li>
-      <li><span class="swatch swatch--funding"></span> Funding</li>
-      <li><span class="swatch swatch--award"></span> Award</li>
-      <li><span class="swatch swatch--service"></span> Service</li>
-      <li><span class="swatch swatch--teaching"></span> Teaching</li>
-      <li><span class="swatch swatch--other"></span> Other</li>
-      <li><span class="swatch swatch--rejection"></span> Not accepted</li>
-    </ul>
+    <div class="timeline__legend" aria-label="Legend">
+      <ul class="timeline__legend-row" aria-label="Publications">
+        <li class="timeline__legend-head">publications</li>
+        <li><span class="swatch swatch--publication swatch--full"></span> full paper</li>
+        <li><span class="swatch swatch--publication"></span> poster / workshop</li>
+        <li><span class="swatch swatch--publication swatch--solid"></span> first author</li>
+        <li><span class="swatch swatch--publication swatch--coauthor"></span> co-author</li>
+      </ul>
+      <ul class="timeline__legend-row" aria-label="Everything else">
+        <li class="timeline__legend-head">everything else</li>
+        <li><span class="swatch swatch--funding"></span> funding</li>
+        <li><span class="swatch swatch--award"></span> award</li>
+        <li><span class="swatch swatch--service"></span> service</li>
+        <li><span class="swatch swatch--teaching"></span> teaching</li>
+        <li><span class="swatch swatch--other"></span> research</li>
+        <li><span class="swatch swatch--rejection"></span> not accepted</li>
+      </ul>
+    </div>
 
     <!-- Timeline — populated from the data list below via JS -->
     <div class="timeline" id="timeline" aria-live="polite"></div>
@@ -386,13 +344,14 @@
       </li>
 
       <!-- ── Paper, grant, award (2025) ─────────────────────────────── -->
-      <li data-year="2025.83" data-kind="paper" data-role="primary" data-pubtype="workshop" data-title="Position Paper: Potential Areas of Bias in Visualization-as-Input Systems">
+      <li data-year="2025.83" data-kind="paper" data-role="primary" data-pubtype="workshop" data-title="Position Paper: Potential Areas of Bias in Visualization-as-Input Systems" data-teaser="images/smith2025-inputviz-teaser.png">
         <p><strong>R. Smith.</strong> "Position Paper: Potential Areas of Bias in Visualization-as-Input Systems." In <em>Proc. Workshop on Envisioning a Research Agenda for Input Visualization, IEEE VIS</em>, 2025.</p>
         <p class="detail__links">
           <a href="https://osf.io/xvbu4/files/v3bu4" target="_blank" rel="noopener">OSF</a>
           <span aria-hidden="true">·</span>
           <a href="smith2025-inputviz.pdf" target="_blank" rel="noopener">PDF</a>
         </p>
+        <div class="pub__abstract" hidden>Visualizations are typically seen as tools for interpreting and analyzing data, yet in visualization-as-input systems, where users enter information directly into a visual interface, the structure of the visualization may actively shape the data input by the user. This paper argues that visual aspects such as Scaffolding Elements (e.g., axes, ranges, and labels) and Anchor Points (e.g., visualized data) influence what users perceive as appropriate, complete, and accurate input. I outline a high level research agenda for the community to empirically study how these structural aspects guide user input. By reframing visualization-as-input as a dynamic way to elicit data, I highlight the need for design strategies that mitigate bias and promote more authentic and representative user data.</div>
       </li>
 
       <li data-year="2025" data-kind="grant" data-title="MITACS Grant IT44143">
@@ -420,6 +379,40 @@
         <p>The work has since been broken up and redistributed into other active submissions. Details withheld pending anonymous review.</p>
       </li>
 
+      <li data-year="2026.5" data-kind="paper" data-role="secondary" data-pubtype="full" data-title="Visualization Tasks for Unlabeled Graphs" data-teaser="images/oddo2026-unlabeled-graphs-teaser.png">
+        <p>M. I. B. Oddo, <strong>R. Smith</strong>, S. Kobourov, and T. Munzner. "Visualization Tasks for Unlabeled Graphs." <em>IEEE Transactions on Visualization and Computer Graphics</em>, 32(7):5969–5983, July 2026.</p>
+        <p class="detail__links">
+          <a href="https://ieeexplore.ieee.org/abstract/document/11449464" target="_blank" rel="noopener">IEEE Xplore</a>
+          <span aria-hidden="true">·</span>
+          <a href="https://doi.org/10.1109/TVCG.2026.3676348" target="_blank" rel="noopener">DOI</a>
+          <span aria-hidden="true">·</span>
+          <a href="https://osf.io/e23mr" target="_blank" rel="noopener">Supplemental</a>
+        </p>
+        <div class="pub__abstract" hidden>We investigate tasks that can be accomplished with unlabeled graphs, which are graphs with nodes that do not have persistent or semantically meaningful labels attached. New visualization techniques to represent unlabeled graphs have been proposed, but more understanding of unlabeled graph tasks is required before these techniques can be adequately evaluated. Some network visualization tasks apply to both labeled and unlabeled graphs, but many do not translate between these contexts. We propose a data abstraction model that distinguishes the Unlabeled context from the increasingly semantically rich Labeled, Attributed, and Augmented contexts. We filter tasks collected and gleaned from the literature according to our data abstraction and analyze the surfaced tasks, leading to a taxonomy of abstract tasks for unlabeled graphs. Our task taxonomy is organized according to the Target data under consideration, the Action intended by the user, and the Scope of the data at play. We show the descriptive power of this task abstraction by connecting to concrete examples from previous frameworks, and connecting these abstractions to real-world problems. To showcase the evaluative power of the taxonomy, we perform a preliminary assessment across 6 different network visualization idioms for each task. For each combination of task and visual encoding, we consider the effort required from viewers, the likelihood of task success, and how both factors vary between small-scale and large-scale graphs.</div>
+      </li>
+
+      <li data-year="2026.83" data-kind="paper" data-role="primary" data-pubtype="full" data-title="HealthTale: A Patient-Centric Health Story Visualization Tool" data-teaser="images/smith2026-healthtale-teaser.png">
+        <p><strong>R. Smith</strong>, K. D. Chin, and T. Munzner. "HealthTale: A Patient-Centric Health Story Visualization Tool." <em>IEEE Transactions on Visualization and Computer Graphics (Proc. IEEE VIS 2026)</em>, to appear.</p>
+        <p class="detail__links">
+          <a href="https://arxiv.org/abs/2605.20207" target="_blank" rel="noopener">arXiv</a>
+          <span aria-hidden="true">·</span>
+          <a href="https://arxiv.org/pdf/2605.20207" target="_blank" rel="noopener">PDF</a>
+        </p>
+        <div class="pub__abstract" hidden>Patients often struggle to communicate coherent accounts of their health histories during time-constrained clinical encounters. These accounts, which we refer to as health stories, include both clinical events and lived experiences. Existing systems prioritize structured, clinician-centered data and provide limited support for eliciting and communicating patient-generated narratives. We present HealthTale, a patient-centric visualization system designed to elicit health stories from patients and structure them to facilitate communication during initial clinical conversations. Its design arises from a multi-stage qualitative investigation across domain expert discussions (n = 3), online narratives (n = 20), patient (n = 11) and clinician (n = 6) interviews, and elicited health stories (n = 22), identifying recurring patterns in how individuals construct and communicate their health stories. HealthTale transforms freeform narratives into structured timeline representations, grounded in a data abstraction that models health stories as events grouped by health concern and time. The abstraction captures both clinical and contextual information while accommodating temporally imprecise data and non-linear distributions of events across time. Through evaluation with patients (n = 34) and clinicians (n = 3), we find that HealthTale supports recall, organization, and self-advocacy, while enabling clinicians to rapidly interpret patient-generated narratives and establish a shared understanding.</div>
+      </li>
+
+      <li data-year="2026.83" data-kind="paper" data-role="primary" data-pubtype="workshop" data-title="User Study 47B: Interactive Dashboards After Answer-First Analytics" data-teaser="images/smith2026-userstudy47b-teaser.png">
+        <p><strong>R. Smith.</strong> "User Study 47B: Interactive Dashboards After Answer-First Analytics." In <em>VIS×SciFi Workshop, IEEE VIS</em>, 2026.</p>
+        <p class="detail__links">
+          <a href="smith2026-userstudy47b.pdf" target="_blank" rel="noopener">PDF</a>
+        </p>
+        <div class="pub__abstract" hidden>In 2054, most analytic workflows begin with an answer and conclude before anyone has been required to look at the data, an arrangement generally regarded as progress. We report User Study 47B, an evaluation of a legacy interactive dashboard with participants accustomed to answer-first systems. Participants often treated interaction as analysis the system had failed to finish and interpretive ambiguity as an interface awaiting a finalized answer. These responses reverse two familiar visualization values: agency begins to resemble labor, and interpretive openness begins to resemble poor interface quality. We use these findings to ask how visualization can make looking at data feel worthwhile and how it should fit workflows where users begin by uploading data and asking for an answer. This remains a viable direction for the field, although perhaps not the one envisioned in its grant proposals.</div>
+      </li>
+
+      <li data-year="2026.83" data-kind="award" data-title="IEEE VIS 2026 Doctoral Colloquium">
+        <p><strong>IEEE VIS 2026 Doctoral Colloquium</strong> — selected to present my thesis work to a panel of senior visualization researchers.</p>
+      </li>
+
     </ol>
 
   </section>
@@ -429,17 +422,18 @@
     <div class="section__head">
       <h2 class="section__title">Publications</h2>
       <p class="section__sub aside" data-aside><span class="ink">for the bean counters</span></p>
-    </div>
-<div class="publist__group">
-      <h3 class="publist__group-title">Primary (first author)</h3>
-      <ol class="publist__list" id="publist-primary"><li class="publist__empty">No primary publications listed yet.</li></ol>
+      <a class="section__link" href="https://scholar.google.ca/citations?user=VAehdmkAAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar&nbsp;→</a>
     </div>
     <div class="publist__group">
-      <h3 class="publist__group-title">Secondary</h3>
-      <ol class="publist__list" id="publist-secondary"><li class="publist__empty">No secondary publications listed yet.</li></ol>
-      <aside class="pubs__aside" style="margin-top:1.5rem;">
-        <p class="aside aside--right" data-aside style="margin:0; max-width:none; text-align:left;">
-          <span class="ink">I swear people want to work with me! The papers just haven't been published yet!</span>
+      <h3 class="publist__group-title">First author</h3>
+      <ol class="publist__list" id="publist-primary"><li class="publist__empty">No first-author publications listed yet.</li></ol>
+    </div>
+    <div class="publist__group">
+      <h3 class="publist__group-title">Co-authored</h3>
+      <ol class="publist__list" id="publist-secondary"><li class="publist__empty">No co-authored publications listed yet.</li></ol>
+      <aside class="pubs__aside">
+        <p class="aside" data-aside>
+          <span class="ink">See? People do want to work with me!</span>
         </p>
       </aside>
     </div>
@@ -455,6 +449,10 @@
     <div class="awards__grid">
       <div class="awards__body">
         <ul class="publist__list awards__list">
+          <li class="publist__item">
+            <span class="publist__year">2026</span>
+            <p><strong>IEEE VIS 2026 Doctoral Colloquium</strong> — selected to present my thesis work to a panel of senior visualization researchers.</p>
+          </li>
           <li class="publist__item">
             <span class="publist__year">2025</span>
             <p><strong>UBC Faculty of Science Excellence in Service Award</strong> — an annual award given to two students in UBC's Faculty of Science for service and positive impact toward the Faculty's goals.</p>
@@ -482,38 +480,6 @@
     </div>
   </section>
 
-  <!-- TEACHING -->
-  <section id="teaching" class="section section--teaching">
-    <div class="section__head">
-      <h2 class="section__title">Teaching</h2>
-      <p class="section__sub aside" data-aside><span class="ink">how I show up in the classroom</span></p>
-    </div>
-
-    <div class="teaching__grid">
-      <div class="teaching__statement">
-        <p>
-          Being a student is stressful, and memorization has limited long-term value. What matters more is whether students leave curious and motivated to keep learning, so I support teaching around flexible engagement, small-group activities, and a pass / fail / exceed evaluation structure that lowers pressure while rewarding depth.
-        </p>
-        <p class="teaching__full">
-          <a href="teaching-philosophy.pdf" target="_blank" rel="noopener">See the full teaching philosophy statement →</a>
-        </p>
-
-      </div>
-
-      <figure class="teaching__photo">
-        <div class="teaching__photo-frame">
-          <img src="images/teaching.jpg" alt="Ryan teaching" loading="lazy" />
-        </div>
-        <figcaption class="aside aside--stack" data-aside>
-          <span><span class="ink">As you can see,</span></span>
-          <span><span class="ink">I accept any free photography</span></span>
-          <span><span class="ink">the department offers.</span></span>
-        </figcaption>
-      </figure>
-
-    </div>
-  </section>
-
   <!-- HOBBIES -->
   <section id="hobbies" class="section section--hobbies">
     <div class="section__head">
@@ -524,7 +490,7 @@
     <div class="hobbies__grid">
       <div class="hobbies__body">
         <p>
-          My hobbies range from basketball, to soccer, to hiking. I also read a lot, you can see what I'm working through and what I've thought of everything on <a href="https://app.thestorygraph.com/profile/rsmith0914" target="_blank" rel="noopener">my StoryGraph</a>. And I play a lot of <em>Magic: The Gathering</em>. My pet deck, the one I keep coming back to, is <a href="https://archidekt.com/decks/4294031/gorogoro_and_satoru" target="_blank" rel="noopener">my grixis ninja deck</a>.
+          My hobbies range from basketball, to soccer, to hiking. I also read a lot, you can see what I'm working through and what I've thought of everything on <a href="https://app.thestorygraph.com/profile/rsmith0914" target="_blank" rel="noopener">my StoryGraph</a>. And I play a lot of <em>Magic: The Gathering</em>. My pet deck is <a href="https://archidekt.com/decks/4294031/gorogoro_and_satoru" target="_blank" rel="noopener">my grixis ninja deck</a>.
         </p>
       </div>
 
@@ -560,6 +526,12 @@
             <span class="contact__email-address">rs0914<span class="at">[at]</span>cs.ubc.ca</span>
           </a>
         </li>
+        <li>
+          <a href="https://scholar.google.ca/citations?user=VAehdmkAAAAJ&amp;hl=en" class="contact__email" target="_blank" rel="noopener">
+            <span class="contact__email-label">scholar</span>
+            <span class="contact__email-address">Google Scholar&nbsp;→</span>
+          </a>
+        </li>
       </ul>
     </div>
   </section>
@@ -567,19 +539,6 @@
 
 <footer class="footer">
   <div class="footer__inner">
-    <div class="colophon">
-      <h3 class="colophon__title">Colophon</h3>
-      <p>
-        Set in <a href="https://fonts.google.com/specimen/Fraunces" target="_blank" rel="noopener">Fraunces</a>,
-        <a href="https://fonts.google.com/specimen/Inter+Tight" target="_blank" rel="noopener">Inter Tight</a>,
-        and <a href="https://fonts.google.com/specimen/Caveat" target="_blank" rel="noopener">Caveat</a>.
-      </p>
-      <p>
-        Hosted on <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a>.
-        No cookies, no tracking, no ads.
-        <a href="https://github.com/rsmith0914/ryansmithphd-site-" target="_blank" rel="noopener" class="colophon__repo" id="repo-link">View source on GitHub →</a>
-      </p>
-    </div>
     <div class="footer__meta">
       <p>&copy; <span id="year"></span> Ryan Smith</p>
       <p>Built with care in Vancouver, BC</p>
