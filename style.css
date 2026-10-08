@@ -461,6 +461,19 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 .about__photo-frame img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.92); }
 
 /* ---------- research ---------- */
+/* Texture in the research prose: accent words + handwritten quotes */
+.research__statement .hl { color: var(--accent); font-weight: 500; }
+.research__statement mark {
+  background: linear-gradient(180deg, transparent 52%, rgba(110,64,201,.26) 52%, rgba(110,64,201,.26) 92%, transparent 92%);
+}
+.research__statement .hl-hand {
+  font-family: var(--font-hand);
+  font-size: 1.32em;
+  line-height: 1;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
 .research__grid {
   display: grid;
   grid-template-columns: 1.3fr 1fr;
@@ -743,7 +756,20 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
   gap: clamp(2rem, 5vw, 4rem);
   align-items: start;
 }
-.awards__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.25rem; }
+.awards__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+/* Awards grouped by year: one year label per group, items beneath */
+.awards__year + .awards__year { margin-top: 1.5rem; }
+.awards__year-label {
+  font-family: var(--font-mono);
+  font-size: .8rem;
+  font-weight: 500;
+  letter-spacing: .08em;
+  color: var(--accent);
+  margin: 0;
+  padding-bottom: .4rem;
+  border-bottom: 1px solid var(--border);
+}
+.awards__year .publist__item { padding: .85rem 0 .95rem; }
 .award {
   display: grid;
   grid-template-columns: 4.5rem 1fr;
@@ -1548,6 +1574,16 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
   margin: 0 0 1rem;
   padding-bottom: .5rem;
   border-bottom: 1px solid var(--border);
+}
+/* Sub-groups under "First author": full papers / workshop papers / posters */
+.publist__sub + .publist__sub { margin-top: 1.4rem; }
+.publist__subtitle {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.15rem;
+  color: var(--fg-dim);
+  margin: 0 0 .6rem;
 }
 
 .publist__list {

@@ -187,10 +187,10 @@
     <div class="research__grid">
       <div class="research__statement">
         <p>
-          I'm interested in visualizing text, especially the messy, personal way people talk about their health and their lives. Most tools turn that into tidy data by tossing out a lot of it: the fuzzy timing, the "it comes and goes," everything that was happening around it. I'd rather keep it.
+          I'm interested in <mark>visualizing text</mark>, especially the <span class="hl">messy, personal</span> way people talk about their health and their lives. Most tools turn that into tidy data by tossing out a lot of it: <span class="hl-hand">the fuzzy timing</span>, <span class="hl-hand">the "it comes and goes,"</span> everything that was happening around it. I'd rather keep it.
         </p>
         <p>
-          So I build and study visualization systems that give people just enough structure to actually look at and analyze their own data, without removing the stuff that made it theirs in the first place.
+          So I build and study visualization systems that give people <mark>just enough structure</mark> to actually look at and analyze their own data, without removing <span class="hl">the stuff that made it theirs</span> in the first place.
         </p>
       </div>
 
@@ -374,6 +374,11 @@
         President · <em>May 2026 – May 2027</em></p>
       </li>
 
+      <li data-year="2026.5" data-year-end="2026.83" data-kind="service" data-title="Social Chair — IEEE VIS 2026">
+        <p><strong>Social Chair</strong> — IEEE VIS 2026 Organizing Committee<br>
+        <em>Jul 2026 – Nov 2026</em></p>
+      </li>
+
       <li data-year="2026.08" data-kind="rejection" data-title="CHI 2026 Submission — Not Accepted">
         <p><strong>CHI 2026 Submission</strong> — submitted Feb 2026; not accepted.</p>
         <p>The work has since been broken up and redistributed into other active submissions. Details withheld pending anonymous review.</p>
@@ -426,7 +431,18 @@
     </div>
     <div class="publist__group">
       <h3 class="publist__group-title">First author</h3>
-      <ol class="publist__list" id="publist-primary"><li class="publist__empty">No first-author publications listed yet.</li></ol>
+      <div class="publist__sub" data-pubgroup="full">
+        <h4 class="publist__subtitle">Full papers</h4>
+        <ol class="publist__list"></ol>
+      </div>
+      <div class="publist__sub" data-pubgroup="workshop">
+        <h4 class="publist__subtitle">Workshop papers</h4>
+        <ol class="publist__list"></ol>
+      </div>
+      <div class="publist__sub" data-pubgroup="poster">
+        <h4 class="publist__subtitle">Posters</h4>
+        <ol class="publist__list"></ol>
+      </div>
     </div>
     <div class="publist__group">
       <h3 class="publist__group-title">Co-authored</h3>
@@ -448,24 +464,33 @@
 
     <div class="awards__grid">
       <div class="awards__body">
-        <ul class="publist__list awards__list">
-          <li class="publist__item">
-            <span class="publist__year">2026</span>
-            <p><strong>IEEE VIS 2026 Doctoral Colloquium</strong> — selected to present my thesis work to a panel of senior visualization researchers.</p>
-          </li>
-          <li class="publist__item">
-            <span class="publist__year">2025</span>
-            <p><strong>UBC Faculty of Science Excellence in Service Award</strong> — an annual award given to two students in UBC's Faculty of Science for service and positive impact toward the Faculty's goals.</p>
-          </li>
-          <li class="publist__item">
-            <span class="publist__year">2025</span>
-            <p><strong>MITACS Accelerate Grant IT44143</strong> — two years, $90k, with <a href="https://www.thrive.health/" target="_blank" rel="noopener">Thrive Health</a>.</p>
-          </li>
-          <li class="publist__item">
-            <span class="publist__year">2024</span>
-            <p><strong>MITACS Accelerate Grant IT38408</strong> — one year, $45k, with <a href="https://www.thrive.health/" target="_blank" rel="noopener">Thrive Health</a>.</p>
-          </li>
-        </ul>
+        <div class="awards__year">
+          <h3 class="awards__year-label">2026</h3>
+          <ul class="publist__list awards__list">
+            <li class="publist__item">
+              <p><strong>IEEE VIS 2026 Doctoral Colloquium</strong> — selected to present my thesis work to a panel of senior visualization researchers.</p>
+            </li>
+          </ul>
+        </div>
+        <div class="awards__year">
+          <h3 class="awards__year-label">2025</h3>
+          <ul class="publist__list awards__list">
+            <li class="publist__item">
+              <p><strong>UBC Faculty of Science Excellence in Service Award</strong> — an annual award given to two students in UBC's Faculty of Science for service and positive impact toward the Faculty's goals.</p>
+            </li>
+            <li class="publist__item">
+              <p><strong>MITACS Accelerate Grant IT44143</strong> — two years, $90k, with <a href="https://www.thrive.health/" target="_blank" rel="noopener">Thrive Health</a>.</p>
+            </li>
+          </ul>
+        </div>
+        <div class="awards__year">
+          <h3 class="awards__year-label">2024</h3>
+          <ul class="publist__list awards__list">
+            <li class="publist__item">
+              <p><strong>MITACS Accelerate Grant IT38408</strong> — one year, $45k, with <a href="https://www.thrive.health/" target="_blank" rel="noopener">Thrive Health</a>.</p>
+            </li>
+          </ul>
+        </div>
       </div>
 
       <figure class="service__photo">

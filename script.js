@@ -97,9 +97,9 @@ function pubPreviewHTML(p, cls) {
 // ---------- PUBLICATIONS LIST ----------
 (function buildPubList() {
   const dataEl   = document.getElementById('timeline-data');
-  const listPri  = document.getElementById('publist-primary');
+  const subs     = document.querySelectorAll('.publist__sub[data-pubgroup]');
   const listSec  = document.getElementById('publist-secondary');
-  if (!dataEl || !listPri || !listSec) return;
+  if (!dataEl || !subs.length || !listSec) return;
 
   const papers = Array.from(dataEl.querySelectorAll('li[data-kind="paper"], li[data-kind="talk"][data-role]'))
     .map(parseDataItem)
@@ -156,7 +156,15 @@ function pubPreviewHTML(p, cls) {
     });
   }
 
-  render(listPri, primary);
+  // First-author pubs split into full papers / workshop papers / posters
+  const pubGroupOf = (p) => p.pubtype === 'full' ? 'full'
+    : (p.pubtype === 'workshop' || p.pubtype === 'short') ? 'workshop'
+    : 'poster';
+  subs.forEach(sub => {
+    const items = primary.filter(p => pubGroupOf(p) === sub.dataset.pubgroup);
+    if (items.length) render(sub.querySelector('.publist__list'), items);
+    else sub.hidden = true;
+  });
   render(listSec, secondary);
 
   // Single-open accordion across the entire publication list
