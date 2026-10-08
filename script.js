@@ -99,15 +99,12 @@ function pubPreviewHTML(p, cls) {
 (function buildPubList() {
   const dataEl   = document.getElementById('timeline-data');
   const subs     = document.querySelectorAll('.publist__sub[data-pubgroup]');
-  const listSec  = document.getElementById('publist-secondary');
-  if (!dataEl || !subs.length || !listSec) return;
+  if (!dataEl || !subs.length) return;
 
   const papers = Array.from(dataEl.querySelectorAll('li[data-kind="paper"], li[data-kind="talk"][data-role]'))
     .map(parseDataItem)
     .sort((a, b) => b.year - a.year);
 
-  const primary   = papers.filter(p => (p.role || 'primary') === 'primary');
-  const secondary = papers.filter(p => (p.role || 'primary') !== 'primary');
 
   // Split each pub's html into citation + links (links go in the card body)
   function splitCitation(html) {
@@ -157,16 +154,16 @@ function pubPreviewHTML(p, cls) {
     });
   }
 
-  // First-author pubs split into full papers / workshop papers / posters
+  // All publications split into full papers / workshop papers / posters;
+  // bolded "R. Smith" in each citation shows authorship
   const pubGroupOf = (p) => p.pubtype === 'full' ? 'full'
     : (p.pubtype === 'workshop' || p.pubtype === 'short') ? 'workshop'
     : 'poster';
   subs.forEach(sub => {
-    const items = primary.filter(p => pubGroupOf(p) === sub.dataset.pubgroup);
+    const items = papers.filter(p => pubGroupOf(p) === sub.dataset.pubgroup);
     if (items.length) render(sub.querySelector('.publist__list'), items);
     else sub.hidden = true;
   });
-  render(listSec, secondary);
 
   // Single-open accordion across the entire publication list
   const cards = document.querySelectorAll('.pub-card');
