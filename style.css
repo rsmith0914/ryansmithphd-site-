@@ -401,6 +401,8 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 .aside .nib { display: none; }
 
 /* ---------- about ---------- */
+/* keep short photo captions on a single line */
+.aside--oneline { max-width: none; white-space: nowrap; }
 .about__grid {
   display: grid;
   grid-template-columns: 1.4fr 1fr;
