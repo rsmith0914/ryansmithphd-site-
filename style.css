@@ -427,73 +427,6 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 .about__photo:hover .about__photo-frame { transform: rotate(0deg); }
 .about__photo-frame img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.92); }
 
-/* ---------- hobbies ---------- */
-.hobbies__grid {
-  display: grid;
-  grid-template-columns: 1.3fr 1fr;
-  gap: clamp(1.25rem, 3vw, 2.5rem);
-  align-items: start;
-}
-.hobbies__body p {
-  margin: 0 0 .7rem;
-  max-width: 56ch;
-}
-.hobbies__lede {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 300;
-  font-size: clamp(1.15rem, 2vw, 1.4rem);
-  line-height: 1.35;
-  color: var(--fg-dim);
-  margin: 0 0 1.25rem;
-}
-.hobbies__list {
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: .9rem;
-  max-width: 58ch;
-}
-.hobbies__row {
-  display: grid;
-  grid-template-columns: 11rem 1fr;
-  gap: 1.25rem;
-  align-items: baseline;
-  padding: .65rem 0;
-  border-top: 1px solid var(--border);
-}
-.hobbies__row:last-child { border-bottom: 1px solid var(--border); }
-.hobbies__list dt {
-  font-family: var(--font-mono);
-  font-size: .78rem;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--fg-dim);
-  margin: 0;
-}
-.hobbies__list dd {
-  margin: 0;
-  color: var(--fg);
-  line-height: 1.55;
-}
-@media (max-width: 640px) {
-  .hobbies__row { grid-template-columns: 1fr; gap: .25rem; }
-}
-.hobbies__photo { margin: 0; }
-.hobbies__photo-frame {
-  border-radius: 1rem;
-  overflow: hidden;
-  border: 1px solid var(--border-hi);
-  background: var(--bg-card);
-  aspect-ratio: 5/4;
-  max-height: 18rem;
-  transform: rotate(2deg);
-  box-shadow: 0 20px 60px -20px rgba(0,0,0,.18);
-  transition: transform .4s var(--ease);
-}
-.hobbies__photo:hover .hobbies__photo-frame { transform: rotate(0deg); }
-.hobbies__photo-frame img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.92); }
-
 /* awards photo (frame class kept from the old service section) */
 .service__photo { margin: 0; }
 .service__photo-frame {
@@ -587,10 +520,8 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
   .hero__grid { grid-template-columns: 1fr; }
   .hero__photo { justify-self: start; max-width: 22rem; margin-top: 1rem; }
   .about__grid,
-  .hobbies__grid,
   .awards__grid { grid-template-columns: 1fr; }
   .about__photo,
-  .hobbies__photo,
   .service__photo,
   .awards__photo { max-width: 22rem; }
 }
