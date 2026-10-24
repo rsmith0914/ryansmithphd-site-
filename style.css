@@ -395,6 +395,8 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 .aside--stack span:nth-child(3) { --ink-offset: .25rem; color: var(--accent); opacity: .85; }
 .aside--stack span:nth-child(4) { --ink-offset: 1.1rem; color: var(--teal); }
 .aside--stack span { transform: translateX(var(--ink-offset, 0)); }
+/* keep short photo captions on a single line (overrides the ch caps above) */
+.aside--oneline { max-width: none; white-space: nowrap; }
 
 /* aside text always rendered (handwritten reveal animation removed for perf) */
 .aside .ink { display: inline; }
@@ -402,7 +404,6 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 
 /* ---------- about ---------- */
 /* keep short photo captions on a single line */
-.aside--oneline { max-width: none; white-space: nowrap; }
 .about__grid {
   display: grid;
   grid-template-columns: 1.4fr 1fr;
