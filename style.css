@@ -561,7 +561,8 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
   --tl-funding:    #3a9a82;  --tl-funding-dk:   #1f6e5b;
   --tl-award:      #d6a93f;  --tl-award-dk:     #9c7724;
   --tl-service:    #a3b0c4;  --tl-service-dk:   #73829b;
-  --tl-teaching:   #d9a585;  --tl-teaching-dk:  #a8694a;
+  --tl-ta:         #e0b493;  --tl-ta-dk:        #c48a62;
+  --tl-teaching:   #b0673f;  --tl-teaching-dk:  #8a4426;
   --tl-other:      #c9aab9;  --tl-other-dk:     #94707f;
   --tl-education:  #ada2d4;  --tl-education-dk: #7b6fae;
   --tl-reject:     #c04040;
@@ -612,6 +613,7 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 .swatch--award       { background: var(--tl-award);     border-color: var(--tl-award-dk); }
 .swatch--education   { background: var(--tl-education); border-color: var(--tl-education-dk); }
 .swatch--service     { background: var(--tl-service-dk); border-color: var(--tl-service-dk); }
+.swatch--ta          { background: var(--tl-ta);        border-color: var(--tl-ta-dk); }
 .swatch--teaching    { background: var(--tl-teaching);  border-color: var(--tl-teaching-dk); }
 .swatch--other       { background: var(--tl-other);     border-color: var(--tl-other-dk); }
 /* Publication encoding keys: shape (full paper) and fill (authorship).
@@ -693,7 +695,7 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 /* Swimlane axis: one labeled row per category. Everything inside is
    absolutely positioned by script.js; heights/tops are set inline (rem). */
 .tl-axis {
-  --tl-l: 8rem;     /* row-label column */
+  --tl-l: 9rem;     /* row-label column */
   --tl-r: 1.25rem;
   position: relative;
   flex: 1;
@@ -821,6 +823,7 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 .tl-span:hover, .tl-span:focus-visible, .tl-span.is-active { outline: none; z-index: 9999; }
 .tl-span--education { color: var(--tl-education-dk); }
 .tl-span--service   { color: var(--tl-service-dk); }
+.tl-span--ta        { color: var(--tl-ta-dk); }
 .tl-span--teaching  { color: var(--tl-teaching-dk); }
 .tl-span--other     { color: var(--tl-other-dk); }
 .tl-span--future::before {
@@ -959,6 +962,7 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 .detail__kind--education { background: rgba(173,162,212,.24); color: var(--tl-education-dk); }
 .detail__kind--service   { background: rgba(163,176,196,.28); color: #556580; }
 .detail__kind--research  { background: rgba(201,170,185,.30); color: #7a5566; }
+.detail__kind--ta        { background: rgba(224,180,147,.30); color: #8a5236; }
 .detail__kind--teaching  { background: rgba(217,165,133,.28); color: #8a5236; }
 .detail__kind--rejection { background: rgba(192,64,64,.10); color: var(--tl-reject); }
 .detail__year {

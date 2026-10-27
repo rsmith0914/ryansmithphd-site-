@@ -209,12 +209,14 @@ function pubPreviewHTML(p, cls) {
     education: 'education',
     service:   'service',
     teaching:  'teaching',
+    ta:        'ta',
     research:  'other',
     rejection: 'rejection',
   };
 
   // Parse all items
-  const allItems = Array.from(dataEl.querySelectorAll(':scope > li')).map((li, i) => {
+  // data-notimeline entries stay in the publications list but not the timeline
+  const allItems = Array.from(dataEl.querySelectorAll(':scope > li:not([data-notimeline])')).map((li, i) => {
     const it = parseDataItem(li);
     return { ...it, id: `tl-${i}`, group: kindToGroup[it.kind] || it.kind };
   }).sort((a, b) => a.year - b.year || (a.yearEnd || a.year) - (b.yearEnd || b.year));
@@ -222,16 +224,16 @@ function pubPreviewHTML(p, cls) {
   if (!allItems.length) return;
 
   // Split: items before 2019 go in the "previously" panel; 2019+ on the main axis
-  const AXIS_START = 2019;
+  const AXIS_START = 2022;
   const prevItems = allItems.filter(it => (it.yearEnd || it.year) <= AXIS_START && it.year < AXIS_START);
   const items     = allItems.filter(it => it.year >= AXIS_START || (it.yearEnd && it.yearEnd > AXIS_START));
 
-  // Fixed axis range 2019–2027; power-of-1.7 easing compresses the sparse early years
+  // Fixed axis range 2022–2027, linear
   const minYear = AXIS_START;
   const maxYear = 2027;
   const yearPct = (y) => {
     const clamped = Math.max(minYear, Math.min(maxYear, y));
-    return Math.pow((clamped - minYear) / (maxYear - minYear), 1.7);
+    return (clamped - minYear) / (maxYear - minYear);
   };
   // Plot insets come from CSS (--tl-l holds the row-label column on desktop)
   const xPos = (y) => `calc(var(--tl-l) + (100% - var(--tl-l) - var(--tl-r)) * ${yearPct(y).toFixed(5)})`;
@@ -265,8 +267,7 @@ function pubPreviewHTML(p, cls) {
     { label: 'publications',    groups: ['publication', 'rejection'], spans: false },
     { label: 'grants & awards', groups: ['funding', 'award'],         spans: false },
     { label: 'service',         groups: ['service'],                  spans: true  },
-    { label: 'teaching',        groups: ['teaching'],                 spans: true  },
-    { label: 'research',        groups: ['other'],                    spans: true  },
+    { label: 'instruction',     groups: ['ta', 'teaching'],           spans: true  },
   ];
   // Vertical rhythm (rem)
   const ANNOT_H   = 1.75;  // band for "started / ending my PhD"
@@ -381,9 +382,9 @@ function pubPreviewHTML(p, cls) {
   const plotBottom = y + 0.35;
 
   // Year gridlines, ticks and labels; baseline
-  for (let yr = minYear + 1; yr <= maxYear; yr++) {
+  for (let yr = minYear; yr <= maxYear; yr++) {
     add('tl-grid', { left: xPos(yr), top: `${plotTop}rem`, height: `${plotBottom - plotTop}rem` });
-    add(`tl-year${(yr - minYear) % 2 === 0 ? ' tl-year--minor' : ''}`,
+    add(`tl-year${(yr - minYear) % 2 === 1 ? ' tl-year--minor' : ''}`,
         { left: xPos(yr), top: `${plotBottom + 0.3}rem` }, yr);
   }
   add('tl-axis__line', { top: `${plotBottom}rem` });
@@ -438,7 +439,7 @@ function pubPreviewHTML(p, cls) {
     paper: 'Paper', talk: 'Talk',
     grant: 'Grant', award: 'Award',
     education: 'Education', service: 'Service',
-    research: 'Research', teaching: 'Teaching',
+    research: 'Research', teaching: 'Teaching', ta: 'Teaching Assistant',
     rejection: 'Not accepted',
   };
 
